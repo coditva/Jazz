@@ -10,9 +10,13 @@ If the last two bytes of the boot sector are set to the number 0xaa55 (called th
 
 
 ## See it in action
-This commit adds a file called `boot_hello.asm` which when compiled with `nasm` and placed on the boot sector of a disk makes the disk bootable. Upon booting with that disk you are shown `Hello`.
+[This commit](https://github.com/UtkarshMe/Jazz/tree/df24113c45b520ae559ba338f3cdba2a3b655e3d) adds a file called `boot_hello.asm` which when compiled with `nasm` and placed on the boot sector of a disk makes the disk bootable. Upon booting with that disk you are shown `Hello`.
 
 Unless you want to make a device bootable after every change you make and then reboot your PC with that device, here's something which can help:
 
-Compile the `boot_hello.asm` file: `nasm boot_hello.asm -o boot_hello.bin`
+Compile the `boot_hello.asm` file:
+```bash
+nasm boot_hello.asm -o boot_hello.bin
+```
+
 Use `qemu` (or any CPU emulator) to load the OS: `qemu-system-x86_64 boot_hello.bin`
