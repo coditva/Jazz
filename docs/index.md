@@ -5,3 +5,7 @@ Just a key-press and the PC boots up. Just a click and the music starts. Doesn't
 
 ## Table of contents
 - [The boot sector](boot-sector)
+
+## License
+[MIT](https://github.com/UtkarshMe/Jazz/blob/master/LICENSE)
+&copy; [Utkarsh Maheshwari](https://github.com/UtkarshMe)  

@@ -10,5 +10,5 @@ still unverified noob knowledge. Don't trust unless you verify. And if you
 find an error, do report it.
 
 ## License
-[UTkarsh Maheshwari](https://github.com/UtkarshMe)  
-[GPL version 3](https://github.com/UtkarshMe/Jazz/blob/master/LICENSE)
+[Utkarsh Maheshwari](https://github.com/UtkarshMe)  
+[MIT](https://github.com/UtkarshMe/Jazz/blob/master/LICENSE)
