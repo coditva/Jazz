@@ -15,7 +15,7 @@ $(DISK_IMG):   $(BUILD_DIR) $(BOOTLOADER)
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-$(BOOTLOADER):
+$(BOOTLOADER): bootloader/boot.asm
 	$(MAKE) --directory bootloader
 
 qemu:

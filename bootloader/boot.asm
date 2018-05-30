@@ -98,7 +98,7 @@ boot2:
   jmp .loop
 
 halt:
-  cli                       ; clear interrupts flag
+  cli                       ; clear interrupts flag (block interrupts)
   hlt                       ; hlt
 
 hello:
