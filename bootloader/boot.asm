@@ -26,6 +26,43 @@ boot:
   or   eax, 0x1             ; on special
   mov  cr0, eax             ; CPU reg cr0
 
+
+; ---------------------------------------------------------------------
+; now we will read the disk for our kernel code
+; it is recommended that the disk read must be tried atleast thrice
+
+load_disk:
+
+  mov ah, 0x02              ; the BIOS routine for reading disk sectors
+  mov al, 0x01              ; the number of sectors to read
+  mov ch, 0x0               ; track/cylinder number
+  mov cl, 0x3               ; sector number
+  mov dh, 0x0               ; head number
+  mov dl, 0x1               ; drive number
+
+  int 13h                   ; on return, ah = status, al = number of sectors read,
+  jc load_disk_error        ; carry = 0 if success, 1 if fail
+  jmp load_disk_done
+
+  ;cmp al, 0x01
+  ;jne load_disk_error
+
+load_disk_error:
+  jmp load_disk
+
+load_disk_done:
+  cli
+  hlt
+
+
+
+  mov ax, 0x1000
+  mov es, ax
+  mov bx, 0x0
+
+  jmp 0x1000:0x0
+  hlt
+
   jmp CODE_SEG:boot2        ; long jump to the code segment
 
 
@@ -78,32 +115,6 @@ boot2:
   mov fs, ax
   mov gs, ax
   mov ss, ax
-
-
-; ---------------------------------------------------------------------
-; let's print something using VGA text
-
-  mov ebx, 0xb8000          ; the VGA buffer is located at 0xb8000
-                            ; we will be sending all text to this
-
-  mov esi, hello            ; load the string to be printed
-
-.loop:
-  lodsb                     ; load a byte
-  add al, 0x0               ; check if it is zero
-  jz halt                   ; halt if it is
-  or eax, 0x0200            ; add formatting info
-  mov word [ebx], ax        ; send to VGA
-  add ebx, 2                ; increment address
-  jmp .loop
-
-halt:
-  cli                       ; clear interrupts flag (block interrupts)
-  hlt                       ; hlt
-
-hello:
-  db "I love OSDev. My bootloader is awesome!", 0
-
 
 ; ---------------------------------------------------------------------
 ; mark this as bootable
