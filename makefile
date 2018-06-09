@@ -12,6 +12,7 @@ all:           $(DISK_IMG)
 $(DISK_IMG):   $(BUILD_DIR) $(BOOTLOADER) $(KERNEL)
 	dd if=/dev/zero of=$(DISK_IMG) bs=512 count=2880
 	dd if=$(BOOTLOADER) of=$(DISK_IMG) bs=512 count=1 seek=0
+	dd if=$(KERNEL) of=$(DISK_IMG) bs=512 seek=1
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
@@ -22,9 +23,13 @@ $(BOOTLOADER): bootloader/boot.asm
 $(KERNEL): kernel/kernel.c kernel/kernel.asm kernel/linker.ld
 	$(MAKE) --directory kernel
 
-qemu:
+qemu: all
 	qemu-system-x86_64 -drive format=raw,file=build/disk.img
+
+qemu_kernel: all
+	qemu-system-x86_64 -kernel build/kernel/kernel.bin
 
 clean:
 	$(MAKE) --directory bootloader clean
+	$(MAKE) --directory kernel clean
 	rm -f $(DISK_IMG)

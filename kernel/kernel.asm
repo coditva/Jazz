@@ -6,16 +6,27 @@
 
 bits 32
 section .text               ; start code section
+align 4
 
-extern kernel_main          ; the main kernel function
-global begin                ; declare start symbol as global so that it
+; ---------------------------------------------------------------------
+; add multiboot compliance info
+
+  dd 0x1BADB002             ; magic number
+  dd 0x00                   ; flags
+  dd - (0x1BADB002 + 0x00)  ; checksum =>
+                            ; magic + flags + checksum = zero
+
+extern kmain                ; it is convention to name main kernel
+                            ; function kmain
+
+global start                ; declare start symbol as global so that it
                             ; is visible to the linker
 
-begin:
+start:
 
   cli                       ; prevent interrupts from waking halted CPU
   mov esp, _stack           ; initialize stack
-  call kernel_main          ; call the kernel function in C
+  call kmain                ; call the kernel function in C
   hlt                       ; halt CPU
 
 
