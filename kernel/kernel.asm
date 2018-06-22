@@ -22,8 +22,15 @@ extern kmain                ; it is convention to name main kernel
 global start                ; declare start symbol as global so that it
                             ; is visible to the linker
 
-start:
+global idt_load
+idt_load:
+  mov edx, [esp + 4]        ; load the param passed to "idt_load"
+  lidt [edx]                ; load the idt
+  sti                       ; set interrupts
+  ret                       ; return
 
+
+start:
   cli                       ; prevent interrupts from waking halted CPU
   mov esp, _stack           ; initialize stack
   call kmain                ; call the kernel function in C
