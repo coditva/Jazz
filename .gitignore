@@ -33,3 +33,4 @@ build/
 # Debug files
 *.dSYM/
 *.su
+*tags

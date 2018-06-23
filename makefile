@@ -4,7 +4,7 @@ DISK_IMG   = $(BUILD_DIR)/disk.img
 BOOTLOADER = $(BUILD_DIR)/bootloader/boot.bin
 KERNEL     = $(BUILD_DIR)/kernel/kernel.bin
 
-.PHONY: all bootloader clean
+.PHONY: all clean $(KERNEL)
 
 
 all:           $(DISK_IMG)
@@ -20,7 +20,7 @@ $(BUILD_DIR):
 $(BOOTLOADER): bootloader/boot.asm
 	$(MAKE) --directory bootloader
 
-$(KERNEL): kernel/kernel.c kernel/kernel.asm kernel/linker.ld
+$(KERNEL):
 	$(MAKE) --directory kernel
 
 qemu: all
