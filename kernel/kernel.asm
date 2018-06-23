@@ -16,19 +16,15 @@ align 4
   dd - (0x1BADB002 + 0x00)  ; checksum =>
                             ; magic + flags + checksum = zero
 
+
+%include "idt/idt.asm"
+
+
 extern kmain                ; it is convention to name main kernel
                             ; function kmain
 
 global start                ; declare start symbol as global so that it
                             ; is visible to the linker
-
-global idt_load
-idt_load:
-  mov edx, [esp + 4]        ; load the param passed to "idt_load"
-  lidt [edx]                ; load the idt
-  sti                       ; set interrupts
-  ret                       ; return
-
 
 start:
   cli                       ; prevent interrupts from waking halted CPU

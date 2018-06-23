@@ -22,6 +22,9 @@
 #define ICW4_BUF_MASTER 0x0C  /* Buffered mode/master */
 #define ICW4_SFNM       0x10  /* Special fully nested (not) */
 
+#define INTERRUPT_GATE              0x08
+#define KERNEL_CODE_SEGMENT_OFFSET  0x8e
+
 /**
  * The structure of the IDT
  *
