@@ -27,7 +27,7 @@ qemu: all
 	qemu-system-x86_64 -drive format=raw,file=build/disk.img
 
 qemu_kernel: all
-	qemu-system-x86_64 -kernel build/kernel/kernel.bin
+	make --directory kernel qemu
 
 clean:
 	$(MAKE) --directory bootloader clean

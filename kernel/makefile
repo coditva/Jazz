@@ -18,5 +18,8 @@ kernel_c.o:   kernel.c
 kernel_asm.o: kernel.asm
 	$(CC_ASM) -f elf32 $? -o $@
 
+qemu: all
+	qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin
+
 clean:
 	rm -rf $(TARGET) *.o
