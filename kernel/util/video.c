@@ -1,3 +1,4 @@
+#include <stdarg.h>
 #include "video.h"
 
 #define VGA_BUFFER (char *)0xb8000      /* the VGA buffer memory */
@@ -31,4 +32,44 @@ void kputc(const char ch)
 {
   _PUT_CHAR_ATTR_AT(ch, ATTR_HIGHLIGHT, position);
   position += 2;
+}
+
+void kputd(const int integer)
+{
+  int a = integer;
+  char *out;
+  int i;
+  out[10] = '\0';
+  for (i = 9; i > 0 && a != 0; i--) {
+    out[i] = (a % 10) + '0';
+    a /= 10;
+  }
+  kputs(out + i + 1);
+}
+
+void kprintf(const void *format, ...)
+{
+  int *args;
+  char *format_p = (char *)format;
+  args = (int *)&format;
+  args++;
+
+  while (*format_p != '\0') {
+    if (*format_p == '%') {
+      format_p++;
+      int x = *args++;
+      if (*format_p == 'c') {
+        kputc(x);
+      } else if (*format_p == 's') {
+        kputs((char *)x);
+      } else if (*format_p == 'd') {
+        kputd(x);
+      } else {
+        /*error();*/
+      }
+    } else {
+      kputc(*format_p);
+    }
+    format_p++;
+  }
 }
