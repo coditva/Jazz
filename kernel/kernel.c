@@ -2,8 +2,9 @@
 
 extern void kmain()
 {
-  const char *message = "Look Ma, no asm!";
+  /*const char *message = "Look Ma, no asm!";*/
   kclear_screen();
-  kputs(message);
+  /*kputs(message);*/
+  kprintf("this : %c : %s : %d", 'c', "a string", 123456789);
   return;
 }

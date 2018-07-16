@@ -4,5 +4,7 @@
 void kclear_screen();
 void kputc(const char ch);
 void kputs(const char *str);
+void kputd(const int integer);
+void kprintf(const void *format, ...);
 
 #endif /* end of include guard: VIDEO_H_SIVRHMXN */
