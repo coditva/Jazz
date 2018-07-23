@@ -11,6 +11,7 @@ Also, if you're wondering _Why the name Jazz?_, the answer is _I just liked the 
 - [The kernel](kernel)
   - [Switching to C](switching-to-c)
   - [Implementing kprinf](kprintf)
+  - [Interrupt Descriptor Table](idt)
 
 ## License
 [MIT](https://github.com/UtkarshMe/Jazz/blob/master/LICENSE)
