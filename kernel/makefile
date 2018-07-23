@@ -8,12 +8,12 @@ OBJS          = kernel.o util/video.o interrupt/interrupt.o interrupt/handler.o
 INCLUDE       = util/util.h util/video.h util/types.h interrupt/interrupt.h \
                 util/keyboard_map.h
 
-all:          $(TARGET) $(BUILD_DIR)
+all:          $(TARGET)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-$(TARGET):    $(OBJS) $(INCLUDE) $(ASM_OBJS)
+$(TARGET):    $(OBJS) $(INCLUDE) $(ASM_OBJS) $(BUILD_DIR)
 	ld -m elf_i386 -T linker.ld $(OBJS) $(ASM_OBJS) -o $@
 
 $(ASM_OBJS):%_asm.o: %.asm
