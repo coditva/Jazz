@@ -17,8 +17,8 @@ align 4
                             ; magic + flags + checksum = zero
 
 
-%include "idt/idt.asm"
-%include "isr/isr.asm"
+%include "interrupt/interrupt.asm"
+%include "interrupt/handler.asm"
 
 
 extern kmain                ; it is convention to name main kernel

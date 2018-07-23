@@ -3,10 +3,10 @@ CC            = gcc
 CC_ASM        = nasm
 BUILD_DIR     = ../build/kernel
 TARGET        = $(BUILD_DIR)/kernel.bin
-OBJS          = kernel.o util/video.o idt/idt.o isr/isr.o
 ASM_OBJS      = kernel_asm.o util/portio_asm.o
-INCLUDE       = util/util.h util/video.h idt/idt.h util/types.h isr/isr.h \
-				util/keyboard_map.h
+OBJS          = kernel.o util/video.o interrupt/interrupt.o interrupt/handler.o
+INCLUDE       = util/util.h util/video.h util/types.h interrupt/interrupt.h \
+                util/keyboard_map.h
 
 all:          $(TARGET) $(BUILD_DIR)
 

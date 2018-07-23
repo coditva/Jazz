@@ -1,8 +1,20 @@
-#include "idt/idt.h"
+#include "interrupt/interrupt.h"
 #include "util/util.h"
-#include "isr/isr.h"
 
-extern void idt_load(unsigned long *);
+extern void idt_load(uint32_t *);
+extern void keyboard_handler_int(void);
+
+void isr_set_keyboard(void)
+{
+  uint32_t keyboard_address = (uint32_t)&keyboard_handler_int;
+  idt_set_gate(0x21, keyboard_address, 0x08, 0x8e);
+}
+
+void isr_init_keyboard(void)
+{
+  /* TODO: This will disable all other interrupts; prevent that */
+  write_port(0x21, 0xfd);
+}
 
 idt_t idt[IDT_SIZE];
 
@@ -18,8 +30,8 @@ void idt_set_gate(int offset, uint32_t base, uint16_t selector,
 
 void idt_init(void)
 {
-  unsigned long idt_address = (unsigned long)idt;
-  unsigned long idt_pointer[2];
+  uint32_t idt_address = (uint32_t)&idt;
+  uint32_t idt_pointer[2];
 
   /* begin initializing ICW in cascade mode */
   write_port(PIC1_COMMAND, ICW1_INIT + ICW1_ICW4);

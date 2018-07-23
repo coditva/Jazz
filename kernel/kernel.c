@@ -1,6 +1,5 @@
 #include "util/video.h"
-#include "idt/idt.h"
-#include "isr/isr.h"
+#include "interrupt/interrupt.h"
 
 extern void kmain()
 {
