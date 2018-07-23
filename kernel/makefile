@@ -11,7 +11,8 @@ OBJS          = kernel.o \
                 video/video.o \
                 interrupt/interrupt.o \
                 interrupt/handler.o \
-                serial/serial.o
+                serial/serial.o \
+                memory/gdt.o
 
 INCLUDE       = util/portio.h \
                 video/video.h \
@@ -20,6 +21,7 @@ INCLUDE       = util/portio.h \
                 util/keyboard_map.h \
                 config.h \
                 serial/serial.h \
+                memory/gdt.h \
                 debug/debug.h
 
 INCLUDE_DIR   = include

@@ -19,6 +19,7 @@ align 4
 
 %include "interrupt/interrupt.asm"
 %include "interrupt/handler.asm"
+%include "memory/gdt.asm"
 
 
 extern kmain                ; it is convention to name main kernel
