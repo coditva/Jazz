@@ -1,6 +1,7 @@
 #include "video/video.h"
 #include "serial/serial.h"
 #include "interrupt/interrupt.h"
+#include "memory/gdt.h"
 
 #include "debug/debug.h"
 
@@ -13,6 +14,10 @@ extern void kmain()
   serial_init(SERIAL_PORT2);
   serial_init(SERIAL_PORT3);
   serial_init(SERIAL_PORT4);
+  klog(ERR_LOG, "OK");
+
+  klog(ERR_LOG, "\nInitializing GDT... ");
+  gdt_init();
   klog(ERR_LOG, "OK");
 
   klog(ERR_LOG, "\nInitializing IDT... ");
