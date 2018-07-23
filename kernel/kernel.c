@@ -1,10 +1,18 @@
 #include "util/video.h"
+#include "idt/idt.h"
+#include "isr/isr.h"
 
 extern void kmain()
 {
-  /*const char *message = "Look Ma, no asm!";*/
   kclear_screen();
-  /*kputs(message);*/
-  kprintf("this : %c : %s : %d", 'c', "a string", 123456789);
-  return;
+
+  idt_init();
+
+  isr_set_keyboard();
+  isr_init_keyboard();
+
+  kprintf("type here: ");
+
+  while(1)
+    ; /* nop */
 }

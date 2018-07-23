@@ -1,7 +1,8 @@
 #include "idt/idt.h"
 #include "util/util.h"
+#include "isr/isr.h"
 
-extern void idt_load(idt_ptr_t);
+extern void idt_load(unsigned long *);
 
 idt_t idt[IDT_SIZE];
 
@@ -17,11 +18,8 @@ void idt_set_gate(int offset, uint32_t base, uint16_t selector,
 
 void idt_init(void)
 {
-  unsigned long idt_address = (unsigned long)&idt;
-  idt_ptr_t idt_pointer = {
-    .limit = sizeof(idt_t) * IDT_SIZE - 1,
-    .base  = (uint32_t)idt_address
-  };
+  unsigned long idt_address = (unsigned long)idt;
+  unsigned long idt_pointer[2];
 
   /* begin initializing ICW in cascade mode */
   write_port(PIC1_COMMAND, ICW1_INIT + ICW1_ICW4);
@@ -44,6 +42,9 @@ void idt_init(void)
   /* mask interrupts */
   write_port(PIC1_DATA, 0xff);
   write_port(PIC2_DATA, 0xff);
+
+  idt_pointer[0] = (sizeof(idt_t) * IDT_SIZE) + ((idt_address & 0xffff) << 16);
+  idt_pointer[1] = idt_address >> 16;
 
   idt_load(idt_pointer);
 }

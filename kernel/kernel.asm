@@ -18,6 +18,7 @@ align 4
 
 
 %include "idt/idt.asm"
+%include "isr/isr.asm"
 
 
 extern kmain                ; it is convention to name main kernel
