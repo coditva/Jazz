@@ -3,9 +3,9 @@ CC            = gcc
 CC_ASM        = nasm
 BUILD_DIR     = ../build/kernel
 TARGET        = $(BUILD_DIR)/kernel.bin
-OBJS          = kernel.o util/video.o idt/idt.o
+OBJS          = kernel.o util/video.o idt/idt.o isr/isr.o
 ASM_OBJS      = kernel_asm.o util/portio_asm.o
-INCLUDE       = util/util.h util/video.h idt/idt.h util/types.h
+INCLUDE       = util/util.h util/video.h idt/idt.h util/types.h isr/isr.h
 
 all:          $(TARGET) $(BUILD_DIR)
 
@@ -19,7 +19,7 @@ $(ASM_OBJS):%_asm.o: %.asm
 	$(CC_ASM) -f elf32 $? -o $@
 
 $(OBJS):%.o:   %.c
-	$(CC) -m32 -I. -c $? -o $@
+	$(CC) -fno-stack-protector -m32 -I. -c $? -o $@
 
 qemu: all
 	qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin
