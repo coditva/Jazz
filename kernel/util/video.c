@@ -34,17 +34,27 @@ void kputc(const char ch)
   position += 2;
 }
 
-void kputd(const int integer)
+void kputbase(const int integer, const int base)
 {
   int a = integer;
   char *out;
   int i;
   out[10] = '\0';
   for (i = 9; i > 0 && a != 0; i--) {
-    out[i] = (a % 10) + '0';
-    a /= 10;
+    out[i] = (a % base) + '0';
+    a /= base;
   }
   kputs(out + i + 1);
+}
+
+void kputd(const int integer)
+{
+  kputbase(integer, 10);
+}
+
+void kputhex(const int integer)
+{
+  kputbase(integer, 16);
 }
 
 void kprintf(const void *format, ...)
@@ -64,6 +74,8 @@ void kprintf(const void *format, ...)
         kputs((char *)x);
       } else if (*format_p == 'd') {
         kputd(x);
+      } else if (*format_p == 'x') {
+        kputhex(x);
       } else {
         /*error();*/
       }
