@@ -12,6 +12,7 @@ Also, if you're wondering _Why the name Jazz?_, the answer is _I just liked the 
   - [Switching to C](switching-to-c)
   - [Implementing kprinf](kprintf)
   - [Interrupt Descriptor Table](idt)
+  - [Keyboard Interrupt Service Routine](keyboard-isr)
 
 ## License
 [MIT](https://github.com/UtkarshMe/Jazz/blob/master/LICENSE)
