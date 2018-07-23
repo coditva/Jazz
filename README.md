@@ -11,6 +11,9 @@ Although I am trying to make it as elaborate as possible, it might not be comple
 Also, it is still unverified _n00b_ knowledge.
 Don't trust unless you verify. And if you find an error, do report it.
 
+## Todo
+The todo/plan can be found [here](https://github.com/UtkarshMe/Jazz/blob/master/TODO).
+
 ## License
 [MIT](https://github.com/UtkarshMe/Jazz/blob/master/LICENSE)
 &copy; 2018-present [Utkarsh Maheshwari](https://github.com/UtkarshMe)  

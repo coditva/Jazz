@@ -1,0 +1,22 @@
+- phase 1: basic kernel
+    - add memory management (gdt, ldt)
+    - add a user interface (cli)
+    - add a basic file system (maybe fat32?)
+    - add device management (keyboard, mouse?)
+
+- phase 2: getting into userspace
+    - add ability to run userspace apps (isolated memory space)
+    - add a scheduler
+    - add basic system calls (like printf)
+    - add IPC
+    - add ability to load kernel modules
+
+- phase 3: networking
+    - add ethernet drivers
+    - add network stack (tcp/ip)
+    - add http(s) support
+    - add ability to set/get ip
+    - add ability to ping
+
+- phase 4: gui
+    - let's see!
