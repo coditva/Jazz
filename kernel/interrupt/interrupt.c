@@ -1,7 +1,7 @@
 #include "interrupt/interrupt.h"
 #include "util/util.h"
 
-extern void idt_load(uint32_t *);
+extern void idt_load(idt_ptr_t *);
 extern void keyboard_handler_int(void);
 
 void isr_set_keyboard(void)
@@ -31,7 +31,10 @@ void idt_set_gate(int offset, uint32_t base, uint16_t selector,
 void idt_init(void)
 {
   uint32_t idt_address = (uint32_t)&idt;
-  uint32_t idt_pointer[2];
+  idt_ptr_t idt_pointer = {
+    .limit = (sizeof(idt_t) * IDT_SIZE) - 1,
+    .base = idt_address
+  };
 
   /* begin initializing ICW in cascade mode */
   write_port(PIC1_COMMAND, ICW1_INIT + ICW1_ICW4);
@@ -55,8 +58,5 @@ void idt_init(void)
   write_port(PIC1_DATA, 0xff);
   write_port(PIC2_DATA, 0xff);
 
-  idt_pointer[0] = (sizeof(idt_t) * IDT_SIZE) + ((idt_address & 0xffff) << 16);
-  idt_pointer[1] = idt_address >> 16;
-
-  idt_load(idt_pointer);
+  idt_load(&idt_pointer);
 }

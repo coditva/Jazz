@@ -46,7 +46,16 @@ typedef struct _idt_t {
   uint8_t  zero;        /* always zero */
   uint8_t  type_attr;   /* types and attributes */
   uint16_t offset_2;    /* upper offset 31-16 */
-} idt_t;
+} __attribute__((packed)) idt_t;
+
+/**
+ * The structure of the pointer to idt which is called by lidt instruction to
+ * load the idt.
+ */
+typedef struct _idt_ptr_t {
+  uint16_t limit;       /* size of the idt - 1 */
+  uint32_t base;        /* start address of the idt */
+} __attribute__((packed)) idt_ptr_t;
 
 #define IDT_SIZE 256
 
