@@ -34,6 +34,9 @@ void kputc(const char ch)
 {
   if (ch == '\n') {
     kputnewline();
+  } else if (ch == '\b') {
+    position -= 2;
+    _PUT_CHAR_ATTR_AT(' ', ATTR_HIGHLIGHT, position);
   } else {
     _PUT_CHAR_ATTR_AT(ch, ATTR_HIGHLIGHT, position);
     position += 2;
