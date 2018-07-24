@@ -1,13 +1,18 @@
 #include <stdarg.h>
 #include "video.h"
 
+#include "config.h"
+
 #define VGA_BUFFER (char *)0xb8000      /* the VGA buffer memory */
 #define SCREEN_HEIGHT 25
 #define SCREEN_WIDTH 80
 #define SCREEN_SIZE (SCREEN_WIDTH * SCREEN_HEIGHT * 2)
 
-#define ATTR_BLANK      0x07
-#define ATTR_HIGHLIGHT  0x02
+#define ATTR_NORMAL     0x0f
+
+#define _PUT_CHAR_AT(_CHAR, _POS) \
+    video_memory[_POS] = _CHAR; \
+    video_memory[_POS + 1] = attr;
 
 #define _PUT_CHAR_ATTR_AT(_CHAR, _ATTR, _POS) \
     video_memory[_POS] = _CHAR; \
@@ -15,11 +20,16 @@
 
 static char *video_memory = VGA_BUFFER;
 static int position = 0;
+static int attr = ATTR_NORMAL;
+
+#define get_attr          attr
+#define set_attr(_ATTR) { attr = _ATTR; }
+#define clear_attr      { attr = ATTR_NORMAL; }
 
 void kclear_screen()
 {
   for (int i = 0; i < SCREEN_SIZE; i += 2) {
-    _PUT_CHAR_ATTR_AT(' ', ATTR_BLANK, i);
+    _PUT_CHAR_AT(' ', i);
   }
 }
 
@@ -36,9 +46,9 @@ void kputc(const char ch)
     kputnewline();
   } else if (ch == '\b') {
     position -= 2;
-    _PUT_CHAR_ATTR_AT(' ', ATTR_HIGHLIGHT, position);
+    _PUT_CHAR_AT(' ', position);
   } else {
-    _PUT_CHAR_ATTR_AT(ch, ATTR_HIGHLIGHT, position);
+    _PUT_CHAR_AT(ch, position);
     position += 2;
   }
 }
@@ -100,3 +110,17 @@ void kprintf(const void *format, ...)
     format_p++;
   }
 }
+
+#ifdef DEBUG
+int err_attr[] = { 0x0c, 0x06, 0x03, 0x07 };
+
+void eprintf(int error_level, const void *format, ...)
+{
+  int *args = (int *)&format;
+  args++;
+
+  set_attr(err_attr[error_level]);
+  kprintf(format, args);
+  clear_attr;
+}
+#endif
