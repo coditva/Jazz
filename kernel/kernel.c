@@ -8,6 +8,7 @@ extern void kmain()
   idt_init();
 
   isr_set_keyboard();
+  isr_set_double_fault();
   isr_init_keyboard();
 
   kprintf("type here: ");

@@ -17,3 +17,13 @@ void keyboard_handler(void)
   }
 }
 
+void div_by_zero_handler(void)
+{
+  uint8_t status;
+  kprintf("ISR: Divide by zero error");
+}
+
+void double_fault_handler(void)
+{
+  eprintf(ERR_ERROR, "\n------- DOUBLE FAULT -------\n");
+}

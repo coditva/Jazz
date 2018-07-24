@@ -63,7 +63,8 @@ void idt_init(void);
 void idt_set_gate(int offset, uint32_t base, uint16_t selector,
     uint8_t type_attr);
 
-void isr_set_keyboard(void);
 void isr_init_keyboard(void);
+void isr_set_keyboard(void);
+void isr_set_double_fault(void);
 
 #endif /* end of include guard: INTERRUPT_H_Y4EC6WHZ */

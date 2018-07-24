@@ -3,11 +3,17 @@
 
 extern void idt_load(idt_ptr_t *);
 extern void keyboard_handler_int(void);
+extern void double_fault_handler_int(void);
 
 void isr_set_keyboard(void)
 {
   uint32_t keyboard_address = (uint32_t)&keyboard_handler_int;
   idt_set_gate(0x21, keyboard_address, 0x08, 0x8e);
+}
+
+void isr_set_double_fault(void)
+{
+  idt_set_gate(0x08, (uint32_t)&double_fault_handler_int, 0x08, 0x8f);
 }
 
 void isr_init_keyboard(void)
