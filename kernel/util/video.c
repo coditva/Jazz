@@ -2,7 +2,9 @@
 #include "video.h"
 
 #define VGA_BUFFER (char *)0xb8000      /* the VGA buffer memory */
-#define SCREEN_SIZE 25 * 80 * 2         /* 25 rows, 80 columns, ascii+attr */
+#define SCREEN_HEIGHT 25
+#define SCREEN_WIDTH 80
+#define SCREEN_SIZE (SCREEN_WIDTH * SCREEN_HEIGHT * 2)
 
 #define ATTR_BLANK      0x07
 #define ATTR_HIGHLIGHT  0x02
@@ -30,8 +32,12 @@ void kputs(const char *str)
 
 void kputc(const char ch)
 {
-  _PUT_CHAR_ATTR_AT(ch, ATTR_HIGHLIGHT, position);
-  position += 2;
+  if (ch == '\n') {
+    kputnewline();
+  } else {
+    _PUT_CHAR_ATTR_AT(ch, ATTR_HIGHLIGHT, position);
+    position += 2;
+  }
 }
 
 void kputbase(const int integer, const int base)
@@ -55,6 +61,12 @@ void kputd(const int integer)
 void kputhex(const int integer)
 {
   kputbase(integer, 16);
+}
+
+void kputnewline(void)
+{
+  int left = position % (2 * SCREEN_WIDTH);
+  position += (2 * SCREEN_WIDTH) - left;
 }
 
 void kprintf(const void *format, ...)
