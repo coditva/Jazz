@@ -42,7 +42,9 @@ void kputs(const char *str)
 
 void kputc(const char ch)
 {
-  if (ch == '\n') {
+  if (ch == 0) {
+    return;
+  } else if (ch == '\n') {
     kputnewline();
   } else if (ch == '\b') {
     position -= 2;

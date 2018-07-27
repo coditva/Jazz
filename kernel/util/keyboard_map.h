@@ -18,6 +18,8 @@ char keyboard_map[] = {
   0    /* right shift */,
 
   '*',
+  0    /* left alt */,
+  ' ',
 
   /* TODO: Define the rest */
 };
