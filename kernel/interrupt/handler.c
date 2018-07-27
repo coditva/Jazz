@@ -1,7 +1,8 @@
 #include "interrupt/handler.h"
-#include "util/util.h"
+#include "util/portio.h"
 #include "util/types.h"
 #include "util/keyboard_map.h"
+#include "video/video.h"
 
 void keyboard_handler(void)
 {

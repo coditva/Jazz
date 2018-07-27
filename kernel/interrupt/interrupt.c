@@ -1,5 +1,5 @@
 #include "interrupt/interrupt.h"
-#include "util/util.h"
+#include "util/portio.h"
 
 extern void idt_load(idt_ptr_t *);
 extern void keyboard_handler_int(void);

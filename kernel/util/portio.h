@@ -1,9 +1,7 @@
-#ifndef UTIL_H_MPHHJCA7
-#define UTIL_H_MPHHJCA7
-
-#include "video.h"
+#ifndef PORTIO_H_OTIHZSKJ
+#define PORTIO_H_OTIHZSKJ
 
 extern unsigned int  read_port   (unsigned int port);
 extern void          write_port  (unsigned int port, unsigned int data);
 
-#endif /* end of include guard: UTIL_H_MPHHJCA7 */
+#endif /* end of include guard: PORTIO_H_OTIHZSKJ */

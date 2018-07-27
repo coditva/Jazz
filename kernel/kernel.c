@@ -1,4 +1,4 @@
-#include "util/video.h"
+#include "video/video.h"
 #include "interrupt/interrupt.h"
 
 extern void kmain()
