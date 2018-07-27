@@ -4,9 +4,10 @@ CC_ASM        = nasm
 BUILD_DIR     = ../build/kernel
 TARGET        = $(BUILD_DIR)/kernel.bin
 ASM_OBJS      = kernel_asm.o util/portio_asm.o
-OBJS          = kernel.o video/video.o interrupt/interrupt.o interrupt/handler.o
+OBJS          = kernel.o video/video.o interrupt/interrupt.o \
+                interrupt/handler.o util/serial.o
 INCLUDE       = util/portio.h video/video.h util/types.h interrupt/interrupt.h \
-                util/keyboard_map.h config.h
+                util/keyboard_map.h config.h util/serial.h
 
 all:          $(TARGET)
 
