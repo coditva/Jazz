@@ -1,5 +1,5 @@
 #include "video/video.h"
-#include "util/serial.h"
+#include "serial/serial.h"
 #include "interrupt/interrupt.h"
 
 extern void kmain()
