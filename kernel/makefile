@@ -24,7 +24,7 @@ $(OBJS):%.o:   %.c $(INCLUDE)
 	$(CC) -fno-stack-protector -m32 -I. -c $< -o $@
 
 qemu: all
-	qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin
+	qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin -serial file:`mktemp /tmp/jazz_serial1_XXXXXX.log`
 
 clean:
 	rm -rf $(TARGET) $(OBJS) $(ASM_OBJS)
