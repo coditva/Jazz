@@ -7,7 +7,7 @@ ASM_OBJS      = kernel_asm.o util/portio_asm.o
 OBJS          = kernel.o video/video.o interrupt/interrupt.o \
                 interrupt/handler.o serial/serial.o
 INCLUDE       = util/portio.h video/video.h util/types.h interrupt/interrupt.h \
-                util/keyboard_map.h config.h serial/serial.h
+                util/keyboard_map.h config.h serial/serial.h debug/debug.h
 
 all:          $(TARGET)
 

@@ -9,5 +9,6 @@
 void serial_init    (int port);
 void serial_write   (int port, int data);
 int  serial_read    (int port);
+void serial_printf  (int port, const char *format, ...);
 
 #endif /* end of include guard: SERIAL_H_FT2N9HWC */

@@ -19,9 +19,4 @@ void eprintf(int error_level, const void *format, ...);
 # define eprintf(ERROR_LEVEL, FORMAT, ...)
 #endif
 
-#define ERR_ERROR 0
-#define ERR_WARN  1
-#define ERR_INFO  2
-#define ERR_LOG   3
-
 #endif /* end of include guard: VIDEO_H_SIVRHMXN */
