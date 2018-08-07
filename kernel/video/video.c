@@ -2,6 +2,7 @@
 #include "video.h"
 #include "util/types.h"
 #include "util/portio.h"
+#include "util/serial.h"
 
 #include "config.h"
 
