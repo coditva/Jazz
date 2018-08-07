@@ -5,6 +5,9 @@ Just a key-press and the PC boots up. Just a click and the music starts. Doesn't
 
 Also, if you're wondering _Why the name Jazz?_, the answer is _I just liked the sound of it!_
 
+## Getting the code
+The source code is available at: [UtkarshMe/Jazz](https://github.com/UtkarshMe/Jazz).
+
 ## Table of contents
 - [The boot sector](boot-sector)
 - [The bootloader](boot-loader)
