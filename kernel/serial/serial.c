@@ -30,3 +30,32 @@ int serial_read(int port)
 
   return read_port(port);
 }
+
+void serial_printf(int port, const char *format, ...)
+{
+  int *args;
+  char *format_p = (char *)format;
+  args = (int *)&format;
+  args++;
+
+  while (*format_p != '\0') {
+    if (*format_p == '%') {
+      format_p++;
+      int x = *args++;
+      if (*format_p == 'c') {
+        serial_write(port, x);
+      } else if (*format_p == 's') {
+        for (int i = 0; format_p[i] != '\0'; i++) write_port(port, *format_p);
+      } else if (*format_p == 'd') {
+        /*kputd(port, x);*/
+      } else if (*format_p == 'x') {
+        /*kputhex(port, x);*/
+      } else {
+        /*error();*/
+      }
+    } else {
+      serial_write(port, *format_p);
+    }
+    format_p++;
+  }
+}

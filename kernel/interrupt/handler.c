@@ -3,6 +3,7 @@
 #include "util/types.h"
 #include "util/keyboard_map.h"
 #include "video/video.h"
+#include "debug/debug.h"
 
 void keyboard_handler(void)
 {
@@ -27,5 +28,5 @@ void div_by_zero_handler(void)
 
 void double_fault_handler(void)
 {
-  eprintf(ERR_ERROR, "\n------- DOUBLE FAULT -------\n");
+  klog(ERR_ERROR, "\n------- DOUBLE FAULT -------\n");
 }
