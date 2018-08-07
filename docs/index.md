@@ -13,6 +13,7 @@ Also, if you're wondering _Why the name Jazz?_, the answer is _I just liked the 
   - [Implementing kprinf](kprintf)
   - [Interrupt Descriptor Table](idt)
   - [Keyboard Interrupt Service Routine](keyboard-isr)
+  - [Serial ports I/O](serial_port)
 
 ## License
 [MIT](https://github.com/UtkarshMe/Jazz/blob/master/LICENSE)
