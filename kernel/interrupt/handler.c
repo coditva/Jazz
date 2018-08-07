@@ -15,6 +15,7 @@ void keyboard_handler(void)
     char data = -1;
     if ((data = read_port(0x60)) < 0) return; /* invalid data */
     kputc(keyboard_map[data]);
+    update_cursor();
   }
 }
 

@@ -1,5 +1,7 @@
 #include <stdarg.h>
 #include "video.h"
+#include "util/types.h"
+#include "util/portio.h"
 
 #include "config.h"
 
@@ -111,6 +113,7 @@ void kprintf(const void *format, ...)
     }
     format_p++;
   }
+  update_cursor();
 }
 
 #ifdef DEBUG
@@ -126,3 +129,12 @@ void eprintf(int error_level, const void *format, ...)
   clear_attr;
 }
 #endif
+
+void update_cursor(void)
+{
+  int pos = position / 2;
+	write_port(0x3D4, 0x0F);
+	write_port(0x3D5, (uint8_t) (pos & 0xFF));
+	write_port(0x3D4, 0x0E);
+	write_port(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+}

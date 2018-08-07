@@ -10,6 +10,7 @@ void kputd(const int integer);
 void kputhex(const int integer);
 void kputnewline(void);
 void kprintf(const void *format, ...);
+void update_cursor(void);
 
 
 #ifdef DEBUG
