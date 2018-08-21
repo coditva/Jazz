@@ -30,7 +30,7 @@ qemu: all
 	@echo "---------------------------------------------"
 	qemu-system-x86_64 -drive format=raw,file=build/disk.img
 
-qemu_kernel: all
+qemu_kernel: $(KERNEL)
 	make --directory kernel qemu
 
 clean:
