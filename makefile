@@ -24,6 +24,10 @@ $(KERNEL):
 	$(MAKE) --directory kernel
 
 qemu: all
+	@echo "---------------------------------------------"
+	@echo "The development on the bootloader is paused."
+	@echo "Use \"make qemu_kernel\" instead."
+	@echo "---------------------------------------------"
 	qemu-system-x86_64 -drive format=raw,file=build/disk.img
 
 qemu_kernel: all
