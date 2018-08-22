@@ -12,11 +12,13 @@
 
 # ifdef DEBUG_TO_SERIAL
 #  include "serial/serial.h"
-#  define klog(LOG_LEVEL, LOG_FORMAT, ...) serial_printf(SERIAL_PORT1, LOG_FORMAT, ##__VA_ARGS__)
+#  define klog(LOG_LEVEL, LOG_FORMAT, ...) \
+      serial_printf(SERIAL_PORT1, LOG_FORMAT, ##__VA_ARGS__)
 
 # else
 #  include "video/video.h"
-#  define klog(LOG_LEVEL, LOG_FORMAT, ...) eprintf(LOG_LEVEL, LOG_FORMAT, ##__VA_ARGS__)
+#  define klog(LOG_LEVEL, LOG_FORMAT, ...) \
+      eprintf(LOG_LEVEL, LOG_FORMAT, ##__VA_ARGS__)
 
 # endif /* end of DEBUG_TO_SERIAL */
 
