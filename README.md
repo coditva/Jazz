@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/utkarshme/jazz/badge)](https://www.codefactor.io/repository/github/utkarshme/jazz)
+
 # Jazz
 _Let's write an OS!_
 
