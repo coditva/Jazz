@@ -1,6 +1,6 @@
 #include <stdarg.h>
+#include <types.h>
 #include "video.h"
-#include "util/types.h"
 #include "util/portio.h"
 #include "serial/serial.h"
 

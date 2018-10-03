@@ -1,7 +1,7 @@
 #ifndef INTERRUPT_H_Y4EC6WHZ
 #define INTERRUPT_H_Y4EC6WHZ
 
-#include "util/types.h"
+#include <types.h>
 
 #define PIC1 0x20       /* IO base address for master PIC */
 #define PIC2 0xA0       /* IO base address for slave PIC */

@@ -1,6 +1,6 @@
+#include <types.h>
 #include "interrupt/handler.h"
 #include "util/portio.h"
-#include "util/types.h"
 #include "util/keyboard_map.h"
 #include "video/video.h"
 #include "debug/debug.h"
