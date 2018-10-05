@@ -1,12 +1,13 @@
 #include <kio.h>
 #include <logger.h>
+#include <multiboot.h>
 
 #include "io/video/video.h"
 #include "io/serial/serial.h"
 #include "interrupt/interrupt.h"
 #include "memory/gdt.h"
 
-extern void kmain()
+extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 {
   video_clear();
 
