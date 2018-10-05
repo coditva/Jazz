@@ -21,8 +21,7 @@ INCLUDE       = util/portio.h \
                 util/keyboard_map.h \
                 config.h \
                 serial/serial.h \
-                memory/gdt.h \
-                debug/debug.h
+                memory/gdt.h
 
 INCLUDE_DIR   = include
 
