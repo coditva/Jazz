@@ -3,34 +3,34 @@
 #include "interrupt/interrupt.h"
 #include "memory/gdt.h"
 
-#include "debug/debug.h"
+#include <logger.h>
 
 extern void kmain()
 {
   kclear_screen();
 
-  klog(ERR_LOG, "\nInitializing Serial ports... ");
+  klog(LOG_DEBUG, "\nInitializing Serial ports... ");
   serial_init(SERIAL_PORT1);
   serial_init(SERIAL_PORT2);
   serial_init(SERIAL_PORT3);
   serial_init(SERIAL_PORT4);
-  klog(ERR_LOG, "OK");
+  klog(LOG_DEBUG, "OK");
 
-  klog(ERR_LOG, "\nInitializing GDT... ");
+  klog(LOG_DEBUG, "\nInitializing GDT... ");
   gdt_init();
-  klog(ERR_LOG, "OK");
+  klog(LOG_DEBUG, "OK");
 
-  klog(ERR_LOG, "\nInitializing IDT... ");
+  klog(LOG_DEBUG, "\nInitializing IDT... ");
   idt_init();
-  klog(ERR_LOG, "OK");
+  klog(LOG_DEBUG, "OK");
 
-  klog(ERR_LOG, "\nInitializing ISRs... ");
+  klog(LOG_DEBUG, "\nInitializing ISRs... ");
   isr_set_keyboard();
   isr_set_double_fault();
   isr_init_keyboard();
-  klog(ERR_LOG, "OK");
+  klog(LOG_DEBUG, "OK");
 
-  klog(ERR_LOG, "\nInitialization complete.\n");
+  klog(LOG_DEBUG, "\nInitialization complete.\n");
   kprintf("\n$ ");
 
   while(1)
