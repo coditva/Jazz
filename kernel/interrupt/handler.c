@@ -1,9 +1,9 @@
 #include <types.h>
+#include <logger.h>
 #include "interrupt/handler.h"
 #include "util/portio.h"
 #include "util/keyboard_map.h"
 #include "video/video.h"
-#include "debug/debug.h"
 
 void keyboard_handler(void)
 {
@@ -28,5 +28,5 @@ void div_by_zero_handler(void)
 
 void double_fault_handler(void)
 {
-  klog(ERR_ERROR, "\n------- DOUBLE FAULT -------\n");
+  klog(LOG_ERROR, "\n------- DOUBLE FAULT -------\n");
 }
