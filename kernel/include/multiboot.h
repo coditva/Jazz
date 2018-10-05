@@ -107,4 +107,7 @@ typedef struct _multiboot_info_t {
   } __attribute__((packed)) framebuffer;
 } __attribute__((packed)) multiboot_info_t;
 
+
+void multiboot_dump_info(multiboot_info_t *info);
+
 #endif /* end of include guard: MULTIBOOT_H_RKNBOMGQ */

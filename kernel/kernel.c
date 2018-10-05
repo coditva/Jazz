@@ -11,6 +11,8 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 {
   video_clear();
 
+  multiboot_dump_info(multiboot_info);
+
   klog(LOG_DEBUG, "\nInitializing Serial ports... ");
   serial_init(SERIAL_PORT1);
   serial_init(SERIAL_PORT2);
