@@ -1,4 +1,5 @@
 #include <io.h>
+#include <kio.h>
 #include <stdarg.h>
 #include "io/video/video.h"
 #include "config.h"
@@ -8,8 +9,14 @@ static char buffer[MAX_BUFFER_SIZE];
 
 int kprintf(const char *format, ...)
 {
+  /* TODO: Don't use va_list! */
   va_list args;
   va_start(args, format);
+  kvprintf(format, args);
+}
+
+int kvprintf(const char *format, va_list args)
+{
   vsprintf(buffer, format, args);
   video_write(buffer, ATTR_NORMAL);
 }
@@ -25,15 +32,21 @@ int kputc(const char data)
 #ifdef DEBUG
 int err_attr[] = { 0x0c, 0x06, 0x03, 0x07 };
 
-void keprintf(int error_level, const void *format, ...)
+int keprintf(int error_level, const void *format, ...)
 {
+  /* TODO: Don't use va_list! */
   va_list args;
   va_start(args, format);
+  kveprintf(error_level, format, args);
+}
 
-  vsprintf(buffer, format, args);
+int kveprintf(int error_level, const void *format, va_list args)
+{
+  int retval = vsprintf(buffer, format, args);
   video_write(buffer, err_attr[error_level]);
-#ifdef DEBUG_TO_SERIAL
+# ifdef DEBUG_TO_SERIAL
   serial_write(DEBUG_SERIAL_PORT, buffer);
-#endif
+# endif
+  return retval;
 }
 #endif

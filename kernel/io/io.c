@@ -4,23 +4,23 @@
 #define K_INTSTRING "0123456789abcdef"
 #define K_INTWIDTH  36
 
-int vputc(char *buffer, const char data)
+int sputc(char *buffer, const char data)
 {
   *buffer = data;
   return 1;
 }
 
-int vputs(char *buffer, const char *data)
+int sputs(char *buffer, const char *data)
 {
   int i;
   for (i = 0; data[i] != '\0'; i++) {
-    vputc(buffer++, data[i]);
+    sputc(buffer++, data[i]);
   }
   buffer = '\0';
   return i;
 }
 
-int vputi(char *buffer, const int data, const int radix)
+static int sputi(char *buffer, const int data, const int radix)
 {
   int a = data;
   char out[K_INTWIDTH];
@@ -31,27 +31,34 @@ int vputi(char *buffer, const int data, const int radix)
     out[i] = K_INTSTRING[a % radix];
     a /= radix;
   }
-  return vputs(buffer, out + i + 1) - 1;
+  return sputs(buffer, out + i + 1) - 1;
 }
 
 inline __attribute__((always_inline))
-int vputd(char *buffer, const int data)
+int sputd(char *buffer, const int data)
 {
-  return vputi(buffer, data, 10);
+  return sputi(buffer, data, 10);
 }
 
 inline __attribute__((always_inline))
-int vputx(char *buffer, const int data)
+int sputx(char *buffer, const int data)
 {
-  return vputi(buffer, data, 16);
+  return sputi(buffer, data, 16);
 }
 
-int vsprintf(char *buffer, const char *format, ...)
+int sprintf(char *buffer, const char *format, ...)
+{
+  /* TODO: Don't use va_list! */
+  va_list args;
+  va_start(args, format);
+  return vsprintf(buffer, format, args);
+}
+
+int vsprintf(char *buffer, const char *format, va_list args)
 {
   char *format_p = (char *)format;
   int size = 0;
   int retsize = 0;
-  va_list args;
   va_start(args, format);
 
   while (*format_p != '\0') {
@@ -59,19 +66,19 @@ int vsprintf(char *buffer, const char *format, ...)
 
       switch (*++format_p) {
         case 'c':
-          retsize = vputc(buffer, va_arg(args, char));
+          retsize = sputc(buffer, va_arg(args, char));
           break;
 
         case 's':
-          retsize = vputs(buffer, va_arg(args, char *));
+          retsize = sputs(buffer, va_arg(args, char *));
           break;
 
         case 'd':
-          retsize = vputd(buffer, va_arg(args, int));
+          retsize = sputd(buffer, va_arg(args, int));
           break;
 
         case 'x':
-          retsize = vputx(buffer, va_arg(args, int));
+          retsize = sputx(buffer, va_arg(args, int));
           break;
 /*
  *      default:
@@ -79,7 +86,7 @@ int vsprintf(char *buffer, const char *format, ...)
  */
       }
     } else {
-      retsize = vputc(buffer, *format_p);
+      retsize = sputc(buffer, *format_p);
     }
 
     format_p++;
