@@ -3,12 +3,12 @@
 
 #include "config.h"
 
-# ifdef DEBUG
+# define LOG_ERROR  0
+# define LOG_WARN   1
+# define LOG_INFO   2
+# define LOG_DEBUG  3
 
-#  define LOG_ERROR  0
-#  define LOG_WARN   1
-#  define LOG_INFO   2
-#  define LOG_DEBUG  3
+# ifdef DEBUG
 
 #  ifdef DEBUG_TO_SERIAL
 #   include "serial/serial.h"
@@ -16,12 +16,13 @@
         serial_printf(SERIAL_PORT1, LOG_FORMAT, ##__VA_ARGS__)
 
 #  else
-#   include "video/video.h"
+#   include <kio.h>
 #   define klog(LOG_LEVEL, LOG_FORMAT, ...) \
-        eprintf(LOG_LEVEL, LOG_FORMAT, ##__VA_ARGS__)
-
+        keprintf(LOG_LEVEL, LOG_FORMAT, ##__VA_ARGS__)
 #  endif /* end of DEBUG_TO_SERIAL */
 
+# else
+#  define klog(...)
 # endif /* end of DEBUG */
 
 #endif /* end of include guard: DEBUG_H_IEXU6FAG */

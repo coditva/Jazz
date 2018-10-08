@@ -1,6 +1,8 @@
 
 CC            = gcc
 CC_ASM        = nasm
+CC_FLAGS      = -fno-builtin -fno-stack-protector
+
 BUILD_DIR     = ../build/kernel
 TARGET        = $(BUILD_DIR)/kernel.bin
 
@@ -12,7 +14,9 @@ OBJS          = kernel.o \
                 interrupt/interrupt.o \
                 interrupt/handler.o \
                 serial/serial.o \
-                memory/gdt.o
+                memory/gdt.o \
+                io/io.o \
+                io/kio.o
 
 INCLUDE       = util/portio.h \
                 video/video.h \
@@ -37,7 +41,7 @@ $(ASM_OBJS):%_asm.o: %.asm
 	$(CC_ASM) -f elf32 $? -o $@
 
 $(OBJS):%.o:   %.c $(INCLUDE) $(INCLUDE_DIR)/*
-	$(CC) -fno-stack-protector -m32 -I. -I${INCLUDE_DIR} -c $< -o $@
+	$(CC) $(CC_FLAGS) -m32 -I. -I${INCLUDE_DIR} -c $< -o $@
 
 qemu: all
 	qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin -serial file:`mktemp /tmp/jazz_serial1_XXXXXX.log`
