@@ -9,6 +9,7 @@
 # define LOG_DEBUG  3
 
 # ifdef DEBUG
+#  include<kio.h>
 #  define klog(LOG_LEVEL, FORMAT, ...) \
        keprintf(LOG_LEVEL, FORMAT, ##__VA_ARGS__)
 # else

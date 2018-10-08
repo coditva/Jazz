@@ -2,9 +2,9 @@
 #include <logger.h>
 #include <kio.h>
 #include "interrupt/handler.h"
-#include "util/portio.h"
+#include "io/portio/portio.h"
 #include "util/keyboard_map.h"
-#include "video/video.h"
+#include "io/video/video.h"
 
 void keyboard_handler(void)
 {

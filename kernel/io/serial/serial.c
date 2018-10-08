@@ -1,7 +1,7 @@
 #include <io.h>
 #include <stdarg.h>
-#include "serial.h"
-#include "util/portio.h"
+#include "io/serial/serial.h"
+#include "io/portio/portio.h"
 
 #define SERIAL_RECEIVED(_PORT)    (read_port(_PORT + 5) & 1)
 #define SERIAL_SEND_EMPTY(_PORT)  (read_port(_PORT + 5) & 0x20)

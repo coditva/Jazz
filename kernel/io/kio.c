@@ -1,6 +1,6 @@
 #include <io.h>
 #include <stdarg.h>
-#include "video/video.h"
+#include "io/video/video.h"
 #include "config.h"
 
 #define MAX_BUFFER_SIZE 1024
