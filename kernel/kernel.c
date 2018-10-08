@@ -4,10 +4,11 @@
 #include "memory/gdt.h"
 
 #include <logger.h>
+#include <kio.h>
 
 extern void kmain()
 {
-  kclear_screen();
+  video_clear();
 
   klog(LOG_DEBUG, "\nInitializing Serial ports... ");
   serial_init(SERIAL_PORT1);
