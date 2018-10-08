@@ -12,7 +12,7 @@
 /* # define DEBUG_TO_SERIAL */
 
 #ifdef DEBUG_TO_SERIAL
-  #include "serial/serial.h"
+  #include "io/serial/serial.h"
   #define DEBUG_SERIAL_PORT SERIAL_PORT1
 #endif
 

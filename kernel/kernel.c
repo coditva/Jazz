@@ -1,10 +1,10 @@
-#include "video/video.h"
-#include "serial/serial.h"
+#include <kio.h>
+#include <logger.h>
+
+#include "io/video/video.h"
+#include "io/serial/serial.h"
 #include "interrupt/interrupt.h"
 #include "memory/gdt.h"
-
-#include <logger.h>
-#include <kio.h>
 
 extern void kmain()
 {

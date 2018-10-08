@@ -1,8 +1,8 @@
 #include <stdarg.h>
 #include <types.h>
 #include <io.h>
-#include "video/video.h"
-#include "util/portio.h"
+#include "io/video/video.h"
+#include "io/portio/portio.h"
 
 #define VGA_BUFFER      ((char *)0xb8000)    /* the VGA buffer memory */
 
