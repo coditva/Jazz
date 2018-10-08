@@ -9,18 +9,8 @@
 # define LOG_DEBUG  3
 
 # ifdef DEBUG
-
-#  ifdef DEBUG_TO_SERIAL
-#   include "serial/serial.h"
-#   define klog(LOG_LEVEL, LOG_FORMAT, ...) \
-        serial_printf(SERIAL_PORT1, LOG_FORMAT, ##__VA_ARGS__)
-
-#  else
-#   include <kio.h>
-#   define klog(LOG_LEVEL, LOG_FORMAT, ...) \
-        keprintf(LOG_LEVEL, LOG_FORMAT, ##__VA_ARGS__)
-#  endif /* end of DEBUG_TO_SERIAL */
-
+#  define klog(LOG_LEVEL, FORMAT, ...) \
+       keprintf(LOG_LEVEL, FORMAT, ##__VA_ARGS__)
 # else
 #  define klog(...)
 # endif /* end of DEBUG */
