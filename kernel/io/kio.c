@@ -32,5 +32,8 @@ void keprintf(int error_level, const void *format, ...)
 
   vsprintf(buffer, format, args);
   video_write(buffer, err_attr[error_level]);
+#ifdef DEBUG_TO_SERIAL
+  serial_write(DEBUG_SERIAL_PORT, buffer);
+#endif
 }
 #endif
