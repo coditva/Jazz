@@ -11,6 +11,11 @@
 /* Uncomment this line to send debug output to serial ports: */
 /* # define DEBUG_TO_SERIAL */
 
+#ifdef DEBUG_TO_SERIAL
+  #include "serial/serial.h"
+  #define DEBUG_SERIAL_PORT SERIAL_PORT1
+#endif
+
 #endif
 
 #endif /* end of include guard: CONFIG_H_9LYYBTSW */
