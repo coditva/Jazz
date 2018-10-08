@@ -1,5 +1,6 @@
 #include <types.h>
 #include <logger.h>
+#include <kio.h>
 #include "interrupt/handler.h"
 #include "util/portio.h"
 #include "util/keyboard_map.h"
@@ -14,16 +15,15 @@ void keyboard_handler(void)
 
   if (status & 0x01) {      /* buffer is not empty */
     char data = -1;
-    if ((data = read_port(0x60)) < 0) return; /* invalid data */
+    if ((data = read_port(0x60)) < 0)  /* invalid data */ 
+      return;
     kputc(keyboard_map[data]);
-    update_cursor();
   }
 }
 
 void div_by_zero_handler(void)
 {
-  uint8_t status;
-  kprintf("ISR: Divide by zero error");
+  klog(LOG_ERROR, "\n------ DIVIDE BY ZERO ------\n");
 }
 
 void double_fault_handler(void)
