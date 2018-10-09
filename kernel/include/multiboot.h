@@ -119,6 +119,14 @@ typedef struct _multiboot_memory_map_t {
 } __attribute__((packed)) multiboot_memory_map_t;
 
 
-void multiboot_dump_info(multiboot_info_t *info);
+void multiboot_dump_info    (multiboot_info_t *info);
+
+#define FOREACH_MEMORY_MAP(MMAP, INFO) \
+  for(multiboot_memory_map_t *MMAP = \
+        (multiboot_memory_map_t *)(unsigned long)INFO->mmap_addr; \
+      (unsigned long)MMAP < INFO->mmap_addr + INFO->mmap_len; \
+      MMAP = (multiboot_memory_map_t *) \
+        ((unsigned long)MMAP + MMAP->size + sizeof(MMAP->size)) \
+      )
 
 #endif /* end of include guard: MULTIBOOT_H_RKNBOMGQ */
