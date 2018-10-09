@@ -9,7 +9,7 @@
 # define LOG_LEVEL ERR_INFO
 
 /* Uncomment this line to send debug output to serial ports: */
-/* # define DEBUG_TO_SERIAL */
+# define DEBUG_TO_SERIAL 
 
 #ifdef DEBUG_TO_SERIAL
   #include "io/serial/serial.h"
