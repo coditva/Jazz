@@ -31,6 +31,8 @@ global start                ; declare start symbol as global so that it
 start:
   cli                       ; prevent interrupts from waking halted CPU
   mov esp, _stack           ; initialize stack
+  push eax                  ; multiboot magic number
+  push ebx                  ; multiboot info
   call kmain                ; call the kernel function in C
   hlt                       ; halt CPU
 
