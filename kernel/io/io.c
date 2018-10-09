@@ -4,6 +4,25 @@
 #define K_INTSTRING "0123456789abcdef"
 #define K_INTWIDTH  36
 
+#define _ITOA_REV(BUFFER, DATA, RADIX, MIN_LEN, MAX_LEN, SIZE) { \
+  BUFFER[0] = '\0'; \
+  int i = 1; \
+  for(; i < MAX_LEN && DATA != 0; i++) { \
+    BUFFER[i] = K_INTSTRING[DATA % RADIX]; \
+    DATA /= RADIX; \
+  } \
+  for (; i < MIN_LEN + 1; i++) { \
+    BUFFER[i] = '0'; \
+  } \
+  SIZE = i; \
+}
+
+#define _STR_NREV(BUFFER_OUT, BUFFER_IN, N) { \
+  for (int i = 0; i < N; i++) { \
+    BUFFER_OUT[i] = BUFFER_IN[N - i - 1]; \
+  } \
+}
+
 int sputc(char *buffer, const char data)
 {
   *buffer = data;
@@ -20,34 +39,22 @@ int sputs(char *buffer, const char *data)
   return i;
 }
 
-static int sputi(char *buffer, const int data, const int radix)
+int sputd(char *buffer, int data)
 {
-  int a = data;
+  int size = 0;
   char out[K_INTWIDTH];
-  int i;
-  out[K_INTWIDTH] = '\0';
-
-  for (i = K_INTWIDTH - 1; i >= 0 && a != 0; i--) {
-    out[i] = K_INTSTRING[a % radix];
-    a /= radix;
-  }
-  if (i == K_INTWIDTH - 1) {  /* nothing printed */
-    out[i] = '0';
-    i--;
-  }
-  return sputs(buffer, out + i + 1) - 1;
+  _ITOA_REV(out, data, 10, 1, K_INTWIDTH, size);
+  _STR_NREV(buffer, out, size);
+  return size - 1;
 }
 
-inline __attribute__((always_inline))
-int sputd(char *buffer, const int data)
+int sputx(char *buffer, unsigned int data)
 {
-  return sputi(buffer, data, 10);
-}
-
-inline __attribute__((always_inline))
-int sputx(char *buffer, const int data)
-{
-  return sputi(buffer, data, 16);
+  int size = 0;
+  char out[K_INTWIDTH];
+  _ITOA_REV(out, data, 16, 1, K_INTWIDTH, size);
+  _STR_NREV(buffer, out, size);
+  return size - 1;
 }
 
 int sprintf(char *buffer, const char *format, ...)
@@ -81,7 +88,7 @@ int vsprintf(char *buffer, const char *format, va_list args)
           break;
 
         case 'x':
-          retsize = sputs(buffer, "0x") + sputx(buffer + 2, va_arg(args, int));
+          retsize = sputx(buffer, va_arg(args, unsigned int));
           break;
 
         default:
