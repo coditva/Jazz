@@ -18,7 +18,7 @@ OBJS          = kernel.o \
                 io/serial/serial.o \
                 io/io.o \
                 io/kio.o \
-                util/multiboot.o
+                boot/multiboot.o
 
 INCLUDE       = util/types.h \
                 interrupt/interrupt.h \
