@@ -31,6 +31,10 @@ static int sputi(char *buffer, const int data, const int radix)
     out[i] = K_INTSTRING[a % radix];
     a /= radix;
   }
+  if (i == K_INTWIDTH - 1) {  /* nothing printed */
+    out[i] = '0';
+    i--;
+  }
   return sputs(buffer, out + i + 1) - 1;
 }
 
