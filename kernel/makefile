@@ -2,6 +2,7 @@
 CC            = gcc
 CC_ASM        = nasm
 CC_FLAGS      = -fno-builtin -fno-stack-protector
+CD_FLAGS      = -g
 
 BUILD_DIR     = ../build/kernel
 TARGET        = $(BUILD_DIR)/kernel.bin
@@ -41,7 +42,7 @@ $(ASM_OBJS):%_asm.o: %.asm
 	$(CC_ASM) -f elf32 $? -o $@
 
 $(OBJS):%.o:   %.c $(INCLUDE) $(INCLUDE_DIR)/*
-	$(CC) $(CC_FLAGS) -m32 -I. -I${INCLUDE_DIR} -c $< -o $@
+	$(CC) $(CC_FLAGS) $(CD_FLAGS) -m32 -I. -I${INCLUDE_DIR} -c $< -o $@
 
 qemu: all
 	qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin -serial file:`mktemp /tmp/jazz_serial1_XXXXXX.log`
