@@ -59,12 +59,11 @@ int vsprintf(char *buffer, const char *format, va_list args)
   char *format_p = (char *)format;
   int size = 0;
   int retsize = 0;
-  va_start(args, format);
 
   while (*format_p != '\0') {
     if (*format_p == '%') {
-
-      switch (*++format_p) {
+      format_p++;
+      switch (*format_p) {
         case 'c':
           retsize = sputc(buffer, va_arg(args, char));
           break;
@@ -78,12 +77,12 @@ int vsprintf(char *buffer, const char *format, va_list args)
           break;
 
         case 'x':
-          retsize = sputx(buffer, va_arg(args, int));
+          retsize = sputs(buffer, "0x") + sputx(buffer + 2, va_arg(args, int));
           break;
-/*
- *      default:
- *        error();
- */
+
+        default:
+          retsize = 0;
+          /*error();*/
       }
     } else {
       retsize = sputc(buffer, *format_p);
@@ -94,6 +93,6 @@ int vsprintf(char *buffer, const char *format, va_list args)
     buffer += retsize;
   }
 
-  *buffer++ = '\0';
+  *buffer = '\0';
   return size + 1;
 }
