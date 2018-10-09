@@ -31,6 +31,7 @@
 #define MULTIBOOT_FB_TYPE_RGB           0x00000001
 #define MULTIBOOT_FB_TYPE_EGA_TEXT      0x00000002
 
+
 typedef struct _multiboot_info_t {
   uint32_t flags;
 
@@ -106,6 +107,16 @@ typedef struct _multiboot_info_t {
     };
   } __attribute__((packed)) framebuffer;
 } __attribute__((packed)) multiboot_info_t;
+
+
+typedef struct _multiboot_memory_map_t {
+  uint32_t size;
+  uint32_t base_addr_low;
+  uint32_t base_addr_high;
+  uint32_t len_low;
+  uint32_t len_high;
+  uint32_t type;
+} __attribute__((packed)) multiboot_memory_map_t;
 
 
 void multiboot_dump_info(multiboot_info_t *info);
