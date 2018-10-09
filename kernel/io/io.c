@@ -20,9 +20,9 @@ int sputs(char *buffer, const char *data)
   return i;
 }
 
-static int sputi(char *buffer, const int data, const int radix)
+static int sputi(char *buffer, const unsigned int data, const int radix)
 {
-  int a = data;
+  unsigned int a = data;
   char out[K_INTWIDTH];
   int i;
   out[K_INTWIDTH] = '\0';
@@ -45,7 +45,7 @@ int sputd(char *buffer, const int data)
 }
 
 inline __attribute__((always_inline))
-int sputx(char *buffer, const int data)
+int sputx(char *buffer, const unsigned int data)
 {
   return sputi(buffer, data, 16);
 }
@@ -81,7 +81,7 @@ int vsprintf(char *buffer, const char *format, va_list args)
           break;
 
         case 'x':
-          retsize = sputs(buffer, "0x") + sputx(buffer + 2, va_arg(args, int));
+          retsize = sputx(buffer, va_arg(args, unsigned int));
           break;
 
         default:

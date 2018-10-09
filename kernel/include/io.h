@@ -5,7 +5,7 @@
 
 int sputc      (char *buffer, const char data);
 int sputd      (char *buffer, const int data);
-int sputx      (char *buffer, const int data);
+int sputx      (char *buffer, const unsigned int data);
 int sputs      (char *buffer, const char *data);
 int sprintf    (char *buffer, const char *format, ...);
 
