@@ -1,5 +1,5 @@
 - phase 1: basic kernel
-    - add memory management (gdt, ldt)
+    - add memory management (gdt, ldt, paging)
     - add a user interface (cli)
     - add a basic file system (maybe fat32?)
     - add device management (keyboard, mouse?)
