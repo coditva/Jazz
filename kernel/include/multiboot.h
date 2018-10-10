@@ -115,6 +115,11 @@ typedef struct _multiboot_memory_map_t {
   uint32_t base_addr_high;
   uint32_t len_low;
   uint32_t len_high;
+#define MULTIBOOT_MEM_TYPE_FREE     0x1     /* free memory */
+#define MULTIBOOT_MEM_TYPE_RSVD     0x2     /* reserved by system */
+#define MULTIBOOT_MEM_TYPE_ACPI     0x3     /* reclaimable ACPI memory */
+#define MULTIBOOT_MEM_TYPE_NVS      0x4     /* non-volatile storage */
+#define MULTIBOOT_MEM_TYPE_BADR     0x5     /* memory used by bad RAM modules */
   uint32_t type;
 } __attribute__((packed)) multiboot_memory_map_t;
 
