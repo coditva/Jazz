@@ -1,4 +1,4 @@
-#include "memory/gdt.h"
+#include "boot/gdt.h"
 
 gdt_entry_t gdt[GDT_SIZE];
 extern void gdt_load(gdt_entry_t *, uint16_t size);
