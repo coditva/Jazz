@@ -23,4 +23,6 @@ typedef __kernel_uint64_t   uint64_t;
 typedef __kernel_int64_t    int64_t;
 #endif /* ifndef _INT_TYPES */
 
+#define types_concat(HIGH, LOW)     ( (HIGH << (sizeof(HIGH))) | LOW )
+
 #endif /* end of include guard: TYPES_H_VMW2LPX1 */
