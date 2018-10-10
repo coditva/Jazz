@@ -18,8 +18,9 @@ section .multiboot
                             ; magic + flags + checksum = zero
 
 
-%include "interrupt/interrupt.asm"
-%include "interrupt/handler.asm"
+%include "include/asm/portio.asm"
+%include "include/asm/interrupt.asm"
+%include "include/asm/handler.asm"
 %include "include/asm/gdt.asm"
 
 
