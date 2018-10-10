@@ -7,8 +7,7 @@ CD_FLAGS      = -g
 BUILD_DIR     = ../build/kernel
 TARGET        = $(BUILD_DIR)/kernel.bin
 
-ASM_OBJS      = kernel_asm.o \
-                io/portio/portio_asm.o
+ASM_OBJS      = kernel_asm.o
 
 OBJS          = kernel.o \
                 interrupt/interrupt.o \
