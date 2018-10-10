@@ -1,6 +1,7 @@
 #include <kio.h>
 #include <logger.h>
 #include <multiboot.h>
+#include <page_frame.h>
 
 #include "io/video/video.h"
 #include "io/serial/serial.h"
@@ -12,6 +13,8 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   video_clear();
 
   multiboot_dump_info(multiboot_info);
+  page_frame_init(multiboot_info);
+  page_frame_dump_map();
 
   klog(LOG_DEBUG, "\nInitializing Serial ports... ");
   serial_init(SERIAL_PORT1);
