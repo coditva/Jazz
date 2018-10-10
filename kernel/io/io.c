@@ -20,7 +20,8 @@ int sputs(char *buffer, const char *data)
   return i;
 }
 
-static int sputi(char *buffer, const unsigned int data, const int radix)
+static int sputi(char *buffer, const unsigned int data, const int radix,
+    const int min_width)
 {
   unsigned int a = data;
   char out[K_INTWIDTH];
@@ -31,9 +32,8 @@ static int sputi(char *buffer, const unsigned int data, const int radix)
     out[i] = K_INTSTRING[a % radix];
     a /= radix;
   }
-  if (i == K_INTWIDTH - 1) {  /* nothing printed */
+  for (;i > K_INTWIDTH - min_width - 1; i--) {  /* pad with zeros */
     out[i] = '0';
-    i--;
   }
   return sputs(buffer, out + i + 1) - 1;
 }
@@ -41,13 +41,13 @@ static int sputi(char *buffer, const unsigned int data, const int radix)
 inline __attribute__((always_inline))
 int sputd(char *buffer, const int data)
 {
-  return sputi(buffer, data, 10);
+  return sputi(buffer, data, 10, 1);
 }
 
 inline __attribute__((always_inline))
 int sputx(char *buffer, const unsigned int data)
 {
-  return sputi(buffer, data, 16);
+  return sputi(buffer, data, 16, 8);
 }
 
 int sprintf(char *buffer, const char *format, ...)
