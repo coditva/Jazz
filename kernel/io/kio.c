@@ -43,9 +43,10 @@ int keprintf(int error_level, const void *format, ...)
 int kveprintf(int error_level, const void *format, va_list args)
 {
   int retval = vsprintf(buffer, format, args);
-  video_write(buffer, err_attr[error_level]);
 # ifdef DEBUG_TO_SERIAL
   serial_write(DEBUG_SERIAL_PORT, buffer);
+# else
+  video_write(buffer, err_attr[error_level]);
 # endif
   return retval;
 }
