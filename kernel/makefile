@@ -13,7 +13,7 @@ ASM_OBJS      = kernel_asm.o \
 OBJS          = kernel.o \
                 interrupt/interrupt.o \
                 interrupt/handler.o \
-                memory/gdt.o \
+                boot/gdt.o \
                 io/video/video.o \
                 io/serial/serial.o \
                 io/io.o \
@@ -25,7 +25,7 @@ INCLUDE       = util/types.h \
                 interrupt/interrupt.h \
                 util/keyboard_map.h \
                 config.h \
-                memory/gdt.h \
+                boot/gdt.h \
                 io/portio/portio.h \
                 io/video/video.h \
                 io/serial/serial.h \
@@ -40,8 +40,8 @@ $(BUILD_DIR):
 $(TARGET):    $(OBJS) $(INCLUDE) $(ASM_OBJS) $(BUILD_DIR)
 	ld -m elf_i386 -T linker.ld $(OBJS) $(ASM_OBJS) -o $@
 
-$(ASM_OBJS):%_asm.o: %.asm
-	$(CC_ASM) -f elf32 $? -o $@
+$(ASM_OBJS):%_asm.o: %.asm $(INCLUDE_DIR)/asm/*
+	$(CC_ASM) -f elf32 $< -o $@
 
 $(OBJS):%.o:   %.c $(INCLUDE) $(INCLUDE_DIR)/*
 	$(CC) $(CC_FLAGS) $(CD_FLAGS) -m32 -I. -I${INCLUDE_DIR} -c $< -o $@
