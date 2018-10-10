@@ -18,7 +18,8 @@ OBJS          = kernel.o \
                 io/serial/serial.o \
                 io/io.o \
                 io/kio.o \
-                boot/multiboot.o
+                boot/multiboot.o \
+                mm/page_frame.o
 
 INCLUDE       = util/types.h \
                 interrupt/interrupt.h \
@@ -46,7 +47,8 @@ $(OBJS):%.o:   %.c $(INCLUDE) $(INCLUDE_DIR)/*
 	$(CC) $(CC_FLAGS) $(CD_FLAGS) -m32 -I. -I${INCLUDE_DIR} -c $< -o $@
 
 qemu: all
-	qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin -serial file:`mktemp /tmp/jazz_serial1_XXXXXX.log`
+	qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin \
+	  -serial file:///tmp/jazz_serial1.log
 
 clean:
 	rm -rf $(TARGET) $(OBJS) $(ASM_OBJS)
