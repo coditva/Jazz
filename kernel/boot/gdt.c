@@ -1,3 +1,4 @@
+#include <logger.h>
 #include "boot/gdt.h"
 
 gdt_entry_t gdt[GDT_SIZE];
@@ -25,6 +26,8 @@ void gdt_set_entry(uint32_t offset, uint32_t base, uint32_t limit,
 
 void gdt_init(void)
 {
+  klog_status_init(LOG_DEBUG, "GDT");
+
   /* first entry is NULL entry */
   gdt_set_entry(0, 0, 0, 0);
 
@@ -42,4 +45,6 @@ void gdt_init(void)
 
   gdt_load(gdt, GDT_SIZE * sizeof(gdt_entry_t) - 1);
   reload_segments();
+
+  klog_status_ok(LOG_DEBUG);
 }
