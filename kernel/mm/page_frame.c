@@ -68,10 +68,6 @@ int page_frame_init(multiboot_info_t *multiboot_info)
   num_frames_bitset_frames =
       NUM_OF_A_PER_B(num_frames_bitset_lines, BITSET_LINES_PER_FRAME);
 
-  klog(LOG_DEBUG, "Number of frames: %d\n", num_frames);
-  klog(LOG_DEBUG, "Number of bitset lines: %d\nNumber of bitset pages: %d\n",
-      num_frames_bitset_lines, num_frames_bitset_frames);
-
   /* mark all free pages */
   FOREACH_MEMORY_MAP(mmap, multiboot_info) {
     if (mmap->type == MULTIBOOT_MEM_TYPE_FREE) {
@@ -96,10 +92,17 @@ void page_frame_dump_map(void)
 {
 #ifdef DEBUG
   uint32_t *frame = frames_bitset;
-  klog(LOG_DEBUG, "frames_bitset addr: 0x%x\n", frame);
+  klog(LOG_DEBUG, LOG_HRULE);
+  klog(LOG_DEBUG, "PAGE FRAMES MEMORY DUMP START\n");
+  klog(LOG_DEBUG, LOG_HRULE);
+  klog(LOG_DEBUG, "Number of frames: %d\n", num_frames);
+  klog(LOG_DEBUG, "Number of bitset lines: %d\n", num_frames_bitset_lines);
+  klog(LOG_DEBUG, "Number of bitset pages: %d\n", num_frames_bitset_frames);
+  klog(LOG_DEBUG, "Frames bitmap at 0x%x\n", frame);
   for (int j = 0; j < num_frames_bitset_lines; j++) {
-    klog(LOG_DEBUG, "\n%x: ", FRAME_NUM_TO_PAGE_ADDR(j * FRAMES_PER_BITSET));
+    klog(LOG_DEBUG, "\n%x:", FRAME_NUM_TO_PAGE_ADDR(j * FRAMES_PER_BITSET));
     for (int k = 0; k < FRAMES_PER_BITSET; k++) {
+      (k % 4) || klog(LOG_DEBUG, " ");
       if (frame[j] & (0x1 << k)) { /* free */
         klog(LOG_DEBUG, ".");
       } else {
@@ -108,6 +111,9 @@ void page_frame_dump_map(void)
     }
   }
   klog(LOG_DEBUG, "\n");
+  klog(LOG_DEBUG, LOG_HRULE);
+  klog(LOG_DEBUG, "PAGE FRAMES MEMORY DUMP END\n");
+  klog(LOG_DEBUG, LOG_HRULE);
 #endif
 }
 

@@ -1,3 +1,5 @@
+#include <logger.h>
+#include <types.h>
 #include "interrupt/interrupt.h"
 #include "io/portio/portio.h"
 
@@ -18,8 +20,10 @@ void isr_set_double_fault(void)
 
 void isr_init_keyboard(void)
 {
+  klog_status_init(LOG_DEBUG, "keyboard");
   /* TODO: This will disable all other interrupts; prevent that */
   write_port(0x21, 0xfd);
+  klog_status_ok(LOG_DEBUG);
 }
 
 idt_t idt[IDT_SIZE];
@@ -36,6 +40,8 @@ void idt_set_gate(int offset, uint32_t base, uint16_t selector,
 
 void idt_init(void)
 {
+  klog_status_init(LOG_DEBUG, "IDT");
+
   uint32_t idt_address = (uint32_t)&idt;
   idt_ptr_t idt_pointer = {
     .limit = (sizeof(idt_t) * IDT_SIZE) - 1,
@@ -65,4 +71,6 @@ void idt_init(void)
   write_port(PIC2_DATA, 0xff);
 
   idt_load(&idt_pointer);
+
+  klog_status_ok(LOG_DEBUG);
 }

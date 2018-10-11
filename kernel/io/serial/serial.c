@@ -1,3 +1,4 @@
+#include <logger.h>
 #include <io.h>
 #include <stdarg.h>
 #include "io/serial/serial.h"
@@ -9,7 +10,7 @@
 #define MAX_BUFFER_SIZE 1024
 static char buffer[MAX_BUFFER_SIZE];
 
-void serial_init(int port)
+static inline void serial_init_port(int port)
 {
   write_port(port + 1, 0x00);    // Disable all interrupts
   write_port(port + 3, 0x80);    // Enable DLAB (set baud rate divisor)
@@ -18,6 +19,18 @@ void serial_init(int port)
   write_port(port + 3, 0x03);    // 8 bits, no parity, one stop bit
   write_port(port + 2, 0xC7);    // Enable FIFO, clear them, with 14-byte threshold
   write_port(port + 4, 0x0B);    // IRQs enabled, RTS/DSR set
+}
+
+void serial_init()
+{
+  klog_status_init(LOG_DEBUG, "serial ports");
+
+  serial_init_port(SERIAL_PORT1);
+  serial_init_port(SERIAL_PORT2);
+  serial_init_port(SERIAL_PORT3);
+  serial_init_port(SERIAL_PORT4);
+
+  klog_status_ok(LOG_DEBUG);
 }
 
 void serial_write(int port, char *data)

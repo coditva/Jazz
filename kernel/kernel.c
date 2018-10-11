@@ -16,26 +16,12 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   page_frame_init(multiboot_info);
   page_frame_dump_map();
 
-  klog(LOG_DEBUG, "\nInitializing Serial ports... ");
-  serial_init(SERIAL_PORT1);
-  serial_init(SERIAL_PORT2);
-  serial_init(SERIAL_PORT3);
-  serial_init(SERIAL_PORT4);
-  klog(LOG_DEBUG, "OK");
-
-  klog(LOG_DEBUG, "\nInitializing GDT... ");
+  serial_init();
   gdt_init();
-  klog(LOG_DEBUG, "OK");
-
-  klog(LOG_DEBUG, "\nInitializing IDT... ");
   idt_init();
-  klog(LOG_DEBUG, "OK");
-
-  klog(LOG_DEBUG, "\nInitializing ISRs... ");
   isr_set_keyboard();
   isr_set_double_fault();
   isr_init_keyboard();
-  klog(LOG_DEBUG, "OK");
 
   klog(LOG_DEBUG, "\nInitialization complete.\n");
   kprintf("\n$ ");
