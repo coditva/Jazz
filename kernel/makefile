@@ -18,7 +18,8 @@ OBJS          = kernel.o \
                 io/io.o \
                 io/kio.o \
                 boot/multiboot.o \
-                mm/page_frame.o
+                mm/page_frame.o \
+                lib/string.o
 
 INCLUDE       = util/types.h \
                 interrupt/interrupt.h \
