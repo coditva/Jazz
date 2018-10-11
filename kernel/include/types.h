@@ -25,4 +25,8 @@ typedef __kernel_int64_t    int64_t;
 
 #define types_concat(HIGH, LOW)     ( (HIGH << (sizeof(HIGH))) | LOW )
 
+#ifndef NULL
+#define NULL (void *)0x0
+#endif /* ifndef NULL */
+
 #endif /* end of include guard: TYPES_H_VMW2LPX1 */
