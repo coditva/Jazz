@@ -31,7 +31,9 @@ INCLUDE       = util/types.h \
                 io/serial/serial.h \
 
 INCLUDE_DIR   = include
+phony         =
 
+phony += all
 all:          $(TARGET)
 
 $(BUILD_DIR):
@@ -50,5 +52,13 @@ qemu: all
 	qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin \
 	  -serial file:///tmp/jazz_serial1.log
 
+phony += clean
 clean:
 	rm -rf $(TARGET) $(OBJS) $(ASM_OBJS)
+
+phony += tags
+tags:
+	ctags -R .
+
+
+.PHONY: $(phony)
