@@ -2,6 +2,7 @@
 #include <kio.h>
 #include <stdarg.h>
 #include "io/video/video.h"
+#include "io/serial/serial.h"
 #include "config.h"
 
 #define MAX_BUFFER_SIZE 1024

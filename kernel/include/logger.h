@@ -1,7 +1,7 @@
 #ifndef DEBUG_H_IEXU6FAG
 #define DEBUG_H_IEXU6FAG
 
-#include "config.h"
+# include "config.h"
 
 # define LOG_ERROR  0
 # define LOG_WARN   1
@@ -31,11 +31,11 @@
 #  define klog_status_fail(LOG_LEVEL) \
        keprintf(LOG_LEVEL, STATUS_FORMAT_STRING, "[FAIL]");
 
-# else
+# else  /* ifdef DEBUG */
 #  define klog(...)
 #  define klog_status_init(...)
 #  define klog_status_ok(...)
 #  define klog_status_fail(...)
-# endif /* end of DEBUG */
+# endif /* ifdef DEBUG */
 
 #endif /* end of include guard: DEBUG_H_IEXU6FAG */
