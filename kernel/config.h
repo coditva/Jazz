@@ -10,4 +10,7 @@
 /* Change the level of logging output */
 # define LOG_LEVEL 3
 
+/* Select the architecture type */
+# define ARCH_X86
+
 #endif /* end of include guard: CONFIG_H_9LYYBTSW */

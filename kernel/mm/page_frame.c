@@ -25,9 +25,9 @@ static int      num_frames_bitset_frames = 0;
 
 #define FRAME_LINE_TO_PAGE_NUM(LINE)    (LINE << 5)
 
-#define PAGE_ADDR_TO_FRAME_NUM(ADDR)    ((unsigned long)ADDR >> 12)
+#define PAGE_ADDR_TO_FRAME_NUM(ADDR)    ((uintptr_t)ADDR >> 12)
 #define PAGE_ADDR_TO_LINE(ADDR) \
-    (((unsigned long)ADDR >> 12) / FRAMES_PER_BITSET)
+    (((uintptr_t)ADDR >> 12) / FRAMES_PER_BITSET)
 #define PAGE_ADDR_TO_BIT(ADDR) \
     (0x1 << (PAGE_ADDR_TO_FRAME_NUM(ADDR) % FRAMES_PER_BITSET))
 
@@ -72,16 +72,16 @@ int page_frame_init(multiboot_info_t *multiboot_info)
   FOREACH_MEMORY_MAP(mmap, multiboot_info) {
     if (mmap->type == MULTIBOOT_MEM_TYPE_FREE) {
       if (!bitset_initialized) {
-        frames_bitset_init((void *)(unsigned long)mmap->base_addr_low);
+        frames_bitset_init((void *)(uintptr_t)mmap->base_addr_low);
 
         /* reserve "num_frames_bitset_pages" pages for the frames_bitset */
-        page_frame_mark_n_free((void *)(unsigned long)
+        page_frame_mark_n_free((void *)(uintptr_t)
             mmap->base_addr_low
                 + FRAME_NUM_TO_PAGE_ADDR(num_frames_bitset_frames),
             mmap->len_low - FRAME_NUM_TO_PAGE_ADDR(num_frames_bitset_frames));
         bitset_initialized = 1;
       } else {
-        page_frame_mark_n_free((void *)(unsigned long)mmap->base_addr_low,
+        page_frame_mark_n_free((void *)(uintptr_t)mmap->base_addr_low,
             mmap->len_low);
       }
     }
