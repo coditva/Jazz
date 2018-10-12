@@ -21,8 +21,7 @@ OBJS          = kernel.o \
                 mm/page_frame.o \
                 lib/string.o
 
-INCLUDE       = util/types.h \
-                interrupt/interrupt.h \
+INCLUDE       = interrupt/interrupt.h \
                 util/keyboard_map.h \
                 config.h \
                 boot/gdt.h \
@@ -42,7 +41,7 @@ $(BUILD_DIR):
 $(TARGET):    $(OBJS) $(INCLUDE) $(ASM_OBJS) $(BUILD_DIR)
 	ld -m elf_i386 -T linker.ld $(OBJS) $(ASM_OBJS) -o $@
 
-$(ASM_OBJS):%_asm.o: %.asm $(INCLUDE_DIR)/asm/*
+$(ASM_OBJS):%_asm.o: %.asm $(INCLUDE_DIR)/asm/*.asm
 	$(CC_ASM) -f elf32 $< -o $@
 
 $(OBJS):%.o:   %.c $(INCLUDE) $(INCLUDE_DIR)/*
