@@ -10,16 +10,22 @@ static char buffer[MAX_BUFFER_SIZE];
 
 int kprintf(const char *format, ...)
 {
-  /* TODO: Don't use va_list! */
+  int retval = 0;
   va_list args;
+
   va_start(args, format);
-  kvprintf(format, args);
+  retval = kvprintf(format, args);
+  va_end(args);
+
+  return retval;
 }
 
 int kvprintf(const char *format, va_list args)
 {
-  vsprintf(buffer, format, args);
+  int retval = 0;
+  retval = vsprintf(buffer, format, args);
   video_write(buffer, ATTR_NORMAL);
+  return retval;
 }
 
 int kputc(const char data)
@@ -28,6 +34,7 @@ int kputc(const char data)
   str[0] = data;
   str[1] = '\0';
   video_write(str, ATTR_NORMAL);
+  return 1;
 }
 
 #ifdef DEBUG
@@ -35,10 +42,14 @@ int err_attr[] = { 0x0c, 0x06, 0x03, 0x07 };
 
 int keprintf(int error_level, const void *format, ...)
 {
-  /* TODO: Don't use va_list! */
+  int retval = 0;
   va_list args;
+
   va_start(args, format);
-  kveprintf(error_level, format, args);
+  retval = kveprintf(error_level, format, args);
+  va_end(args);
+
+  return retval;
 }
 
 int kveprintf(int error_level, const void *format, va_list args)
