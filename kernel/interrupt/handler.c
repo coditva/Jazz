@@ -15,7 +15,7 @@ void keyboard_handler(void)
 
   if (status & 0x01) {      /* buffer is not empty */
     char data = -1;
-    if ((data = read_port(0x60)) < 0)  /* invalid data */ 
+    if ((data = read_port(0x60)) < 0)  /* invalid data */
       return;
     kputc(keyboard_map[data]);
   }

@@ -5,7 +5,7 @@
 # define DEBUG
 
 /* Comment the following line to send debug output to video */
-# define DEBUG_TO_SERIAL 
+# define DEBUG_TO_SERIAL
 
 /* Change the level of logging output */
 # define LOG_LEVEL 3

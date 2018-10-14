@@ -1,7 +1,6 @@
-
 CC            = gcc
 CC_ASM        = nasm
-CC_FLAGS      = -fno-builtin -fno-stack-protector
+CC_FLAGS      = -fno-builtin -fno-stack-protector -m32
 CD_FLAGS      = -g
 
 BUILD_DIR     = ../build/kernel
@@ -32,32 +31,33 @@ INCLUDE       = interrupt/interrupt.h \
 INCLUDE_DIR   = include
 phony         =
 
-phony += all
-all:          $(TARGET)
+phony 			+= all
+all:          	$(TARGET)
 
 $(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
+				mkdir -p $(BUILD_DIR)
 
-$(TARGET):    $(OBJS) $(INCLUDE) $(ASM_OBJS) $(BUILD_DIR)
-	ld -m elf_i386 -T linker.ld $(OBJS) $(ASM_OBJS) -o $@
+$(TARGET):    	$(OBJS) $(INCLUDE) $(ASM_OBJS) $(BUILD_DIR)
+				ld -m elf_i386 -T linker.ld $(OBJS) $(ASM_OBJS) -o $@
 
-$(ASM_OBJS):%_asm.o: %.asm $(INCLUDE_DIR)/asm/*.asm
-	$(CC_ASM) -f elf32 $< -o $@
+$(ASM_OBJS):	%_asm.o:%.asm $(INCLUDE_DIR)/asm/*.asm
+				$(CC_ASM) -f elf32 $< -o $@
 
-$(OBJS):%.o:   %.c $(INCLUDE) $(INCLUDE_DIR)/*
-	$(CC) $(CC_FLAGS) $(CD_FLAGS) -m32 -I. -I${INCLUDE_DIR} -c $< -o $@
+$(OBJS):%.o:   	%.c $(INCLUDE) $(INCLUDE_DIR)/*
+				$(CC) $(CC_FLAGS) $(CD_FLAGS) -I. -I${INCLUDE_DIR} -c $< -o $@
 
-qemu: all
-	qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin \
-	  -serial file:///tmp/jazz_serial1.log
+phony 			+= qemu
+qemu: 			all
+				qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin \
+					-serial file:///tmp/jazz_serial1.log
 
-phony += clean
+phony 			+= clean
 clean:
-	rm -rf $(TARGET) $(OBJS) $(ASM_OBJS)
+				rm -rf $(TARGET) $(OBJS) $(ASM_OBJS)
 
-phony += tags
+phony 			+= tags
 tags:
-	ctags -R .
+				ctags -R .
 
 
-.PHONY: $(phony)
+.PHONY: 		$(phony)
