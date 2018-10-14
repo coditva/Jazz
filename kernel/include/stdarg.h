@@ -12,4 +12,6 @@
 #define va_arg(AP, TYPE) \
   (*(TYPE *)((AP += va_rounded_size(TYPE)) - va_rounded_size(TYPE)))
 
+#define va_end(AP)
+
 #endif /* end of include guard: STDARG_H_WG3Q0UEA */
