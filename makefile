@@ -1,15 +1,23 @@
+GCC_VERSION       = 5.4.0
+BINUTILS_VERSION  = 2.29
+DEPS_PREFIX       = $(shell pwd)/.deps/cross
+TARGET            = i686-elf
 
-BUILD_DIR  = build
-DISK_IMG   = $(BUILD_DIR)/disk.img
-BOOTLOADER = $(BUILD_DIR)/bootloader/boot.bin
-KERNEL     = $(BUILD_DIR)/kernel/kernel.bin
+BUILD_DIR         = build
+DISK_IMG          = $(BUILD_DIR)/disk.img
+BOOTLOADER        = $(BUILD_DIR)/bootloader/boot.bin
+KERNEL            = $(BUILD_DIR)/kernel/kernel.bin
 
-phony      =
+MAKE_CMD          = $(MAKE) \
+						PREFIX=$(DEPS_PREFIX) \
+						TARGET=$(TARGET) \
+						GCC_VERSION=$(GCC_VERSION) \
+						BINUTILS_VERSION=$(BINUTILS_VERSION)
 
-phony += all
-all:           $(DISK_IMG)
+phony = all
+all: $(DISK_IMG)
 
-$(DISK_IMG):   $(BUILD_DIR) $(BOOTLOADER) $(KERNEL)
+$(DISK_IMG): $(BUILD_DIR) $(BOOTLOADER) $(KERNEL)
 	dd if=/dev/zero of=$(DISK_IMG) bs=512 count=2880
 	dd if=$(BOOTLOADER) of=$(DISK_IMG) bs=512 count=1 seek=0
 	dd if=$(KERNEL) of=$(DISK_IMG) bs=512 seek=1
@@ -20,11 +28,11 @@ $(BUILD_DIR):
 
 phony += $(BOOTLOADER)
 $(BOOTLOADER): bootloader/boot.asm
-	$(MAKE) --directory bootloader
+	$(MAKE_CMD) --directory bootloader
 
 phony += $(KERNEL)
-$(KERNEL):
-	$(MAKE) --directory kernel
+$(KERNEL): deps
+	$(MAKE_CMD) TARGET=$(TARGET) --directory kernel
 
 phony += qemu
 qemu: all
@@ -36,20 +44,23 @@ qemu: all
 
 phony += qemu_kernel
 qemu_kernel: $(KERNEL)
-	make --directory kernel qemu
+	$(MAKE_CMD) --directory kernel qemu
 
 phony += clean
 clean:
-	$(MAKE) --directory bootloader clean
-	$(MAKE) --directory kernel clean
+	$(MAKE_CMD) --directory bootloader clean
+	$(MAKE_CMD) --directory kernel clean
 	rm -f $(DISK_IMG)
+
+distclean:
+	$(MAKE_CMD) --directory .deps distclean
 
 phony += test
 test: all
 	@echo "No tests added"
 
-phony += get-deps
-get-deps:
-	@echo "TODO"
+phony += deps
+deps:
+	$(MAKE_CMD) --directory .deps all
 
 .PHONY: $(phony)
