@@ -27,4 +27,6 @@ script:
   - make test
 
 cache:
-  - .deps
+  apt: true
+  directories:
+    - .deps
