@@ -2,17 +2,29 @@ language: C
 sudo: true
 compiler:
   - gcc
-  - clang
 
 addons:
   apt:
     packages:
       - nasm
+      - build-essential
+      - bison
+      - flex
+      - libgmp3-dev
+      - libmpc-dev
+      - libmpfr-dev
+      - texinfo
+      - libcloog-isl-dev
+      - libisl-dev
+      - wget
 
 install:
-  - make get-deps
+  - make deps
   - make
   #- make CFLAGS="-Wall -Wextra -Werror" all
 
 script:
   - make test
+
+cache:
+  - .deps

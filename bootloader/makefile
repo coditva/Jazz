@@ -1,15 +1,15 @@
 
 CC         = nasm
 BUILD_DIR  = ../build/bootloader
-TARGET     = $(BUILD_DIR)/boot.bin
+BIN        = $(BUILD_DIR)/boot.bin
 
-all:       $(TARGET)
+all:       $(BIN)
 
-$(TARGET): boot.asm $(BUILD_DIR)
+$(BIN): boot.asm $(BUILD_DIR)
 	$(CC) $< -o $@
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(BIN)
