@@ -1,10 +1,15 @@
-CC            = gcc
+ifndef TARGET
+	TARGET    = i686-elf
+endif
+
+CC            = ../.deps/cross/bin/$(TARGET)-gcc
+LD            = ../.deps/cross/bin/$(TARGET)-ld
 CC_ASM        = nasm
-CC_FLAGS      = $(CFLAGS) -fno-builtin -fno-stack-protector -m32 -std=c99
+CC_FLAGS      = $(CFLAGS) -fno-builtin -fno-stack-protector -std=gnu99
 CD_FLAGS      = -g
 
 BUILD_DIR     = ../build/kernel
-TARGET        = $(BUILD_DIR)/kernel.bin
+BIN           = $(BUILD_DIR)/kernel.bin
 
 ASM_OBJS      = kernel_asm.o
 
@@ -32,13 +37,13 @@ INCLUDE_DIR   = include
 phony         =
 
 phony 			+= all
-all:          	$(TARGET)
+all:          	$(BIN)
 
 $(BUILD_DIR):
 				mkdir -p $(BUILD_DIR)
 
-$(TARGET):    	$(OBJS) $(INCLUDE) $(ASM_OBJS) $(BUILD_DIR)
-				ld -m elf_i386 -T linker.ld $(OBJS) $(ASM_OBJS) -o $@
+$(BIN):			$(OBJS) $(INCLUDE) $(ASM_OBJS) $(BUILD_DIR)
+				$(LD) -T linker.ld $(OBJS) $(ASM_OBJS) -o $@
 
 $(ASM_OBJS):	%_asm.o:%.asm $(INCLUDE_DIR)/asm/*.asm
 				$(CC_ASM) -f elf32 $< -o $@
@@ -53,7 +58,7 @@ qemu: 			all
 
 phony 			+= clean
 clean:
-				rm -rf $(TARGET) $(OBJS) $(ASM_OBJS)
+				rm -rf $(BIN) $(OBJS) $(ASM_OBJS)
 
 phony 			+= tags
 tags:

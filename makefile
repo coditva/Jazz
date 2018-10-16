@@ -32,7 +32,7 @@ $(BOOTLOADER): bootloader/boot.asm
 
 phony += $(KERNEL)
 $(KERNEL): deps
-	$(MAKE_CMD) TARGET=$(TARGET) --directory kernel
+	$(MAKE_CMD) --directory kernel
 
 phony += qemu
 qemu: all

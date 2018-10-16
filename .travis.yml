@@ -19,7 +19,7 @@ addons:
       - wget
 
 install:
-  - make deps
+  - travis_wait make deps
   - make
   #- make CFLAGS="-Wall -Wextra -Werror" all
 
