@@ -4,7 +4,8 @@
 #include <types.h>
 #include <multiboot.h>
 
-int         page_frame_init     (multiboot_info_t *multiboot_info);
+int         page_frame_init     (void * base_address,
+                                 multiboot_info_t *multiboot_info);
 void *      page_frame_alloc    (void);
 void        page_frame_free     (void *page_addr);
 void        page_frame_dump_map (void);
