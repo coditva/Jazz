@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/UtkarshMe/Jazz.svg?branch=master)](https://travis-ci.org/UtkarshMe/Jazz)
 [![CodeFactor](https://www.codefactor.io/repository/github/utkarshme/jazz/badge)](https://www.codefactor.io/repository/github/utkarshme/jazz)
 
 # Jazz
