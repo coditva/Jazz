@@ -1,6 +1,6 @@
 CC            = gcc
 CC_ASM        = nasm
-CC_FLAGS      = -fno-builtin -fno-stack-protector -m32
+CC_FLAGS      = $(CFLAGS) -fno-builtin -fno-stack-protector -m32
 CD_FLAGS      = -g
 
 BUILD_DIR     = ../build/kernel
