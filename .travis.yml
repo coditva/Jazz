@@ -1,0 +1,18 @@
+language: C
+sudo: true
+compiler:
+  - gcc
+  - clang
+
+addons:
+  apt:
+    packages:
+      - nasm
+
+install:
+  - make get-deps
+  - make
+  #- make CFLAGS="-Wall -Wextra -Werror" all
+
+script:
+  - make test
