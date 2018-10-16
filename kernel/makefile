@@ -1,6 +1,6 @@
 CC            = gcc
 CC_ASM        = nasm
-CC_FLAGS      = $(CFLAGS) -fno-builtin -fno-stack-protector -m32
+CC_FLAGS      = $(CFLAGS) -fno-builtin -fno-stack-protector -m32 -std=c99
 CD_FLAGS      = -g
 
 BUILD_DIR     = ../build/kernel
@@ -58,6 +58,5 @@ clean:
 phony 			+= tags
 tags:
 				ctags -R .
-
 
 .PHONY: 		$(phony)
