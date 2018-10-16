@@ -3,6 +3,7 @@
 #include <logger.h>
 #include <multiboot.h>
 #include <page_frame.h>
+#include <paging.h>
 
 #include "boot/gdt.h"
 #include "interrupt/interrupt.h"
@@ -48,6 +49,8 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   isr_set_keyboard();
   isr_set_double_fault();
   isr_init_keyboard();
+
+  paging_init();
 
   klog(LOG_INFO, "\nInitialization complete.\n");
   kprintf("\n$ ");
