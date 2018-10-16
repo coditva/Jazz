@@ -48,6 +48,22 @@ static inline void page_frame_mark_n_free(void *base_addr, size_t len)
   }
 }
 
+static inline void page_frame_mark_used(void *base_addr)
+{
+  uint32_t bitset = -1 ^ PAGE_ADDR_TO_BIT(base_addr);
+  frames_bitset[PAGE_ADDR_TO_LINE(base_addr)] &= bitset;
+}
+
+static inline void page_frame_mark_n_used(void *base_addr, size_t len)
+{
+  char *addr = base_addr;
+  char *end_addr = addr + len;
+  while (addr < end_addr) {
+    page_frame_mark_used(addr);
+    addr += FRAME_SIZE;
+  }
+}
+
 static inline void frames_bitset_init(void *base_addr)
 {
   frames_bitset = base_addr;
@@ -56,11 +72,12 @@ static inline void frames_bitset_init(void *base_addr)
   memset(frames_bitset, 0, num_frames_bitset_lines * sizeof(*frames_bitset));
 }
 
-int page_frame_init(multiboot_info_t *multiboot_info)
+int page_frame_init(void *base_address, multiboot_info_t *multiboot_info)
 {
   int bitset_initialized = 0;
 
-  memory_base_addr = 0x0;
+  memory_base_addr = (void *)(uintptr_t)
+    FRAME_NUM_TO_PAGE_ADDR(PAGE_ADDR_TO_FRAME_NUM(base_address) + 1);
 
   num_frames = (multiboot_info->mem_lower + multiboot_info->mem_upper) /
       (FRAME_SIZE / BLOCK_SIZE);
@@ -68,23 +85,21 @@ int page_frame_init(multiboot_info_t *multiboot_info)
   num_frames_bitset_frames =
       NUM_OF_A_PER_B(num_frames_bitset_lines, BITSET_LINES_PER_FRAME);
 
+  frames_bitset_init((void *)(uintptr_t)base_address);
+
   /* mark all free pages */
   FOREACH_MEMORY_MAP(mmap, multiboot_info) {
     if (mmap->type == MULTIBOOT_MEM_TYPE_FREE) {
-      if (!bitset_initialized) {
-        frames_bitset_init((void *)(uintptr_t)mmap->base_addr_low);
-
-        /* reserve "num_frames_bitset_pages" pages for the frames_bitset */
-        page_frame_mark_n_free((void *)(uintptr_t)
-            mmap->base_addr_low
-                + FRAME_NUM_TO_PAGE_ADDR(num_frames_bitset_frames),
-            mmap->len_low - FRAME_NUM_TO_PAGE_ADDR(num_frames_bitset_frames));
-        bitset_initialized = 1;
-      } else {
-        page_frame_mark_n_free((void *)(uintptr_t)mmap->base_addr_low,
-            mmap->len_low);
-      }
+      page_frame_mark_n_free((void *)(uintptr_t)mmap->base_addr_low,
+          mmap->len_low);
     }
+  }
+
+  page_frame_mark_n_used(0x0, (size_t)(uintptr_t)memory_base_addr);
+
+  /* these are already occupied by "frames_bitset" */
+  for (int i = 0; i < num_frames_bitset_frames; i++) {
+    page_frame_alloc();
   }
 }
 
@@ -98,6 +113,7 @@ void page_frame_dump_map(void)
   klog(LOG_DEBUG, "Number of frames: %d\n", num_frames);
   klog(LOG_DEBUG, "Number of bitset lines: %d\n", num_frames_bitset_lines);
   klog(LOG_DEBUG, "Number of bitset pages: %d\n", num_frames_bitset_frames);
+  klog(LOG_DEBUG, "Base address for allocation: 0x%x\n", memory_base_addr);
   klog(LOG_DEBUG, "Frames bitmap at 0x%x\n", frame);
   for (int j = 0; j < num_frames_bitset_lines; j++) {
     klog(LOG_DEBUG, "\n%x:", FRAME_NUM_TO_PAGE_ADDR(j * FRAMES_PER_BITSET));
@@ -150,12 +166,12 @@ void * page_frame_alloc(void)
   }
 
   /* mark as used */
-  *current_bitset_line ^= current_bitset;
-
-  void *frame_address = (memory_base_addr + FRAME_NUM_TO_PAGE_ADDR(
+  void *frame_address = (void *)(uintptr_t)FRAME_NUM_TO_PAGE_ADDR(
       FRAME_LINE_TO_PAGE_NUM(current_frame_bitset_line)
-      + current_frame_bitset_bit));
+      + current_frame_bitset_bit);
   klog(LOG_DEBUG, ". at 0x%x\n", frame_address);
+
+  page_frame_mark_used(frame_address);
 
   return frame_address;
 }
