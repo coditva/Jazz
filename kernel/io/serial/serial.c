@@ -23,14 +23,14 @@ static inline void serial_init_port(int port)
 
 void serial_init()
 {
-  klog_status_init(LOG_DEBUG, "serial ports");
+  klog_status_init("serial ports");
 
   serial_init_port(SERIAL_PORT1);
   serial_init_port(SERIAL_PORT2);
   serial_init_port(SERIAL_PORT3);
   serial_init_port(SERIAL_PORT4);
 
-  klog_status_ok(LOG_DEBUG);
+  klog_status_ok("serial ports");
 }
 
 void serial_write(int port, char *data)

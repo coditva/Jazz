@@ -17,19 +17,14 @@
 #  define klog(LOG_LEVEL, FORMAT, ...) \
        keprintf(LOG_LEVEL, FORMAT, ##__VA_ARGS__)
 
-#  define klog_status_init(LOG_LEVEL, INIT_STRING) \
-       keprintf(LOG_LEVEL, "Initializing %s...", INIT_STRING)
+#  define klog_status_init(INIT_STRING) \
+       keprintf(LOG_INFO, "[INIT] %s\n", INIT_STRING)
 
-#  ifdef DEBUG_TO_SERIAL
-#   define STATUS_FORMAT_STRING "%s\n"
-#  else
-#   define STATUS_FORMAT_STRING "\n%c%c%c%c%c%c%s", 8, 8, 8, 8, 8, 8
-#  endif
-#  define klog_status_ok(LOG_LEVEL) \
-       keprintf(LOG_LEVEL, STATUS_FORMAT_STRING, "  [OK]");
+#  define klog_status_ok(INIT_STRING) \
+       keprintf(LOG_INFO, "[ OK ] %s\n", INIT_STRING)
 
-#  define klog_status_fail(LOG_LEVEL) \
-       keprintf(LOG_LEVEL, STATUS_FORMAT_STRING, "[FAIL]");
+#  define klog_status_fail(INIT_STRING) \
+       keprintf(LOG_ERROR, "[FAIL] %s\n", INIT_STRING)
 
 # else  /* ifdef DEBUG */
 #  define klog(...)

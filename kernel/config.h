@@ -8,7 +8,7 @@
 # define DEBUG_TO_SERIAL
 
 /* Change the level of logging output */
-# define LOG_LEVEL 3
+# define LOG_LEVEL 2
 
 /* Select the architecture type */
 # define ARCH_X86

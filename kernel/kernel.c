@@ -25,7 +25,7 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   isr_set_double_fault();
   isr_init_keyboard();
 
-  klog(LOG_DEBUG, "\nInitialization complete.\n");
+  klog(LOG_INFO, "\nInitialization complete.\n");
   kprintf("\n$ ");
 
   while(1)
