@@ -38,5 +38,10 @@ typedef __kernel_long_t     intptr_t;
 #define NULL (void *)0x0
 #endif /* ifndef NULL */
 
+#ifndef bool
+#define bool    unsigned short int
+#define true    1
+#define false   0
+#endif /* ifndef bool */
 
 #endif /* end of include guard: TYPES_H_VMW2LPX1 */
