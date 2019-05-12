@@ -1,6 +1,6 @@
 # Implementing kprintf
 
-[This commit](https://github.com/UtkarshMe/Jazz/commit/b9b4fcd33a5f8c07028d90c12cd1ac8bcac1e1c7) adds our `kprintf` implementation.
+[This commit](https://github.com/coditva/Jazz/commit/b9b4fcd33a5f8c07028d90c12cd1ac8bcac1e1c7) adds our `kprintf` implementation.
 
 
 ## What

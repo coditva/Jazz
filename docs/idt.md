@@ -1,6 +1,6 @@
 # Interrupt Descriptor Table
 
-[This commit](https://github.com/UtkarshMe/Jazz/commit/df53ccbab6157607aff2b18cf7d7566d36a592f6) adds our interrupt descriptor table.
+[This commit](https://github.com/coditva/Jazz/commit/df53ccbab6157607aff2b18cf7d7566d36a592f6) adds our interrupt descriptor table.
 
 
 ## What

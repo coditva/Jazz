@@ -1,5 +1,5 @@
 ; ---------------------------------------------------------------------
-; The kernel for Jazz (github.com/utkarshme/Jazz)
+; The kernel for Jazz (github.com/coditva/Jazz)
 ; Author: Utkarsh Maheshwari
 ; vi:filetype=nasm
 ; ---------------------------------------------------------------------

@@ -7,9 +7,9 @@ Once the BIOS is loaded, it looks around for a bootable device by looking at the
 
 ## Our bootloader
 
-Our [**first** bootloader](https://github.com/UtkarshMe/Jazz/blob/df24113c45b520ae559ba338f3cdba2a3b655e3d/boot_hello.asm) was a very tiny program which printed "Hello" on the screen and looped.
+Our [**first** bootloader](https://github.com/coditva/Jazz/blob/df24113c45b520ae559ba338f3cdba2a3b655e3d/boot_hello.asm) was a very tiny program which printed "Hello" on the screen and looped.
 
-Our **second**, improved bootloader will enable 32-bit protected mode of the Intel 86 processor and print something using the VGA text. The 32-bit protected mode addresses memory by using [Descriptor Tables](https://en.wikipedia.org/wiki/Global_Descriptor_Table). [This commit](https://github.com/UtkarshMe/Jazz/tree/725541095db3a620b3cfeae4819ae801e19bd9a1) adds a file [`bootloader/boot.asm`](https://github.com/UtkarshMe/Jazz/blob/725541095db3a620b3cfeae4819ae801e19bd9a1/bootloader/boot.asm).
+Our **second**, improved bootloader will enable 32-bit protected mode of the Intel 86 processor and print something using the VGA text. The 32-bit protected mode addresses memory by using [Descriptor Tables](https://en.wikipedia.org/wiki/Global_Descriptor_Table). [This commit](https://github.com/coditva/Jazz/tree/725541095db3a620b3cfeae4819ae801e19bd9a1) adds a file [`bootloader/boot.asm`](https://github.com/coditva/Jazz/blob/725541095db3a620b3cfeae4819ae801e19bd9a1/bootloader/boot.asm).
 
 The contents of the bootloader are loaded on the address `0x7c00` in the RAM. Hence we use `org 0x7c00` in out bootloader. Next we enable the `A20` bit i.e. the 21st address line for the _intel x86_ processor and set the VGA text mode. All _x86_ processors are started in **16-bit real mode**. To use **32-bit protected mode**, we must set the lowest bit in the special CPU register `cr0`. We set up our _Global Descriptor Table_, initialize segment registers and print some text in VGA mode while in protected mode.
 

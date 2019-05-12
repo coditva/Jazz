@@ -1,5 +1,5 @@
 # Serial Port I/O
-[This commit](https://github.com/UtkarshMe/Jazz/tree/e2bbcf8add06411e53f0ace5837e53ba5f3fa49c) adds the serial port I/O in Jazz.
+[This commit](https://github.com/coditva/Jazz/tree/e2bbcf8add06411e53f0ace5837e53ba5f3fa49c) adds the serial port I/O in Jazz.
 
 ## What
 Serial ports are ancient ports which are/were used to connect external devices.

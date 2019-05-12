@@ -6,7 +6,7 @@ Just a key-press and the PC boots up. Just a click and the music starts. Doesn't
 Also, if you're wondering _Why the name Jazz?_, the answer is _I just liked the sound of it!_
 
 ## Getting the code
-The source code is available at: [UtkarshMe/Jazz](https://github.com/UtkarshMe/Jazz).
+The source code is available at: [coditva/Jazz](https://github.com/coditva/Jazz).
 
 ## Table of contents
 - [The boot sector](boot-sector)
@@ -19,5 +19,5 @@ The source code is available at: [UtkarshMe/Jazz](https://github.com/UtkarshMe/J
   - [Serial ports I/O](serial_port)
 
 ## License
-[MIT](https://github.com/UtkarshMe/Jazz/blob/master/LICENSE)
-&copy; 2018-present [Utkarsh Maheshwari](https://github.com/UtkarshMe)  
+[MIT](https://github.com/coditva/Jazz/blob/master/LICENSE)
+&copy; 2018-present [Utkarsh Maheshwari](https://github.com/coditva)  

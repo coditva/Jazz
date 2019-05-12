@@ -1,5 +1,5 @@
 # Keyboard Interrupt Service Routine
-[This commit](https://github.com/UtkarshMe/Jazz/tree/f1815d1a7201f09c917b34dfc8d559695e43706b) adds a interrupt service routine (ISR) for the keyboard.
+[This commit](https://github.com/coditva/Jazz/tree/f1815d1a7201f09c917b34dfc8d559695e43706b) adds a interrupt service routine (ISR) for the keyboard.
 
 ## What
 An Interrupt Service Routine (ISR) is a function that is assigned to handle an interrupt. This setting of the interrupt handler is also called setting the gate (see `kernel/idt/idt.c: idt_set_gate()`). Since this routine is called directly by the CPU and must return by the assembly instruction `iret` or `iretd`, we use a "wrapper" in assembly which calls the handler in C and returns with `iretd`.
