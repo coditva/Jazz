@@ -17,7 +17,7 @@ void keyboard_handler(void)
     char data = -1;
     if ((data = read_port(0x60)) < 0)  /* invalid data */
       return;
-    kputc(keyboard_map[data]);
+    kputc(keyboard_map[(unsigned int)data]);
   }
 }
 
