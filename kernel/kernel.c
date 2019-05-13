@@ -14,7 +14,7 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 {
   video_clear();
 
-  multiboot_dump_info(multiboot_info);
+  multiboot_dump_info(multiboot_info, multiboot_magic);
   page_frame_init(&endkernel, multiboot_info);
   page_frame_dump_map();
 

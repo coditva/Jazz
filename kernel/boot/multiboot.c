@@ -26,8 +26,13 @@ static inline void multiboot_dump_mmap(multiboot_info_t *info)
 #endif
 }
 
-inline void multiboot_dump_info(multiboot_info_t *info)
+inline void multiboot_dump_info(multiboot_info_t *info, uint32_t multiboot_magic)
 {
+  if (multiboot_magic != MULTIBOOT_EAX_MAGIC) {
+    klog(LOG_ERROR, "invalid multiboot signature\n");
+    return;
+  }
+
 #ifdef DEBUG
   klog(LOG_DEBUG, LOG_HRULE);
   klog(LOG_DEBUG, "MULTIBOOT DUMP START\n");
