@@ -7,9 +7,6 @@
 #define SERIAL_RECEIVED(_PORT)    (read_port(_PORT + 5) & 1)
 #define SERIAL_SEND_EMPTY(_PORT)  (read_port(_PORT + 5) & 0x20)
 
-#define MAX_BUFFER_SIZE 1024
-static char buffer[MAX_BUFFER_SIZE];
-
 static inline void serial_init_port(int port)
 {
   write_port(port + 1, 0x00);    // Disable all interrupts
