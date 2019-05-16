@@ -23,7 +23,8 @@ OBJS          = kernel.o \
                 io/kio.o \
                 boot/multiboot.o \
                 mm/page_frame.o \
-                lib/string.o
+                lib/string.o \
+                lib/kcheck.o
 
 INCLUDE       = interrupt/interrupt.h \
                 util/keyboard_map.h \
