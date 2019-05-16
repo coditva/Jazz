@@ -5,7 +5,7 @@ endif
 CC            = ../.deps/cross/bin/$(TARGET)-gcc
 LD            = ../.deps/cross/bin/$(TARGET)-ld
 CC_ASM        = nasm
-CC_FLAGS      = $(CFLAGS) -fno-builtin -fno-stack-protector -std=gnu99
+CC_FLAGS      = $(CFLAGS) -fno-builtin -std=gnu99 -Wall -Wextra -Werror
 CD_FLAGS      = -g
 
 BUILD_DIR     = ../build/kernel

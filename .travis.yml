@@ -21,7 +21,6 @@ addons:
 install:
   - travis_wait make deps
   - make
-  #- make CFLAGS="-Wall -Wextra -Werror" all
 
 script:
   - make test
