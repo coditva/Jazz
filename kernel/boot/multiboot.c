@@ -2,9 +2,9 @@
 #include <logger.h>
 
 
+#ifdef DEBUG
 static inline void multiboot_dump_mmap(multiboot_info_t *info)
 {
-#ifdef DEBUG
   if (info->flags & MULTIBOOT_FLAG_MEM_MAP) {
     klog(LOG_DEBUG, "mem map len     : 0x%x\n", info->mmap_len);
     klog(LOG_DEBUG, "mem map addr    : 0x%x\n", info->mmap_addr);
@@ -23,9 +23,10 @@ static inline void multiboot_dump_mmap(multiboot_info_t *info)
   } else {
     klog(LOG_WARN, "memory map not set\n");
   }
-#endif
 }
+#endif
 
+#ifdef DEBUG
 inline void multiboot_dump_info(multiboot_info_t *info, uint32_t multiboot_magic)
 {
   if (multiboot_magic != MULTIBOOT_EAX_MAGIC) {
@@ -33,7 +34,6 @@ inline void multiboot_dump_info(multiboot_info_t *info, uint32_t multiboot_magic
     return;
   }
 
-#ifdef DEBUG
   klog(LOG_DEBUG, LOG_HRULE);
   klog(LOG_DEBUG, "MULTIBOOT DUMP START\n");
   klog(LOG_DEBUG, LOG_HRULE);
@@ -52,5 +52,5 @@ inline void multiboot_dump_info(multiboot_info_t *info, uint32_t multiboot_magic
   klog(LOG_DEBUG, "MULTIBOOT DUMP END\n");
   klog(LOG_DEBUG, LOG_HRULE);
   klog(LOG_DEBUG, "\n");
-#endif
 }
+#endif

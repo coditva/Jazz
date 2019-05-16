@@ -124,7 +124,9 @@ typedef struct _multiboot_memory_map_t {
 } __attribute__((packed)) multiboot_memory_map_t;
 
 
+#ifdef DEBUG
 void multiboot_dump_info    (multiboot_info_t *info, uint32_t multiboot_magic);
+#endif
 
 #define FOREACH_MEMORY_MAP(MMAP, INFO) \
   for(multiboot_memory_map_t *MMAP = \
