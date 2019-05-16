@@ -29,7 +29,7 @@ static uint32_t     frames_bitmap_pages;
 
 
 static inline void frame_mark_used(int frame_line, int frame_index) {
-  frames_bitmap[frame_line] |= FRAME_USED << frame_index;
+  frames_bitmap[frame_line] |= (unsigned int)FRAME_USED << frame_index;
 }
 
 static inline void frame_mark_free(int frame_line, int frame_index) {
