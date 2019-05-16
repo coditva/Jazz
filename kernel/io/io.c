@@ -16,7 +16,7 @@ int sputs(char *buffer, const char *data)
   for (i = 0; data[i] != '\0'; i++) {
     sputc(buffer++, data[i]);
   }
-  buffer = '\0';
+  *buffer = '\0';
   return i;
 }
 
@@ -26,7 +26,7 @@ static int sputi(char *buffer, const unsigned int data, const int radix,
   unsigned int a = data;
   char out[K_INTWIDTH];
   int i;
-  out[K_INTWIDTH] = '\0';
+  out[K_INTWIDTH - 1] = '\0';
 
   for (i = K_INTWIDTH - 1; i >= 0 && a != 0; i--) {
     out[i] = K_INTSTRING[a % radix];
