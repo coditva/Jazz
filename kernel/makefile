@@ -51,6 +51,10 @@ qemu: 			all
 				qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin \
 					-serial file:///tmp/jazz_serial1.log
 
+phony			+= lint
+lint:
+				clang-tidy `git ls-files` -checks=* -- -I. -Iinclude/
+
 phony 			+= clean
 clean:
 				rm -rf $(BIN) $(OBJ) $(ASM_OBJ) .COMPILER_INFO
