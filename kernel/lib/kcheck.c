@@ -7,8 +7,8 @@ void kcheck(int condition, char *label)
   MARK_PARAM_USED(label);
 
   if (condition) {
-    klog(LOG_INFO, "passed check: %s\n", label);
+    klog_status_ok(label);
   } else {
-    klog(LOG_ERROR, "failed check: %s\n", label);
+    klog_status_fail(label);
   }
 }

@@ -18,7 +18,7 @@
        keprintf(LOG_LEVEL, FORMAT, ##__VA_ARGS__)
 
 #  define klog_status_init(INIT_STRING) \
-       keprintf(LOG_INFO, "[INIT] %s\n", INIT_STRING)
+       keprintf(LOG_DEBUG, "[INIT] %s\n", INIT_STRING)
 
 #  define klog_status_ok(INIT_STRING) \
        keprintf(LOG_INFO, "[ OK ] %s\n", INIT_STRING)
