@@ -46,6 +46,10 @@ phony += qemu_kernel
 qemu_kernel: $(KERNEL)
 	$(MAKE_CMD) --directory kernel qemu
 
+phony += lint
+lint:
+	$(MAKE_CMD) --directory kernel lint
+
 phony += clean
 clean:
 	$(MAKE_CMD) --directory bootloader clean

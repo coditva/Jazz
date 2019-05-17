@@ -17,6 +17,7 @@ addons:
       - libcloog-isl-dev
       - libisl-dev
       - wget
+      - clang
 
 install:
   - travis_wait make deps
@@ -24,6 +25,7 @@ install:
 
 script:
   - make test
+  - make lint
 
 cache:
   apt: true
