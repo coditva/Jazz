@@ -129,11 +129,11 @@ void multiboot_dump_info    (multiboot_info_t *info, uint32_t multiboot_magic);
 #endif
 
 #define FOREACH_MEMORY_MAP(MMAP, INFO) \
-  for(multiboot_memory_map_t *MMAP = \
+  for(multiboot_memory_map_t *(MMAP) = \
         (multiboot_memory_map_t *)(uintptr_t)((INFO)->mmap_addr); \
-      (uintptr_t)MMAP < (INFO)->mmap_addr + (INFO)->mmap_len; \
-      MMAP = (multiboot_memory_map_t *) \
-        ((uintptr_t)MMAP + MMAP->size + sizeof(MMAP->size)) \
+      (uintptr_t)(MMAP) < (INFO)->mmap_addr + (INFO)->mmap_len; \
+      (MMAP) = (multiboot_memory_map_t *) \
+        ((uintptr_t)(MMAP) + (MMAP)->size + sizeof((MMAP)->size)) \
       )
 
 #endif /* end of include guard: MULTIBOOT_H_RKNBOMGQ */

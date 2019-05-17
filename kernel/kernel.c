@@ -1,13 +1,13 @@
+#include <kcheck.h>
 #include <kio.h>
 #include <logger.h>
 #include <multiboot.h>
 #include <page_frame.h>
-#include <kcheck.h>
 
-#include "io/video/video.h"
-#include "io/serial/serial.h"
-#include "interrupt/interrupt.h"
 #include "boot/gdt.h"
+#include "interrupt/interrupt.h"
+#include "io/serial/serial.h"
+#include "io/video/video.h"
 
 extern uintptr_t endkernel;
 extern uintptr_t startkernel;
@@ -31,7 +31,8 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   page_frame_init(&endkernel, multiboot_info);
 #ifdef DEBUG
   page_frame_dump_map();
-  void *page1 = NULL, *page2 = NULL;
+  void *page1 = NULL;
+  void *page2 = NULL;
 
   /* sanity check for page_frame */
   page1 = page_frame_alloc();
@@ -50,6 +51,7 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   klog(LOG_INFO, "\nInitialization complete.\n");
   kprintf("\n$ ");
 
-  while(1)
+  while(1) {
     ; /* nop */
+}
 }

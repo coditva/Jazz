@@ -58,7 +58,7 @@ int sprintf(char *buffer, const char *format, ...)
   return vsprintf(buffer, format, args);
 }
 
-int vsprintf(char *buffer, const char *format, va_list args)
+int vsprintf(char *buffer, const char *format, const va_list args)
 {
   char *format_p = (char *)format;
   int size = 0;

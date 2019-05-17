@@ -1,8 +1,8 @@
 #ifndef PAGE_FRAME_ALLOC_H_S1KP2ELH
 #define PAGE_FRAME_ALLOC_H_S1KP2ELH
 
-#include <types.h>
 #include <multiboot.h>
+#include <types.h>
 
 /**
  * Initializes the memory frames bitmap, which will be used later by alloc/free

@@ -1,10 +1,10 @@
-#include <types.h>
-#include <logger.h>
-#include <kio.h>
 #include "interrupt/handler.h"
 #include "io/portio/portio.h"
-#include "util/keyboard_map.h"
 #include "io/video/video.h"
+#include "util/keyboard_map.h"
+#include <kio.h>
+#include <logger.h>
+#include <types.h>
 
 void keyboard_handler(void)
 {
@@ -15,8 +15,9 @@ void keyboard_handler(void)
 
   if (status & 0x01) {      /* buffer is not empty */
     char data = -1;
-    if ((data = read_port(0x60)) < 0)  /* invalid data */
+    if ((data = read_port(0x60)) < 0) {  /* invalid data */
       return;
+}
     kputc(keyboard_map[(unsigned int)data]);
   }
 }

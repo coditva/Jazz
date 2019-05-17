@@ -1,6 +1,6 @@
+#include <helper.h>
 #include <kcheck.h>
 #include <logger.h>
-#include <helper.h>
 
 void kcheck(int condition, char *label)
 {

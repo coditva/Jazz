@@ -1,9 +1,9 @@
+#include "io/video/video.h"
+#include "config.h"
+#include "io/serial/serial.h"
 #include <io.h>
 #include <kio.h>
 #include <stdarg.h>
-#include "io/video/video.h"
-#include "io/serial/serial.h"
-#include "config.h"
 
 #define MAX_BUFFER_SIZE 1024
 static char buffer[MAX_BUFFER_SIZE];
