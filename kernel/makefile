@@ -8,6 +8,11 @@ CC_ASM        = nasm
 CC_FLAGS      = $(CFLAGS) -fno-builtin -std=gnu99 -Wall -Wextra -Werror
 CD_FLAGS      = -g
 
+LINT          = clang-tidy
+LINT_CHECKS   = *,-llvm-header-guard
+LINT_ERRORS   = readability-inconsistent-declaration-parameter-name
+LINT_FLAGS    = -checks=$(LINT_CHECKS) -warnings-as-errors=$(LINT_ERRORS)
+
 BUILD_DIR     = ../build/kernel
 BIN           = $(BUILD_DIR)/kernel.bin
 
@@ -53,7 +58,7 @@ qemu: 			all
 
 phony			+= lint
 lint:
-				clang-tidy `git ls-files` -checks=* -- -I. -Iinclude/
+				$(LINT) `git ls-files` $(LINT_FLAGS) -- -I. -Iinclude/
 
 phony 			+= clean
 clean:
