@@ -3,6 +3,6 @@
 
 #include <types.h>
 
-void * memset(void *base_addr, int c, size_t size);
+void * memset(void *base_address, int character, size_t size);
 
 #endif /* end of include guard: STRING_H_NWJXLQCL */
