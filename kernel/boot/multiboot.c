@@ -15,9 +15,8 @@ static inline void multiboot_dump_mmap(multiboot_info_t *info)
     klog(LOG_DEBUG, LOG_HRULE);
     FOREACH_MEMORY_MAP(mmap, info) {
       klog(LOG_DEBUG, " %d | 0x%x | 0x%x %x | 0x%x %x | %d\n",
-          i, mmap->size, mmap->base_addr_high, mmap->base_addr_low,
+          i++, mmap->size, mmap->base_addr_high, mmap->base_addr_low,
           mmap->len_high, mmap->len_low, mmap->type);
-      i++;
     }
     klog(LOG_DEBUG, LOG_HRULE);
   } else {
