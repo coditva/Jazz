@@ -9,11 +9,15 @@
 #include "interrupt/interrupt.h"
 #include "boot/gdt.h"
 
-extern uint32_t endkernel;
+extern uintptr_t endkernel;
+extern uintptr_t startkernel;
 
 extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 {
   video_clear();
+
+  klog(LOG_DEBUG, "Kernel starts at: 0x%x\n", &startkernel);
+  klog(LOG_DEBUG, "Kernel ends at  : 0x%x\n", &endkernel);
 
   if (multiboot_magic != MULTIBOOT_EAX_MAGIC) {
     klog(LOG_ERROR, "invalid multiboot signature\n");

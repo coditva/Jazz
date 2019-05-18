@@ -28,7 +28,7 @@ all:          	$(BIN)
 $(BUILD_DIR):
 				mkdir -p $(BUILD_DIR)
 
-$(BIN):			.COMPILER_INFO $(BUILD_DIR) $(ASM_OBJ) $(OBJ)
+$(BIN):			.COMPILER_INFO $(BUILD_DIR) $(ASM_OBJ) $(OBJ) linker.ld
 				@$(LD) -T linker.ld $(OBJ) $(ASM_OBJ) -o $@
 				@echo building $@
 
