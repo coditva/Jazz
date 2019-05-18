@@ -1,5 +1,5 @@
-#include <multiboot.h>
 #include <logger.h>
+#include <multiboot.h>
 
 
 #ifdef DEBUG

@@ -1,7 +1,7 @@
-#include <logger.h>
-#include <types.h>
 #include "interrupt/interrupt.h"
 #include "io/portio/portio.h"
+#include <logger.h>
+#include <types.h>
 
 extern void idt_load(idt_ptr_t *);
 extern void keyboard_handler_int(void);

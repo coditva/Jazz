@@ -8,6 +8,9 @@ CC_ASM        = nasm
 CC_FLAGS      = $(CFLAGS) -fno-builtin -std=gnu99 -Wall -Wextra -Werror
 CD_FLAGS      = -g
 
+LINT          = clang-tidy
+LINT_FLAGS    = -fix-errors
+
 BUILD_DIR     = ../build/kernel
 BIN           = $(BUILD_DIR)/kernel.bin
 
@@ -50,6 +53,11 @@ phony 			+= qemu
 qemu: 			all
 				qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin \
 					-serial file:///tmp/jazz_serial1.log
+
+phony			+= lint
+lint:
+				$(LINT) `find . -name "*.c" -or -name "*.h"` $(LINT_FLAGS)\
+					-- -I. -Iinclude/
 
 phony 			+= clean
 clean:

@@ -1,11 +1,11 @@
 #include <string.h>
 #include <types.h>
 
-void * memset(void *s, int c, size_t count)
+void * memset(void *base_address, int character, size_t size)
 {
-  char *s_p = s;
-  while (count--) {
-    *s_p++ = c;
+  char *s_p = base_address;
+  while (size--) {
+    *s_p++ = character;
   }
-  return s;
+  return base_address;
 }

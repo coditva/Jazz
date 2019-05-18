@@ -1,8 +1,8 @@
-#include <types.h>
-#include <page_frame.h>
-#include <multiboot.h>
-#include <string.h>
 #include <logger.h>
+#include <multiboot.h>
+#include <page_frame.h>
+#include <string.h>
+#include <types.h>
 
 /* bitmap to store the state of the memory pages */
 static uint32_t     *frames_bitmap = NULL;
@@ -31,7 +31,7 @@ static uint32_t     frames_bitmap_pages;
 
 /* value in bitmap for used/free */
 #define FRAME_FREE  0
-#define FRAME_USED  -1
+#define FRAME_USED  (-1)
 
 
 static inline void frame_mark_used(int frame_line, int frame_index) {
@@ -117,7 +117,8 @@ void * page_frame_alloc (void)
 
 void page_frame_free (void *page_addr)
 {
-  uint32_t line, index;
+  uint32_t line;
+  uint32_t index;
   line = ((uintptr_t)page_addr - memory_base_address) / FRAMES_PER_BITMAP;
   index = ((uintptr_t)page_addr - memory_base_address) % FRAMES_PER_BITMAP;
   frame_mark_free(line, index);
@@ -139,8 +140,9 @@ void page_frame_dump_map(void)
     klog(LOG_DEBUG, "\n0x%x:", frame_get_address(j, 0));
 
     for (uintptr_t k = 0; k < FRAMES_PER_BITMAP; k++) {
-      if (k % 4 == 0)  /* add a space after every four marks */
+      if (k % 4 == 0) {  /* add a space after every four marks */
         klog(LOG_DEBUG, " ");
+      }
 
       if ((frames_bitmap[j] | (FRAME_FREE << k)) == 0) {  /* free */
         klog(LOG_DEBUG, ".");

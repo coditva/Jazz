@@ -1,11 +1,11 @@
-#include <logger.h>
-#include <io.h>
-#include <stdarg.h>
-#include "io/serial/serial.h"
 #include "io/portio/portio.h"
+#include "io/serial/serial.h"
+#include <io.h>
+#include <logger.h>
+#include <stdarg.h>
 
-#define SERIAL_RECEIVED(_PORT)    (read_port(_PORT + 5) & 1)
-#define SERIAL_SEND_EMPTY(_PORT)  (read_port(_PORT + 5) & 0x20)
+#define SERIAL_RECEIVED(_PORT)    (read_port((_PORT) + 5) & 1)
+#define SERIAL_SEND_EMPTY(_PORT)  (read_port((_PORT) + 5) & 0x20)
 
 static inline void serial_init_port(int port)
 {
@@ -33,8 +33,9 @@ void serial_init()
 void serial_write(int port, char *data)
 {
   while(*data != '\0') {
-    while (SERIAL_SEND_EMPTY(port) == 0)
+    while (SERIAL_SEND_EMPTY(port) == 0) {
       ; /* nop */
+}
 
     write_port(port, (int)*data);
     data++;
@@ -43,8 +44,9 @@ void serial_write(int port, char *data)
 
 int serial_read(int port)
 {
-  while (SERIAL_RECEIVED(port) == 0)
+  while (SERIAL_RECEIVED(port) == 0) {
     ; /* nop */
+}
 
   return read_port(port);
 }

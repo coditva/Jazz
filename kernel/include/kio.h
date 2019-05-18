@@ -3,7 +3,7 @@
 
 #include <stdarg.h>
 
-int     kputc       (const char data);
+int     kputc       (char data);
 
 int     kprintf     (const char *format, ...);
 int     keprintf    (int error_level, const void *format, ...);
