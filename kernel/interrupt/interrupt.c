@@ -9,13 +9,13 @@ extern void double_fault_handler_int(void);
 
 void isr_set_keyboard(void)
 {
-  uint32_t keyboard_address = (uint32_t)&keyboard_handler_int;
+  uintptr_t keyboard_address = (uintptr_t)&keyboard_handler_int;
   idt_set_gate(0x21, keyboard_address, 0x08, 0x8e);
 }
 
 void isr_set_double_fault(void)
 {
-  idt_set_gate(0x08, (uint32_t)&double_fault_handler_int, 0x08, 0x8f);
+  idt_set_gate(0x08, (uintptr_t)&double_fault_handler_int, 0x08, 0x8f);
 }
 
 void isr_init_keyboard(void)
@@ -28,7 +28,7 @@ void isr_init_keyboard(void)
 
 idt_t idt[IDT_SIZE];
 
-void idt_set_gate(int offset, uint32_t base, uint16_t selector,
+void idt_set_gate(int offset, uintptr_t base, uint16_t selector,
     uint8_t type_attr)
 {
   idt[offset].offset_1  = base & 0xffff;
@@ -42,7 +42,7 @@ void idt_init(void)
 {
   klog_status_init("IDT");
 
-  uint32_t idt_address = (uint32_t)&idt;
+  uintptr_t idt_address = (uintptr_t)&idt;
   idt_ptr_t idt_pointer = {
     .limit = (sizeof(idt_t) * IDT_SIZE) - 1,
     .base = idt_address

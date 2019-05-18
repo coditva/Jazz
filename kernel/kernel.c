@@ -24,7 +24,10 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   multiboot_dump_info(multiboot_info, multiboot_magic);
 #endif
 
-  page_frame_init(&endkernel, multiboot_info);
+  klog(LOG_DEBUG, "uintptr_t: %x\n", sizeof(uintptr_t));
+  klog(LOG_DEBUG, "unsigned long: %x\n", sizeof(unsigned long));
+  klog(LOG_DEBUG, "unsigned long long: %x\n", sizeof(unsigned long long));
+  page_frame_init((uintptr_t)&endkernel, multiboot_info);
 #ifdef DEBUG
   page_frame_dump_map();
   void *page1 = NULL, *page2 = NULL;

@@ -21,7 +21,10 @@ static uint32_t     frames_bitmap_pages;
 
 
 /* size of each frame that is allocated in bytes */
-#define FRAME_SIZE  (4096 / 8)          /* 4KB */
+#define FRAME_SIZE  (4096 / 8)  /* 4KB */
+#define BITMAP_SIZE (8 * sizeof(*frames_bitmap))
+
+#define FRAME_SIZE_KB 4
 
 /* value in bitmap for used/free */
 #define FRAME_FREE  0
@@ -56,25 +59,33 @@ static inline void memory_mark_free(uintptr_t low_address,
 }
 
 
-void page_frame_init (void *base_address, multiboot_info_t *multiboot_info)
+void page_frame_init(uintptr_t base_address, multiboot_info_t *multiboot_info)
 {
   klog_status_init("page_frame");
 
   /* calculate and allocate space for frames_bitmap */
-  frames_bitmap = base_address;
-  num_frames = (multiboot_info->mem_upper) / sizeof(*frames_bitmap);
-  frames_bitmap_size = (num_frames + 32 - 1) / 32;
-  memset(frames_bitmap, -1, frames_bitmap_size);
+  frames_bitmap = (void *)base_address;
+  num_frames = (multiboot_info->mem_upper + FRAME_SIZE_KB - 1) / FRAME_SIZE_KB;
+  frames_bitmap_size = (num_frames + BITMAP_SIZE - 1) / BITMAP_SIZE;
+  memset(frames_bitmap, FRAME_USED,
+      frames_bitmap_size * sizeof(*frames_bitmap));
 
   /* start memory allocation after frames_bitmap. doing this ensures that there
    * is memory allocated for the bitmap. */
   frames_bitmap_pages = (frames_bitmap_size + FRAME_SIZE - 1) / FRAME_SIZE;
-  memory_base_address = (uintptr_t)(base_address + (FRAME_SIZE * frames_bitmap_pages));
+  memory_base_address =
+    base_address + (FRAME_SIZE * frames_bitmap_pages);
 
   /* mark all free pages */
   FOREACH_MEMORY_MAP(mmap, multiboot_info) {
     if (mmap->type == MULTIBOOT_MEM_TYPE_FREE) {
-      memory_mark_free(mmap->base_addr_low, mmap->len_low);
+      klog(LOG_DEBUG, "size: %x\n", sizeof(uintptr_t));
+      klog(LOG_DEBUG, "size: %x\n", sizeof(uint32_t));
+      klog(LOG_DEBUG, "size: %x\n", sizeof(uint64_t));
+      uintptr_t address = 0// ((uintptr_t)mmap->base_addr_high << 32)
+          + mmap->base_addr_low;
+      /*klog(LOG_DEBUG, "Free memory at 0x%x\n", address);*/
+      memory_mark_free(address, address + mmap->len_low);
     }
   }
 

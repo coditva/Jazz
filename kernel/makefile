@@ -1,5 +1,5 @@
 ifndef TARGET
-	TARGET    = i686-elf
+	TARGET    = x86_64-elf
 endif
 
 CC            = ../.deps/cross/bin/$(TARGET)-gcc
@@ -47,7 +47,7 @@ $(BIN):			$(OBJS) $(INCLUDE) $(ASM_OBJS) $(BUILD_DIR)
 				$(LD) -T linker.ld $(OBJS) $(ASM_OBJS) -o $@
 
 $(ASM_OBJS):	%_asm.o:%.asm $(INCLUDE_DIR)/asm/*.asm
-				$(CC_ASM) -f elf32 $< -o $@
+				$(CC_ASM) -f elf64 $< -o $@
 
 $(OBJS):%.o:   	%.c $(INCLUDE) $(INCLUDE_DIR)/*
 				$(CC) $(CC_FLAGS) $(CD_FLAGS) -I. -I${INCLUDE_DIR} -c $< -o $@

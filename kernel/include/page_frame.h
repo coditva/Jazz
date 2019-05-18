@@ -8,10 +8,10 @@
  * Initializes the memory frames bitmap, which will be used later by alloc/free
  * functions. It also allocates some pages to store the said bitmap.
  *
- * @param void *            base address where kernel ends
+ * @param uintptr_t         base address where kernel ends
  * @param multiboot_into_t  multiboot info
  */
-void        page_frame_init     (void * base_address,
+void        page_frame_init     (uintptr_t base_address,
                                  multiboot_info_t *multiboot_info);
 
 /**
