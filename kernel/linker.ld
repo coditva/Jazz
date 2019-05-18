@@ -11,8 +11,9 @@ SECTIONS
     *(.text)
   }
 
-  .data ALIGN(0x1000) : {
+  .data : {
     *(.data)
+    . = ALIGN(4096);
   }
 
   .bss  : {

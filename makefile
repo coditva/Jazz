@@ -1,7 +1,7 @@
 GCC_VERSION       = 5.4.0
 BINUTILS_VERSION  = 2.29
 DEPS_PREFIX       = $(shell pwd)/.deps/cross
-TARGET            = i686-elf
+TARGET            = x86_64-elf
 
 BUILD_DIR         = build
 DISK_IMG          = $(BUILD_DIR)/disk.img

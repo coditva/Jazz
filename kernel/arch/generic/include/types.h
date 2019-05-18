@@ -1,7 +1,7 @@
 #ifndef TYPES_H_SNRJBAVH
 #define TYPES_H_SNRJBAVH
 
-#include "include/generic/ll64.h"
+#include "include/generic/lp64.h"
 
 #define __kernel_size_t     __u32
 
