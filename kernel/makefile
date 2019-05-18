@@ -11,28 +11,13 @@ CD_FLAGS      = -g
 BUILD_DIR     = ../build/kernel
 BIN           = $(BUILD_DIR)/kernel.bin
 
-ASM_OBJS      = kernel_asm.o
+ASM_SRC       = $(shell find . -name "*.asm")
+ASM_OBJ       = $(patsubst %.asm,%_asm.o,$(ASM_SRC))
 
-OBJS          = kernel.o \
-                interrupt/interrupt.o \
-                interrupt/handler.o \
-                boot/gdt.o \
-                io/video/video.o \
-                io/serial/serial.o \
-                io/io.o \
-                io/kio.o \
-                boot/multiboot.o \
-                mm/page_frame.o \
-                lib/string.o \
-                lib/kcheck.o
+SRC           = $(shell find . -name "*.c")
+OBJ           = $(patsubst %.c,%.o,$(SRC))
 
-INCLUDE       = interrupt/interrupt.h \
-                util/keyboard_map.h \
-                config.h \
-                boot/gdt.h \
-                io/portio/portio.h \
-                io/video/video.h \
-                io/serial/serial.h \
+INCLUDE       = $(shell find . -name "*.h")
 
 INCLUDE_DIR   = include
 phony         =
@@ -43,14 +28,23 @@ all:          	$(BIN)
 $(BUILD_DIR):
 				mkdir -p $(BUILD_DIR)
 
-$(BIN):			$(OBJS) $(INCLUDE) $(ASM_OBJS) $(BUILD_DIR)
-				$(LD) -T linker.ld $(OBJS) $(ASM_OBJS) -o $@
+$(BIN):			.COMPILER_INFO $(BUILD_DIR) $(ASM_OBJ) $(OBJ)
+				@$(LD) -T linker.ld $(OBJ) $(ASM_OBJ) -o $@
+				@echo building $@
 
-$(ASM_OBJS):	%_asm.o:%.asm $(INCLUDE_DIR)/asm/*.asm
-				$(CC_ASM) -f elf32 $< -o $@
+$(ASM_OBJ):%_asm.o: %.asm makefile
+				@$(CC_ASM) -f elf32 $< -o $@
+				@echo building $@
 
-$(OBJS):%.o:   	%.c $(INCLUDE) $(INCLUDE_DIR)/*
-				$(CC) $(CC_FLAGS) $(CD_FLAGS) -I. -I${INCLUDE_DIR} -c $< -o $@
+$(OBJ):%.o:   	%.c $(INCLUDE) makefile
+				@$(CC) $(CC_FLAGS) $(CD_FLAGS) -I. -I${INCLUDE_DIR} -c $< -o $@
+				@echo building $@
+
+.COMPILER_INFO:
+				@touch .COMPILER_INFO
+				@echo -- using `$(CC_ASM) -v`
+				@echo -- using $(CC) `$(CC) -dumpversion` `$(CC) -dumpmachine`
+				@echo -- using $(LD) `$(LD) -v`
 
 phony 			+= qemu
 qemu: 			all
@@ -59,7 +53,7 @@ qemu: 			all
 
 phony 			+= clean
 clean:
-				rm -rf $(BIN) $(OBJS) $(ASM_OBJS)
+				rm -rf $(BIN) $(OBJ) $(ASM_OBJ) .COMPILER_INFO
 
 phony 			+= tags
 tags:

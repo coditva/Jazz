@@ -18,11 +18,6 @@ section .multiboot
                             ; magic + flags + checksum = zero
 
 
-%include "include/asm/portio.asm"
-%include "include/asm/interrupt.asm"
-%include "include/asm/handler.asm"
-%include "include/asm/gdt.asm"
-
 
 extern kmain                ; it is convention to name main kernel
                             ; function kmain
