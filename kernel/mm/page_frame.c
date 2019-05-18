@@ -27,6 +27,7 @@ static uint32_t     frames_bitmap_pages;
 /* size of each frame that is allocated in bytes */
 #define FRAME_SIZE          4096            /* 4KB */
 #define FRAME_SIZE_BYTES    512             /* 4096/8 */
+#define BLOCK_SIZE          1024
 #define BLOCKS_PER_FRAME    4               /* each block is 1KB */
 
 /* value in bitmap for used/free */
@@ -34,12 +35,12 @@ static uint32_t     frames_bitmap_pages;
 #define FRAME_USED  (-1)
 
 
-static inline void frame_mark_used(int frame_line, int frame_index) {
-  frames_bitmap[frame_line] |= (unsigned int)FRAME_USED << frame_index;
+static inline void frame_mark_used(uint64_t frame_line, int frame_index) {
+  frames_bitmap[frame_line] |= 1 << frame_index;
 }
 
-static inline void frame_mark_free(int frame_line, int frame_index) {
-  frames_bitmap[frame_line] &= FRAME_FREE << frame_index;
+static inline void frame_mark_free(uint64_t frame_line, int frame_index) {
+  frames_bitmap[frame_line] &= ~(1 << frame_index);
 }
 
 static inline uintptr_t frame_get_address(int frame_line, int frame_index) {
@@ -56,7 +57,7 @@ void page_frame_init (void *base_address, multiboot_info_t *multiboot_info)
   frames_bitmap = base_address;
   num_frames = (multiboot_info->mem_upper) / BLOCKS_PER_FRAME;
   frames_bitmap_size = num_frames / FRAMES_PER_BITMAP;
-  memset(frames_bitmap, FRAME_FREE, frames_bitmap_size);
+  memset(frames_bitmap, FRAME_USED, frames_bitmap_size);
 
   /* start memory allocation after frames_bitmap. doing this ensures that there
    * is memory allocated for the bitmap. */
@@ -65,15 +66,42 @@ void page_frame_init (void *base_address, multiboot_info_t *multiboot_info)
   memory_base_address =
       ((uintptr_t)base_address + (FRAME_SIZE * frames_bitmap_pages));
 
+
   /* mark all free pages */
   FOREACH_MEMORY_MAP(mmap, multiboot_info) {
-    if (mmap->type == MULTIBOOT_MEM_TYPE_FREE) {
-      /* TODO: mark the whole memory at one go with memset */
-      uintptr_t address = mmap->base_addr_low;
-      while (address < mmap->base_addr_high || address < memory_base_address) {
-        frame_mark_free(address / FRAMES_PER_BITMAP_BYTES,
-            address % FRAMES_PER_BITMAP_BYTES);
-        address += FRAME_SIZE_BYTES;
+    uintptr_t memory_lower_range = memory_base_address;
+    uintptr_t memory_upper_range = multiboot_info->mem_upper * BLOCK_SIZE;
+    uintptr_t mmap_limit = mmap->base_addr_low + mmap->len_low;
+
+    /* ensure they are inside our bitmap range i.e. from
+     * `memory_base_address` to `multiboot_info->mem_upper` */
+    if (mmap->type == MULTIBOOT_MEM_TYPE_FREE
+        && !(memory_lower_range < mmap->base_addr_low
+            && memory_upper_range < mmap_limit)
+        && !(memory_lower_range > mmap->base_addr_low
+            && memory_upper_range > mmap_limit)
+        ) {
+
+      /* change lower and upper ranges a/c to mmap */
+      if (memory_lower_range < mmap->base_addr_low) {
+        memory_lower_range = mmap->base_addr_low;
+      }
+      if (memory_upper_range > mmap_limit) {
+        memory_upper_range = mmap_limit;
+      }
+
+      /* scale ranges to frame_bitmap */
+      memory_lower_range =
+        (memory_lower_range - memory_base_address) / FRAME_SIZE;
+      memory_upper_range =
+        (memory_upper_range - memory_base_address) / FRAME_SIZE;
+
+      /* mark the memory as free.
+       * TODO: mark the whole memory at one go with memset */
+      while (memory_lower_range < memory_upper_range) {
+        frame_mark_free(memory_lower_range / FRAMES_PER_BITMAP,
+            memory_lower_range % FRAMES_PER_BITMAP);
+        memory_lower_range += 1;
       }
     }
   }
@@ -136,7 +164,7 @@ void page_frame_dump_map(void)
   klog(LOG_DEBUG, "Frames bitmap at address   : 0x%x\n", &frames_bitmap);
   klog(LOG_DEBUG, "Base address for allocation: 0x%x\n", memory_base_address);
 
-  for (uintptr_t j = 0; j < frames_bitmap_size + 1; j++) {
+  for (uintptr_t j = 0; j < frames_bitmap_size; j++) {
     klog(LOG_DEBUG, "\n0x%x:", frame_get_address(j, 0));
 
     for (uintptr_t k = 0; k < FRAMES_PER_BITMAP; k++) {
@@ -144,10 +172,10 @@ void page_frame_dump_map(void)
         klog(LOG_DEBUG, " ");
       }
 
-      if ((frames_bitmap[j] | (FRAME_FREE << k)) == 0) {  /* free */
-        klog(LOG_DEBUG, ".");
-      } else {
+      if ((frames_bitmap[j] & (1 << k))) {  /* used */
         klog(LOG_DEBUG, "#");
+      } else {
+        klog(LOG_DEBUG, ".");
       }
     }
   }
