@@ -1,5 +1,5 @@
 #include <helper.h>
-#include <page_table.h>
+#include <mm/page_table.h>
 #include <types.h>
 
 void * page_table_get(uintptr_t page_dir_index, uintptr_t index)

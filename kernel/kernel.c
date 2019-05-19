@@ -1,9 +1,9 @@
 #include <kcheck.h>
 #include <kio.h>
 #include <logger.h>
+#include <mm/page_frame.h>
+#include <mm/paging.h>
 #include <multiboot.h>
-#include <page_frame.h>
-#include <paging.h>
 
 #include "boot/gdt.h"
 #include "interrupt/interrupt.h"

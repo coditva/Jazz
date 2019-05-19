@@ -1,8 +1,8 @@
 #include <logger.h>
-#include <page_directory.h>
-#include <page_frame.h>
-#include <page_table.h>
-#include <paging.h>
+#include <mm/page_directory.h>
+#include <mm/page_frame.h>
+#include <mm/page_table.h>
+#include <mm/paging.h>
 #include <types.h>
 
 #define PAGE_DIR_SIZE   1024
