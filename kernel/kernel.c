@@ -38,6 +38,7 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   page1 = page_frame_alloc();
   page_frame_free(page1);
   page2 = page_frame_alloc();
+  page_frame_free(page2);
   kcheck(page1 == page2, "page_frame_alloc()");
 #endif
 

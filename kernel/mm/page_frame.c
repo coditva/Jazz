@@ -35,6 +35,11 @@ static uint32_t     frames_bitmap_pages;
 #define FRAME_USED  (-1)
 
 
+/* keeping track of where we are on bitmap while allocation/freeing */
+static uint32_t current_bitmap_line = 0;
+static uint32_t current_bitmap_index = 0;
+
+
 static inline void frame_mark_used(uint64_t frame_line, int frame_index) {
   frames_bitmap[frame_line] |= 1 << frame_index;
 }
@@ -109,11 +114,13 @@ void page_frame_init (void *base_address, multiboot_info_t *multiboot_info)
   klog_status_ok("page_frame");
 }
 
-void * page_frame_alloc (void)
+inline void * page_frame_alloc(void)
 {
-  static uint32_t current_bitmap_line = 0;
-  static uint32_t current_bitmap_index = 0;
+  return page_frame_n_alloc(1);
+}
 
+void * page_frame_n_alloc (int number_of_pages)
+{
   klog(LOG_DEBUG, "page_frame_alloc: Allocating frame ");
 
   /* go to next free frame line */
@@ -129,27 +136,77 @@ void * page_frame_alloc (void)
   /* go to next free frame bit */
   uint32_t current_bitmap = (FRAME_FREE << current_bitmap_index) + 1;
   while ((frames_bitmap[current_bitmap_line] | current_bitmap) == 0) {/* miss */
-    klog(LOG_DEBUG, "#");
+    klog(LOG_DEBUG, "x");
     current_bitmap_index += 1;
-    if (current_bitmap_index == FRAMES_PER_BITMAP_BYTES) {  /* wrap around */
+    if (current_bitmap_index == FRAMES_PER_BITMAP) {  /* wrap around */
       current_bitmap_index = 0;
     }
 
     current_bitmap = (FRAME_FREE << current_bitmap_index) + 1;
   }
+
+  /* allocate required pages */
+  int allocated_pages = 0;
+  int32_t start_line = 0;
+  int32_t start_index = 0;
+  while (allocated_pages < number_of_pages) {
+    current_bitmap = (FRAME_FREE << current_bitmap_index) + 1;
+    if ((frames_bitmap[current_bitmap_line] | current_bitmap) == 0) {/* miss */
+      allocated_pages = 0;
+      klog(LOG_DEBUG, "#");
+    } else {
+      allocated_pages += 1;
+    }
+
+    if (allocated_pages == 1) {
+      start_line = current_bitmap_line;
+      start_index = current_bitmap_index;
+    }
+
+    current_bitmap_index += 1;
+    if (current_bitmap_index == FRAMES_PER_BITMAP) { /* go to next line */
+      current_bitmap_line += 1;
+      current_bitmap_index = 0;
+    }
+  }
+
   klog(LOG_DEBUG, ".\n");
 
-  frame_mark_used(current_bitmap_line, current_bitmap_index);
-  return (void *)frame_get_address(current_bitmap_line, current_bitmap_index);
+  int line = start_line;
+  int index = start_index;
+  for (int i = 0; i < number_of_pages; ++i) {
+    frame_mark_used(line, index);
+    index += 1;
+    if (index == FRAMES_PER_BITMAP) {
+      index = 0;
+      line += 1;
+    }
+  }
+
+  return (void *)frame_get_address(start_line, start_index);
 }
 
-void page_frame_free (void *page_addr)
+inline void page_frame_free (void *page_addr) {
+  page_frame_n_free(page_addr, 1);
+}
+
+void page_frame_n_free (void *page_addr, int number_of_pages)
 {
-  uint32_t line;
-  uint32_t index;
-  line = ((uintptr_t)page_addr - memory_base_address) / FRAMES_PER_BITMAP;
-  index = ((uintptr_t)page_addr - memory_base_address) % FRAMES_PER_BITMAP;
-  frame_mark_free(line, index);
+  uintptr_t addr = ((uintptr_t)page_addr - memory_base_address) / FRAME_SIZE;
+  uint32_t line = addr / FRAMES_PER_BITMAP;
+  uint32_t index = addr % FRAMES_PER_BITMAP;
+
+  current_bitmap_line = line;
+  current_bitmap_index = index;
+
+  for (int i = 0; i < number_of_pages; ++i) {
+    frame_mark_free(line, index);
+    index += 1;
+    if (index == FRAMES_PER_BITMAP) {
+      index = 0;
+      line += 1;
+    }
+  }
 }
 
 #ifdef DEBUG

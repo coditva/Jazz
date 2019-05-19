@@ -11,8 +11,7 @@
  * @param void *            base address where kernel ends
  * @param multiboot_into_t  multiboot info
  */
-void        page_frame_init     (void * base_address,
-                                 multiboot_info_t *multiboot_info);
+void        page_frame_init     (void *, multiboot_info_t *);
 
 /**
  * Allocate a page from memory and return it's address.
@@ -22,11 +21,28 @@ void        page_frame_init     (void * base_address,
 void *      page_frame_alloc    (void);
 
 /**
+ * Allocate a number of contiguous pages from memory and return the address of
+ * the first page.
+ *
+ * @param  int              Number of pages to allocate
+ * @return void *           Address of the allocated page
+ */
+void *      page_frame_n_alloc  (int);
+
+/**
  * Free an allocated page from memory.
  *
  * @param void *            Address of an allocated page
  */
-void        page_frame_free     (void *page_addr);
+void        page_frame_free     (void *);
+
+/**
+ * Free a number of contiguously allocated pages from memory.
+ *
+ * @param void *            Address of an allocated page
+ * @param int               Number of pages to free
+ */
+void        page_frame_n_free     (void *, int);
 
 
 # ifdef DEBUG
