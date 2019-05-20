@@ -40,8 +40,8 @@ $(ASM_OBJ):%_asm.o: %.asm makefile
 				@echo building $@
 
 $(OBJ):%.o:   	%.c $(INCLUDE) makefile
-				@$(CC) $(CC_FLAGS) $(CD_FLAGS) -I. -I${INCLUDE_DIR} -c $< -o $@
 				@echo building $@
+				@$(CC) $(CC_FLAGS) $(CD_FLAGS) -I. -I${INCLUDE_DIR} -c $< -o $@
 
 .COMPILER_INFO:
 				@touch .COMPILER_INFO
@@ -51,8 +51,14 @@ $(OBJ):%.o:   	%.c $(INCLUDE) makefile
 
 phony 			+= qemu
 qemu: 			all
-				qemu-system-x86_64 -kernel $(BUILD_DIR)/kernel.bin \
+				qemu-system-x86_64 -kernel $(BIN) \
 					-serial file:///tmp/jazz_serial1.log
+
+gdb:			all
+				gdb $(BIN) \
+					-ex "set architecture i386:x86-64" \
+					-ex "target remote | qemu-system-x86_64 -kernel $(BIN) \
+						-serial file:///tmp/jazz_serial1.log -gdb stdio -S"
 
 phony			+= lint
 lint:
