@@ -25,9 +25,11 @@ $(BINUTILS): binutils-$(BINUTILS_VERSION)
 
 gcc-$(GCC_VERSION): gcc-$(GCC_VERSION).tar.gz
 	tar -xzf gcc-$(GCC_VERSION).tar.gz
+	touch $@
 
 binutils-$(BINUTILS_VERSION): binutils-$(BINUTILS_VERSION).tar.gz
 	tar -xzf binutils-$(BINUTILS_VERSION).tar.gz
+	touch $@
 
 gcc-$(GCC_VERSION).tar.gz:
 	wget \
