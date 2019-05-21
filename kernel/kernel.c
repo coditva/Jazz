@@ -57,7 +57,7 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 #ifdef DEBUG
   { /* sanity check for paging */
     uintptr_t *page = page_frame_alloc();
-    uintptr_t *addr1 = page;
+    uintptr_t *addr1 = (void *)0x00400000;
     uintptr_t *addr2 = addr1 + 1024;
 
     paging_map_page(page, addr1, 0x02);
@@ -65,10 +65,6 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 
     *addr1 = 0xcafebabe;
     *addr2 = 0xdeadbeef;
-
-    klog(LOG_INFO, "%x: %x\n", addr1, *addr1);
-    klog(LOG_INFO, "%x: %x\n", addr2, *addr2);
-    klog(LOG_INFO, "%x: %x\n", page, *page);
     kcheck(*addr1 == *addr2, "paging enabled");
   }
 #endif

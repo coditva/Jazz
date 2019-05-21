@@ -3,6 +3,9 @@
 
 #include <types.h>
 
+#define PAGE_DIR_SIZE   1024
+#define PAGE_TAB_SIZE   1024
+
 /**
  * Setup and initialize paging.
  */
@@ -36,5 +39,12 @@ int paging_map_page(void *, void *, uint32_t);
  * @param   void *          Virtual address to unmap
  */
 void paging_unmap_page(void *);
+
+#ifdef DEBUG
+/**
+ * Dump the paging directory structures
+ */
+void paging_dump_map(void);
+#endif
 
 #endif /* end of include guard: PAGING_H_L4JMLPEK */
