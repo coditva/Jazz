@@ -1,6 +1,6 @@
 #include <logger.h>
+#include <mm/page_frame.h>
 #include <multiboot.h>
-#include <page_frame.h>
 #include <string.h>
 #include <types.h>
 
@@ -57,6 +57,10 @@ static inline uintptr_t frame_get_address(int frame_line, int frame_index) {
 void page_frame_init (void *base_address, multiboot_info_t *multiboot_info)
 {
   klog_status_init("page_frame");
+
+  /* align address to frame size */
+  base_address = (void *)((uintptr_t)base_address & ~(FRAME_SIZE - 1));
+  base_address += FRAME_SIZE;
 
   /* calculate and allocate space for frames_bitmap */
   frames_bitmap = base_address;
@@ -218,7 +222,7 @@ void page_frame_dump_map(void)
   klog(LOG_DEBUG, "Number of frames           : %d\n", num_frames);
   klog(LOG_DEBUG, "Number of bitmap lines     : %d\n", frames_bitmap_size);
   klog(LOG_DEBUG, "Number of bitmap pages     : %d\n", frames_bitmap_pages);
-  klog(LOG_DEBUG, "Frames bitmap at address   : 0x%x\n", &frames_bitmap);
+  klog(LOG_DEBUG, "Frames bitmap at address   : 0x%x\n", frames_bitmap);
   klog(LOG_DEBUG, "Base address for allocation: 0x%x\n", memory_base_address);
 
   for (uintptr_t j = 0; j < frames_bitmap_size; j++) {
