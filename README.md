@@ -14,6 +14,34 @@ Although I am trying to make it as elaborate as possible, it might not be comple
 Also, it is still unverified _n00b_ knowledge.
 Don't trust unless you verify. And if you find an error, do report it.
 
+## Development
+### Build
+```bash
+make deps       # to build cross-compiler
+make kernel     # to build kernel
+make all        # to build everything
+```
+Most of the work is in kernel itself and the standalone kernel can be build from
+inside the `kernel/` directory.
+```bash
+cd kernel/
+make            # build the kernel
+make qemu       # run the kernel on qemu
+make gdb        # run a gdb session with qemu
+```
+
+### Linting
+It is recommended to use `clang-tidy` as the linting tool to keep the codebase
+clean:
+```bash
+make lint       # run clang-tidy on source files
+```
+
+### Debug
+Aside from `qemu` and `gdb`, there is extensive logging on the serial port which
+can be accessed at `/tmp/jazz_serial1.log` file when `qemu` is started from the
+makefile as `make qemu`.
+
 ## Todo
 The todo/plan can be found [here](https://github.com/coditva/Jazz/blob/master/TODO).
 
