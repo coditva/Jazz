@@ -2,6 +2,7 @@
 #define PAGING_H_L4JMLPEK
 
 #include <types.h>
+#include <mm/types.h>
 
 #define PAGE_DIR_SIZE   1024
 #define PAGE_TAB_SIZE   1024
@@ -14,7 +15,14 @@ void paging_init();
 /**
  * Pointer to the paging directory
  */
-extern uintptr_t *page_directory;
+extern struct page_directory_entry *page_directory;
+
+/**
+ * Load the given page directory. Implemented in asm.
+ *
+ * @param   uintptr_t * Address of page directory
+ */
+extern void page_directory_load(uintptr_t *);
 
 /**
  * Enable the paging. Implemented in asm.
