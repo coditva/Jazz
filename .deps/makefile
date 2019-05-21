@@ -3,7 +3,7 @@ BINUTILS = $(PREFIX)/bin/$(TARGET)-as
 MAKE	 = make --quiet
 
 .PHONY: all clean distclean
-all: $(GCC) $(BINUTILS)
+all: $(BINUTILS) $(GCC)
 
 $(GCC): gcc-$(GCC_VERSION) $(BINUTILS)
 	mkdir -p build-gcc-$(GCC_VERSION) \
@@ -25,9 +25,11 @@ $(BINUTILS): binutils-$(BINUTILS_VERSION)
 
 gcc-$(GCC_VERSION): gcc-$(GCC_VERSION).tar.gz
 	tar -xzf gcc-$(GCC_VERSION).tar.gz
+	touch $@
 
 binutils-$(BINUTILS_VERSION): binutils-$(BINUTILS_VERSION).tar.gz
 	tar -xzf binutils-$(BINUTILS_VERSION).tar.gz
+	touch $@
 
 gcc-$(GCC_VERSION).tar.gz:
 	wget \
