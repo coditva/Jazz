@@ -3,7 +3,7 @@ BINUTILS = $(PREFIX)/bin/$(TARGET)-as
 MAKE	 = make --quiet
 
 .PHONY: all clean distclean
-all: $(GCC) $(BINUTILS)
+all: $(BINUTILS) $(GCC)
 
 $(GCC): gcc-$(GCC_VERSION) $(BINUTILS)
 	mkdir -p build-gcc-$(GCC_VERSION) \
