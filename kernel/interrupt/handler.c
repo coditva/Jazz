@@ -30,5 +30,7 @@ void div_by_zero_handler(void)
 void double_fault_handler(void)
 {
   klog(LOG_ERROR, "\n------- DOUBLE FAULT -------\n");
-  while (1);
+  while (1) {
+    ;
+  }
 }

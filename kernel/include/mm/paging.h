@@ -1,8 +1,8 @@
 #ifndef PAGING_H_L4JMLPEK
 #define PAGING_H_L4JMLPEK
 
-#include <types.h>
 #include <mm/types.h>
+#include <types.h>
 
 #define PAGE_DIR_SIZE   1024
 #define PAGE_TAB_SIZE   1024

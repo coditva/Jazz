@@ -1,6 +1,8 @@
 #ifndef TYPES_H_A3DIQNTC
 #define TYPES_H_A3DIQNTC
 
+#include <types.h>
+
 /**
  * Struct for storing page directory entry information
  */
