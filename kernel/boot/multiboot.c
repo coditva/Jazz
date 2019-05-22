@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <logger.h>
 #include <multiboot.h>
 
@@ -11,7 +12,8 @@ static inline void multiboot_dump_mmap(multiboot_info_t *info)
 
     int i = 0;
     klog(LOG_DEBUG, LOG_HRULE);
-    klog(LOG_DEBUG, "   | size       | base                | length              | type\n");
+    klog(LOG_DEBUG,
+        "   | size       | base                | length              | type\n");
     klog(LOG_DEBUG, LOG_HRULE);
     FOREACH_MEMORY_MAP(mmap, info) {
       klog(LOG_DEBUG, " %d | 0x%x | 0x%x %x | 0x%x %x | %d\n",
@@ -26,12 +28,10 @@ static inline void multiboot_dump_mmap(multiboot_info_t *info)
 #endif
 
 #ifdef DEBUG
-inline void multiboot_dump_info(multiboot_info_t *info, uint32_t multiboot_magic)
+inline void multiboot_dump_info(multiboot_info_t *info,
+    uint32_t multiboot_magic)
 {
-  if (multiboot_magic != MULTIBOOT_EAX_MAGIC) {
-    klog(LOG_ERROR, "invalid multiboot signature\n");
-    return;
-  }
+  assert(multiboot_magic == MULTIBOOT_EAX_MAGIC);
 
   klog(LOG_DEBUG, LOG_HRULE);
   klog(LOG_DEBUG, "MULTIBOOT DUMP START\n");
