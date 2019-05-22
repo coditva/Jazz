@@ -55,7 +55,7 @@ void paging_init()
 
   /* create an empty page directory */
   page_directory = page_frame_alloc();
-  for (uint32_t i = 0; i < PAGE_DIR_SIZE; i++) {
+  for (int i = 0; i < PAGE_DIR_SIZE; i++) {
     /* Sets flags = kernel-mode, write enabled, not-present (empty) */
     page_directory[i].is_user = 0;
     page_directory[i].rw = 1;
@@ -64,7 +64,7 @@ void paging_init()
 
   /* map the first few pages (this includes the kernel pages too) */
   struct page_table_entry *page_table = page_frame_alloc();
-  for (uint32_t i = 0; i < PAGE_TAB_SIZE; i++) {
+  for (int i = 0; i < PAGE_TAB_SIZE; i++) {
     page_table_set_value(&page_table[i], (i * 0x1000) | 3);
   }
 
@@ -84,8 +84,8 @@ void paging_init()
 int paging_map_page(void *physical_address, void *virtual_address,
     uint32_t flags)
 {
-  uintptr_t page_dir_index;
-  uintptr_t page_tab_index;
+  uint32_t page_dir_index;
+  uint32_t page_tab_index;
   struct page_table_entry *page_table;
 
   klog(LOG_DEBUG, "paging_map_page: mapping 0x%x to 0x%x\n",
@@ -105,7 +105,8 @@ int paging_map_page(void *physical_address, void *virtual_address,
     page_table = page_frame_alloc();
     memset(page_table, 0, PAGE_TAB_SIZE * sizeof(struct page_table_entry));
 
-    page_directory_set_value(&page_directory[page_dir_index], (uintptr_t)page_table);
+    page_directory_set_value(&page_directory[page_dir_index],
+        (uintptr_t)page_table);
     page_directory[page_dir_index].rw = 1;
     page_directory[page_dir_index].present = 1;
     klog(LOG_DEBUG, "paging_map_page: new directory entry: 0x%x\n",
