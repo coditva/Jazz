@@ -17,6 +17,7 @@ The source code is available at: [UtkarshMe/Jazz](https://github.com/UtkarshMe/J
   - [Interrupt Descriptor Table](idt)
   - [Keyboard Interrupt Service Routine](keyboard-isr)
   - [Serial ports I/O](serial_port)
+  - [GDT](gdt)
 
 ## License
 [MIT](https://github.com/UtkarshMe/Jazz/blob/master/LICENSE)
