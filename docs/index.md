@@ -19,6 +19,9 @@ The source code is available at: [coditva/Jazz](https://github.com/coditva/Jazz)
   - [Serial ports I/O](serial_port)
   - [GDT](gdt)
   - [Multiboot Specification Compliance](multiboot)
+  - [Memory management](memory-management)
+    - [Physical memory](physical-memory)
+    - [Virtual memory](virtual-memory)
 
 ## License
 [MIT](https://github.com/coditva/Jazz/blob/master/LICENSE)
