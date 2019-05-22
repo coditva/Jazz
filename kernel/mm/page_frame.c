@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <logger.h>
 #include <mm/page_frame.h>
 #include <multiboot.h>
@@ -48,6 +49,10 @@ static inline void frame_mark_free(uint64_t frame_line, int frame_index) {
   frames_bitmap[frame_line] &= ~(1 << frame_index);
 }
 
+static inline int frame_is_free(uint64_t frame_line, int frame_index) {
+  return frames_bitmap[frame_line] & 1 << frame_index;
+}
+
 static inline uintptr_t frame_get_address(int frame_line, int frame_index) {
   int offset = (frame_line * FRAMES_PER_BITMAP) + frame_index;
   return memory_base_address + (offset * FRAME_SIZE);
@@ -61,6 +66,7 @@ void page_frame_init (void *base_address, multiboot_info_t *multiboot_info)
   /* align address to frame size */
   base_address = (void *)((uintptr_t)base_address & ~(FRAME_SIZE - 1));
   base_address += FRAME_SIZE;
+  assert(((uintptr_t)base_address & 0xfff) == 0);
 
   /* calculate and allocate space for frames_bitmap */
   frames_bitmap = base_address;
@@ -187,7 +193,9 @@ void * page_frame_n_alloc (int number_of_pages)
     }
   }
 
-  return (void *)frame_get_address(start_line, start_index);
+  uintptr_t address = frame_get_address(start_line, start_index);
+  assert(((uintptr_t)address & 0xfff) == 0);
+  return (void *)address;
 }
 
 inline void page_frame_free (void *page_addr) {
@@ -196,6 +204,8 @@ inline void page_frame_free (void *page_addr) {
 
 void page_frame_n_free (void *page_addr, int number_of_pages)
 {
+  assert(((uintptr_t)page_addr & 0xfff) == 0);  /* page_addr is aligned */
+
   uintptr_t addr = ((uintptr_t)page_addr - memory_base_address) / FRAME_SIZE;
   uint32_t line = addr / FRAMES_PER_BITMAP;
   uint32_t index = addr % FRAMES_PER_BITMAP;
@@ -204,7 +214,9 @@ void page_frame_n_free (void *page_addr, int number_of_pages)
   current_bitmap_index = index;
 
   for (int i = 0; i < number_of_pages; ++i) {
+    assert(frame_is_free(line, index));
     frame_mark_free(line, index);
+
     index += 1;
     if (index == FRAMES_PER_BITMAP) {
       index = 0;
