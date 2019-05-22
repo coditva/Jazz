@@ -17,6 +17,7 @@ The source code is available at: [coditva/Jazz](https://github.com/coditva/Jazz)
   - [Interrupt Descriptor Table](idt)
   - [Keyboard Interrupt Service Routine](keyboard-isr)
   - [Serial ports I/O](serial_port)
+  - [GDT](gdt)
 
 ## License
 [MIT](https://github.com/coditva/Jazz/blob/master/LICENSE)
