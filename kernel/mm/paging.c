@@ -63,9 +63,9 @@ void paging_init()
   }
 
   /* map the first few pages (this includes the kernel pages too) */
-  uint32_t *page_table = page_frame_alloc();
+  struct page_table_entry *page_table = page_frame_alloc();
   for (uint32_t i = 0; i < PAGE_TAB_SIZE; i++) {
-    page_table[i] = (i * 0x1000) | 3;
+    page_table_set_value(&page_table[i], (i * 0x1000) | 3);
   }
 
   page_directory_set_value(&page_directory[0], (uintptr_t)page_table);
