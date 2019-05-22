@@ -17,7 +17,7 @@ void keyboard_handler(void)
     char data = -1;
     if ((data = read_port(0x60)) < 0) {  /* invalid data */
       return;
-}
+    }
     kputc(keyboard_map[(unsigned int)data]);
   }
 }
@@ -25,12 +25,15 @@ void keyboard_handler(void)
 void div_by_zero_handler(void)
 {
   klog(LOG_ERROR, "\n------ DIVIDE BY ZERO ------\n");
+  while (1) {
+    ; /* halt execution */
+  }
 }
 
 void double_fault_handler(void)
 {
   klog(LOG_ERROR, "\n------- DOUBLE FAULT -------\n");
   while (1) {
-    ;
+    ; /* halt execution */
   }
 }
