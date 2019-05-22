@@ -1,6 +1,8 @@
 #ifndef ASSERT_H_TVZEHNNF
 #define ASSERT_H_TVZEHNNF
 
+#include <config.h>
+
 # ifdef DEBUG
 
 #  define assert(CONDITION) \
