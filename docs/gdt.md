@@ -13,5 +13,5 @@ user data and code segments.
 - After loading the gdt, the segments have to be reloaded by jumping to new code segment and reloading the data segments.
 
 ## References
-[1] [OSDev on Global Descriptor Table](https://wiki.osdev.org/Global_Descriptor_Table)
-[2] [OSDev GDT Tutorial](https://wiki.osdev.org/GDT_Tutorial)
+- [1] [OSDev on Global Descriptor Table](https://wiki.osdev.org/Global_Descriptor_Table)
+- [2] [OSDev GDT Tutorial](https://wiki.osdev.org/GDT_Tutorial)
