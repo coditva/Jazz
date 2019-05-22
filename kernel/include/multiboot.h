@@ -1,6 +1,7 @@
 #ifndef MULTIBOOT_H_RKNBOMGQ
 #define MULTIBOOT_H_RKNBOMGQ
 
+#include <config.h>
 #include <types.h>
 
 /* magic numbers for multiboot. these help us verify that multiboot structure is
