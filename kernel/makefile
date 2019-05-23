@@ -59,7 +59,7 @@ $(OBJ):%.o:   	%.c $(INCLUDE) config.h makefile
 				@echo -- using $(CC) `$(CC) -dumpversion` `$(CC) -dumpmachine`
 				@echo -- using $(LD) `$(LD) -v`
 
-config.h:		makefile
+config.h:		makefile configure.sh
 				@echo "Generating $@"
 				@RELEASE=$(RELEASE) bash configure.sh
 

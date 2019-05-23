@@ -2,6 +2,24 @@
 
 CONFIG_FILE="config.h"
 
+# Set default configs
+DEFAULT_RELEASE=false
+DEFAULT_ARCH="ARCH_X86"
+DEFAULT_LOG_LEVEL=2
+
+
+# Load default configs if not set
+if [[ -z "$RELEASE" ]]; then
+    RELEASE=$DEFAULT_RELEASE
+fi
+if [[ -z "$ARCH" ]]; then
+    ARCH=$DEFAULT_ARCH
+fi
+if [[ -z "$LOG_LEVEL" ]]; then
+    LOG_LEVEL=$DEFAULT_LOG_LEVEL
+fi
+
+# Function to write to config
 writeconfig() {
     echo "$1" >> $CONFIG_FILE
 }
@@ -25,24 +43,24 @@ writeconfig "#define CONFIG_H_9LYYBTSW"
 writeconfig
 
 # Set build type options
-if [[ -z "$RELEASE" || "$RELEASE" == false ]]; then
+if [[ "$RELEASE" == true ]]; then
+    DEBUG=false
+    writeconfig "/* Building in release mode */"
+    writeconfig
+else
     DEBUG=true
     writeconfig "/* Building in debug mode */"
     writeconfig "#define DEBUG"
     writeconfig "#define DEBUG_TO_SERIAL"
     writeconfig
-else
-    DEBUG=false
-    writeconfig "/* Building in release mode */"
-    writeconfig
 fi
 
 writeconfig "/* Setting log level to WARN */"
-writeconfig "#define LOG_LEVEL 2"
+writeconfig "#define LOG_LEVEL $LOG_LEVEL"
 writeconfig
 
-writeconfig "/* Building for x86 architecture */"
-writeconfig "#define ARCH_X86"
+writeconfig "/* Building for $ARCH architecture */"
+writeconfig "#define $ARCH"
 writeconfig
 
 # Close include guard
