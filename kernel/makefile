@@ -2,6 +2,16 @@ ifndef TARGET
 	TARGET    = i686-elf
 endif
 
+# Set debug mode
+ifndef RELEASE
+	RELEASE = false
+endif
+
+# Set architecture type
+ifndef ARCH
+	ARCH = ARCH_X86
+endif
+
 CC            = ../.deps/cross/bin/$(TARGET)-gcc
 LD            = ../.deps/cross/bin/$(TARGET)-ld
 CC_ASM        = nasm
@@ -39,7 +49,7 @@ $(ASM_OBJ):%_asm.o: %.asm makefile
 				@$(CC_ASM) -f elf32 $< -o $@
 				@echo building $@
 
-$(OBJ):%.o:   	%.c $(INCLUDE) makefile
+$(OBJ):%.o:   	%.c $(INCLUDE) config.h makefile
 				@echo building $@
 				@$(CC) $(CC_FLAGS) $(CD_FLAGS) -I. -I${INCLUDE_DIR} -c $< -o $@
 
@@ -48,6 +58,13 @@ $(OBJ):%.o:   	%.c $(INCLUDE) makefile
 				@echo -- using `$(CC_ASM) -v`
 				@echo -- using $(CC) `$(CC) -dumpversion` `$(CC) -dumpmachine`
 				@echo -- using $(LD) `$(LD) -v`
+
+config.h:		makefile
+				@echo "Generating $@"
+				@RELEASE=$(RELEASE) bash configure.sh
+
+phony 			+= configure
+configure:		config.h
 
 phony 			+= qemu
 qemu: 			all
@@ -60,14 +77,15 @@ gdb:			all
 					-ex "target remote | qemu-system-x86_64 -kernel $(BIN) \
 						-serial file:///tmp/jazz_serial1.log -gdb stdio -S"
 
+# config.h file needs to exist before linting.
 phony			+= lint
-lint:
+lint:			configure
 				$(LINT) `find . -name "*.c" -or -name "*.h"` $(LINT_FLAGS)\
 					-- -I. -Iinclude/
 
 phony 			+= clean
 clean:
-				rm -rf $(BIN) $(OBJ) $(ASM_OBJ) .COMPILER_INFO
+				rm -rf $(BIN) $(OBJ) $(ASM_OBJ) .COMPILER_INFO config.h
 
 phony 			+= tags
 tags:
