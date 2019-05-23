@@ -61,7 +61,7 @@ $(OBJ):%.o:   	%.c $(INCLUDE) config.h makefile
 
 config.h:		makefile
 				@echo "Generating $@"
-				@RELEASE=$(RELEASE) sh configure.sh
+				@RELEASE=$(RELEASE) bash configure.sh
 
 phony 			+= configure
 configure:		config.h
