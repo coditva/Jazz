@@ -19,6 +19,10 @@ addons:
       - wget
       - clang
 
+env:
+  - RELEASE=true
+  - RELEASE=false
+
 install:
   - travis_wait make deps
   - make
