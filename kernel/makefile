@@ -77,8 +77,9 @@ gdb:			all
 					-ex "target remote | qemu-system-x86_64 -kernel $(BIN) \
 						-serial file:///tmp/jazz_serial1.log -gdb stdio -S"
 
+# config.h file needs to exist before linting.
 phony			+= lint
-lint:
+lint:			configure
 				$(LINT) `find . -name "*.c" -or -name "*.h"` $(LINT_FLAGS)\
 					-- -I. -Iinclude/
 
