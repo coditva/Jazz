@@ -2,7 +2,7 @@
 
 CONFIG_FILE="config.h"
 
-function writeconfig {
+writeconfig() {
     echo "$1" >> $CONFIG_FILE
 }
 
