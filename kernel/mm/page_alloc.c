@@ -1,4 +1,5 @@
-#include <helper.h>
+#include <assert.h>
+#include <logger.h>
 #include <mm/mem_info.h>
 #include <mm/page_alloc.h>
 #include <mm/page_frame.h>
@@ -9,9 +10,13 @@ static struct page *pages = NULL;
 
 void page_alloc_init()
 {
+  klog_status_init("page_alloc");
+
   size_t array_mem_size = sizeof(struct page) * memory_info->num_pages;
   array_mem_size = (array_mem_size & 0xfffff000) + 0x1000;
   pages = page_frame_n_alloc(array_mem_size >> 12);
+
+  klog_status_ok("page_alloc");
 }
 
 inline struct page * page_alloc()
@@ -39,7 +44,9 @@ inline void page_free(struct page *page)
 
 void page_n_free(struct page *page, size_t count)
 {
+  page_frame_n_free(page->address, count);
   for (size_t i = 0; i < count; i++) {
+    assert(page[i].address != NULL);
     page[i].address = NULL;
   }
 }

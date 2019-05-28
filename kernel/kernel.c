@@ -1,6 +1,7 @@
 #include <kcheck.h>
 #include <kio.h>
 #include <logger.h>
+#include <mm/page_alloc.h>
 #include <mm/page_frame.h>
 #include <mm/paging.h>
 #include <multiboot.h>
@@ -42,6 +43,20 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
     page2 = page_frame_alloc();
     page_frame_free(page2);
     kcheck(page1 == page2, "page_frame_alloc()");
+  }
+#endif
+
+  page_alloc_init();
+#ifdef DEBUG
+  {
+    struct page *page1;
+    struct page *page2;
+
+    page1 = page_alloc();
+    page_free(page1);
+    page2 = page_alloc();
+    page_free(page1);
+    kcheck(page1->address == page2->address, "page_alloc()");
   }
 #endif
 
