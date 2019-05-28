@@ -16,7 +16,10 @@ CC            = ../.deps/cross/bin/$(TARGET)-gcc
 LD            = ../.deps/cross/bin/$(TARGET)-ld
 CC_ASM        = nasm
 CC_FLAGS      = $(CFLAGS) -fno-builtin -std=gnu99 -Wall -Wextra -Werror
+
+ifeq ($(RELEASE), false)
 CD_FLAGS      = -g
+endif
 
 LINT          = clang-tidy
 LINT_FLAGS    = -fix-errors
