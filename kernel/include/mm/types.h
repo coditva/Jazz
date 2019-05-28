@@ -48,4 +48,14 @@ struct page_table_entry {
   };
 };
 
+
+/**
+ * Struct for storing page information. This keeps track of the usage of each
+ * physical page in the kernel.
+ */
+struct page {
+  void      *address;
+  void      *virtual_address;
+};
+
 #endif /* end of include guard: TYPES_H_A3DIQNTC */

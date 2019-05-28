@@ -1,9 +1,13 @@
 #include <assert.h>
 #include <logger.h>
+#include <mm/mem_info.h>
 #include <mm/page_frame.h>
 #include <multiboot.h>
 #include <string.h>
 #include <types.h>
+
+/* struct to store memory info */
+struct mem_info *memory_info = NULL;
 
 /* bitmap to store the state of the memory pages */
 static uint32_t     *frames_bitmap = NULL;
@@ -63,6 +67,10 @@ void page_frame_init (void *base_address, multiboot_info_t *multiboot_info)
 {
   klog_status_init("page_frame");
 
+  /* allocate memory for mem_info */
+  memory_info = base_address;
+  base_address += sizeof(struct mem_info);
+
   /* align address to frame size */
   base_address = (void *)((uintptr_t)base_address & ~(FRAME_SIZE - 1));
   base_address += FRAME_SIZE;
@@ -120,6 +128,9 @@ void page_frame_init (void *base_address, multiboot_info_t *multiboot_info)
       }
     }
   }
+
+  memory_info->base_address = (size_t)base_address;
+  memory_info->num_pages = num_frames;
 
   klog_status_ok("page_frame");
 }
