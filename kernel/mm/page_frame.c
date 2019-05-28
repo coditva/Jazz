@@ -49,7 +49,7 @@ static inline void frame_mark_free(uint64_t frame_line, int frame_index) {
   frames_bitmap[frame_line] &= ~(1 << frame_index);
 }
 
-static inline int frame_is_free(uint64_t frame_line, int frame_index) {
+static inline int frame_is_used(uint64_t frame_line, int frame_index) {
   return frames_bitmap[frame_line] & 1 << frame_index;
 }
 
@@ -214,7 +214,7 @@ void page_frame_n_free (void *page_addr, int number_of_pages)
   current_bitmap_index = index;
 
   for (int i = 0; i < number_of_pages; ++i) {
-    assert(frame_is_free(line, index));
+    assert(frame_is_used(line, index));
     frame_mark_free(line, index);
 
     index += 1;
