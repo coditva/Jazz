@@ -27,7 +27,7 @@ inline struct page * page_alloc()
 struct page * page_n_alloc(size_t count)
 {
   void *page_address = page_frame_n_alloc(count);
-  size_t page_index = (size_t)page_address >> 12;
+  size_t page_index = (uintptr_t)page_address >> 12;
 
   for (size_t i = 0; i < count; i++) {
     pages[page_index + i].address = page_address;

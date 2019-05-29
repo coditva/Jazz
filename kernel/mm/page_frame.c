@@ -129,7 +129,7 @@ void page_frame_init (void *base_address, multiboot_info_t *multiboot_info)
     }
   }
 
-  memory_info->base_address = (size_t)base_address;
+  memory_info->base_address = (uintptr_t)base_address;
   memory_info->num_pages = num_frames;
 
   klog_status_ok("page_frame");
