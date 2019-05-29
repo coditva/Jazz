@@ -5,30 +5,33 @@ MAKE	 = make --quiet
 .PHONY: all clean distclean
 all: $(BINUTILS) $(GCC)
 
-$(GCC): gcc-$(GCC_VERSION) $(BINUTILS)
-	mkdir -p build-gcc-$(GCC_VERSION) \
-		&& cd build-gcc-$(GCC_VERSION) \
+$(GCC): gcc-$(GCC_VERSION)-$(TARGET) $(BINUTILS)
+	mkdir -p build-gcc-$(GCC_VERSION)-$(TARGET) \
+		&& cd build-gcc-$(GCC_VERSION)-$(TARGET) \
 	&& export PATH=$(PREFIX)/bin:${PATH} \
-		&& ../gcc-$(GCC_VERSION)/configure --target=$(TARGET) --prefix="$(PREFIX)" \
+		&& ../gcc-$(GCC_VERSION)-$(TARGET)/configure \
+			--target=$(TARGET) --prefix="$(PREFIX)" \
 			--disable-nls --enable-languages=c --without-headers \
 	&& $(MAKE) all-gcc \
 	&& $(MAKE) all-target-libgcc \
 	&& $(MAKE) install-gcc \
 	&& $(MAKE) install-target-libgcc
 
-$(BINUTILS): binutils-$(BINUTILS_VERSION)
-	cd binutils-$(BINUTILS_VERSION) \
+$(BINUTILS): binutils-$(BINUTILS_VERSION)-$(TARGET)
+	cd binutils-$(BINUTILS_VERSION)-$(TARGET) \
 		&& ./configure --target=$(TARGET) --prefix="$(PREFIX)" \
 			--with-sysroot --disable-nls --disable-werror \
 		&& $(MAKE) \
 		&& $(MAKE) install
 
-gcc-$(GCC_VERSION): gcc-$(GCC_VERSION).tar.gz
+gcc-$(GCC_VERSION)-$(TARGET): gcc-$(GCC_VERSION).tar.gz
 	tar -xzf gcc-$(GCC_VERSION).tar.gz
+	mv gcc-$(GCC_VERSION) gcc-$(GCC_VERSION)-$(TARGET)
 	touch $@
 
-binutils-$(BINUTILS_VERSION): binutils-$(BINUTILS_VERSION).tar.gz
+binutils-$(BINUTILS_VERSION)-$(TARGET): binutils-$(BINUTILS_VERSION).tar.gz
 	tar -xzf binutils-$(BINUTILS_VERSION).tar.gz
+	mv binutils-$(BINUTILS_VERSION) binutils-$(BINUTILS_VERSION)-$(TARGET)
 	touch $@
 
 gcc-$(GCC_VERSION).tar.gz:
