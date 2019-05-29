@@ -30,15 +30,15 @@ extern void page_directory_load(uintptr_t *);
 extern void paging_enable();
 
 /**
- * Map a page in paging directory/table. This assumes that the physical address
- * is already allocated by page_frame_alloc().
+ * Map a page in paging directory/table. This assumes that the page is already
+ * allocated by page_alloc().
  *
- * @param   void *          Physical address of the page
+ * @param   struct page *   Page allocated by page_alloc()
  * @param   void *          Virtual address of the page
  * @param   uint32_t        Flags for the entry
  * @return  int             0 if successful, 1 if mapping already present
  */
-int paging_map_page(void *, void *, uint32_t);
+int paging_map_page(struct page *, void *, uint32_t);
 
 /**
  * Unmap a page in the paging directory/table. This assumes that the physical

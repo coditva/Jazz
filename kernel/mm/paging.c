@@ -81,7 +81,7 @@ void paging_init()
   klog_status_ok("paging");
 }
 
-int paging_map_page(void *physical_address, void *virtual_address,
+int paging_map_page(struct page *page, void *virtual_address,
     uint32_t flags)
 {
   uint32_t page_dir_index;
@@ -89,10 +89,10 @@ int paging_map_page(void *physical_address, void *virtual_address,
   struct page_table_entry *page_table;
 
   klog(LOG_DEBUG, "paging_map_page: mapping 0x%x to 0x%x\n",
-      virtual_address, physical_address);
+      virtual_address, page->address);
 
   /* check if addresses are 4kb aligned */
-  assert(((uintptr_t)physical_address & 0xfff) == 0);
+  assert(((uintptr_t)page->address & 0xfff) == 0);
   assert(((uintptr_t)virtual_address & 0xfff) == 0);
 
   page_dir_index = (uintptr_t)virtual_address >> 22;
@@ -120,7 +120,7 @@ int paging_map_page(void *physical_address, void *virtual_address,
   /* try adding a new page table entry, if it is already present do nothing and
    * return. */
   page_table_set_value(&page_table[page_tab_index],
-      (uintptr_t)physical_address | (flags & 0xfff));
+      (uintptr_t)page->address | (flags & 0xfff));
   page_table[page_tab_index].present = 1;
   klog(LOG_DEBUG, "paging_map_page: new table entry: 0x%x\n",
       page_table_get_value(&page_table[page_tab_index]));

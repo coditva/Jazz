@@ -71,7 +71,7 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 
 #ifdef DEBUG
   { /* sanity check for paging */
-    uintptr_t *page = page_frame_alloc();
+    struct page *page = page_alloc();
     uintptr_t *addr1 = (void *)0x00400000;
     uintptr_t *addr2 = addr1 + 1024;
 
@@ -84,7 +84,7 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 
     paging_unmap_page(addr1);
     paging_unmap_page(addr2);
-    page_frame_free(page);
+    page_free(page);
   }
 #endif
 
