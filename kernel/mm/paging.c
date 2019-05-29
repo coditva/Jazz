@@ -125,12 +125,16 @@ int paging_map_page(struct page *page, void *virtual_address,
   klog(LOG_DEBUG, "paging_map_page: new table entry: 0x%x\n",
       page_table_get_value(&page_table[page_tab_index]));
 
+  page->ref_count += 1;
+
   return 0;
 }
 
-void paging_unmap_page(void *virtual_address)
+void paging_unmap_page(struct page *page, void *virtual_address)
 {
   klog(LOG_DEBUG, "paging_unmap_page: unmapping 0x%x\n", virtual_address);
+
+  assert(page->ref_count > 0);
 
   struct page_table_entry *page_table;
   uintptr_t page_dir_index = (uintptr_t)virtual_address >> 22;
@@ -143,6 +147,7 @@ void paging_unmap_page(void *virtual_address)
   assert(page_table[page_tab_index].present);
 
   page_table_set_value(&page_table[page_tab_index], 0x0);
+  page->ref_count -= 1;
 }
 
 #ifdef DEBUG

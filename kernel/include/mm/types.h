@@ -55,7 +55,7 @@ struct page_table_entry {
  */
 struct page {
   void      *address;
-  void      *virtual_address;
+  size_t    ref_count;
 };
 
 #endif /* end of include guard: TYPES_H_A3DIQNTC */

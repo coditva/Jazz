@@ -44,9 +44,10 @@ int paging_map_page(struct page *, void *, uint32_t);
  * Unmap a page in the paging directory/table. This assumes that the physical
  * address if deallocated by page_frame_free().
  *
+ * @param   struct page *   Page allocated by page_alloc()
  * @param   void *          Virtual address to unmap
  */
-void paging_unmap_page(void *);
+void paging_unmap_page(struct page *, void *);
 
 #ifdef DEBUG
 /**

@@ -46,6 +46,7 @@ void page_n_free(struct page *page, size_t count)
 {
   page_frame_n_free(page->address, count);
   for (size_t i = 0; i < count; i++) {
+    assert(page[i].ref_count == 0);
     assert(page[i].address != NULL);
     page[i].address = NULL;
   }

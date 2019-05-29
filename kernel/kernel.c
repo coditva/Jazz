@@ -82,8 +82,8 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
     *addr2 = 0xdeadbeef;
     kcheck(*addr1 == *addr2, "paging enabled");
 
-    paging_unmap_page(addr1);
-    paging_unmap_page(addr2);
+    paging_unmap_page(page, addr1);
+    paging_unmap_page(page, addr2);
     page_free(page);
   }
 #endif
