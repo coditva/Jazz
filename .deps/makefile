@@ -10,8 +10,22 @@ $(GCC): gcc-$(GCC_VERSION)-$(TARGET) $(BINUTILS)
 		&& cd build-gcc-$(GCC_VERSION)-$(TARGET) \
 	&& export PATH=$(PREFIX)/bin:${PATH} \
 		&& ../gcc-$(GCC_VERSION)-$(TARGET)/configure \
-			--target=$(TARGET) --prefix="$(PREFIX)" \
-			--disable-nls --enable-languages=c --without-headers \
+			--target=$(TARGET) \
+			--prefix="$(PREFIX)" \
+			--disable-nls \
+			--enable-languages=c  \
+			--with-newlib \
+			--without-headers \
+			--disable-nls \
+			--disable-shared \
+			--disable-multilib \
+			--disable-decimal-float \
+			--disable-threads \
+			--disable-libatomic \
+			--disable-libgomp \
+			--disable-libquadmath \
+			--disable-libssp \
+			--disable-libvtv \
 	&& $(MAKE) all-gcc \
 	&& $(MAKE) all-target-libgcc \
 	&& $(MAKE) install-gcc \
