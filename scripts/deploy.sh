@@ -12,7 +12,7 @@ if [[ -z "$ARCH" ]]; then
     ARCH=$DEFAULT_ARCH
 fi
 
-RELEASE_FILE_NAME="Jazz_$(ARCH)_$(RELEASE_TYPE).img"
+RELEASE_FILE_NAME="Jazz_$ARCH_$RELEASE_TYPE.img"
 mv build/disk.img $RELEASE_FILE_NAME
 
 export $RELEASE_FILE_NAME
