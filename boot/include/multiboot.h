@@ -1,11 +1,7 @@
 #ifndef MULTIBOOT_H_RKNBOMGQ
 #define MULTIBOOT_H_RKNBOMGQ
 
-typedef unsigned long       uint32_t;
-typedef unsigned int        uint16_t;
-typedef unsigned long long  uint64_t;
-typedef unsigned char       uint8_t;
-
+#include <types.h>
 
 /* magic numbers for multiboot. these help us verify that multiboot structure is
  * indeed valid. */
@@ -126,6 +122,14 @@ typedef struct _multiboot_memory_map_t {
 #define MULTIBOOT_MEM_TYPE_BADR     0x5     /* memory used by bad RAM modules */
   uint32_t type;
 } __attribute__((packed)) multiboot_memory_map_t;
+
+
+typedef struct _multiboot_mod_t {
+  uint16_t mod_start;
+  uint16_t mod_end;
+  uint16_t string;
+  uint16_t reserved;
+} __attribute__((packed)) multiboot_mod_t;
 
 
 #define FOREACH_MEMORY_MAP(MMAP, INFO) \
