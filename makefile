@@ -14,7 +14,8 @@ DEPS_PREFIX       = $(shell pwd)/.deps/cross
 
 BUILD_DIR         = build
 DISK_IMG          = $(BUILD_DIR)/disk.img
-BOOTLOADER        = $(BUILD_DIR)/bootloader/boot.bin
+BOOTLOADER        = $(BUILD_DIR)/bootloader/bootloader.bin
+BOOT              = $(BUILD_DIR)/boot/boot.bin
 KERNEL            = $(BUILD_DIR)/kernel/kernel.bin
 
 MAKE_CMD          = $(MAKE) \
@@ -26,7 +27,7 @@ MAKE_CMD          = $(MAKE) \
 phony = all
 all: $(DISK_IMG)
 
-$(DISK_IMG): $(BUILD_DIR) $(BOOTLOADER) $(KERNEL)
+$(DISK_IMG): $(BUILD_DIR) $(BOOTLOADER) $(BOOT) $(KERNEL)
 	dd if=/dev/zero of=$(DISK_IMG) bs=512 count=2880
 	dd if=$(BOOTLOADER) of=$(DISK_IMG) bs=512 count=1 seek=0
 	dd if=$(KERNEL) of=$(DISK_IMG) bs=512 seek=1
@@ -38,6 +39,10 @@ $(BUILD_DIR):
 phony += $(BOOTLOADER)
 $(BOOTLOADER): bootloader/boot.asm
 	$(MAKE_CMD) --directory bootloader
+
+phony += $(BOOT)
+$(BOOT): deps
+	$(MAKE_CMD) --directory boot
 
 phony += $(KERNEL)
 $(KERNEL): deps
@@ -57,11 +62,13 @@ qemu_kernel: $(KERNEL)
 
 phony += lint
 lint:
+	$(MAKE_CMD) --directory boot lint
 	$(MAKE_CMD) --directory kernel lint
 
 phony += clean
 clean:
 	$(MAKE_CMD) --directory bootloader clean
+	$(MAKE_CMD) --directory boot clean
 	$(MAKE_CMD) --directory kernel clean
 	rm -f $(DISK_IMG)
 

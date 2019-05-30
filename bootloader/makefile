@@ -1,7 +1,7 @@
 
 CC         = nasm
 BUILD_DIR  = ../build/bootloader
-BIN        = $(BUILD_DIR)/boot.bin
+BIN        = $(BUILD_DIR)/bootloader.bin
 
 all:       $(BIN)
 
