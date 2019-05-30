@@ -60,6 +60,6 @@ deploy:
   file: "$RELEASE_FILE_NAME"
   skip_cleanup: true
   draft: true
-  overwrite: true
+  overwrite: false
   on:
     branch: disk_release
