@@ -1,7 +1,16 @@
-GCC_VERSION       = 5.4.0
-BINUTILS_VERSION  = 2.29
+ifndef GCC_VERSION
+	GCC_VERSION = 5.4.0
+endif
+
+ifndef BINUTILS_VERSION
+	BINUTILS_VERSION = 2.29
+endif
+
+ifndef TARGET
+	TARGET = i686-elf
+endif
+
 DEPS_PREFIX       = $(shell pwd)/.deps/cross
-TARGET            = i686-elf
 
 BUILD_DIR         = build
 DISK_IMG          = $(BUILD_DIR)/disk.img
