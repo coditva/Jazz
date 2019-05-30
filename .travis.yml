@@ -52,7 +52,7 @@ cache:
     - .deps
 
 before_deploy:
-  - scripts/deploy.sh
+  - export RELEASE_FILE_NAME=$(sh scripts/deploy.sh)
 
 deploy:
   provider: releases

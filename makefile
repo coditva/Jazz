@@ -28,7 +28,7 @@ phony = all
 all: $(DISK_IMG)
 
 $(DISK_IMG): $(BUILD_DIR) $(BOOT) $(KERNEL)
-	grub-mkrescue -o $(DISK_IMG) build/
+	touch $(DISK_IMG)
 
 phony += $(BUILD_DIR)
 $(BUILD_DIR):
