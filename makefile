@@ -16,7 +16,7 @@ BUILD_DIR         = build
 DISK_IMG          = $(BUILD_DIR)/disk.img
 BOOTLOADER        = $(BUILD_DIR)/bootloader/bootloader.bin
 BOOT              = $(BUILD_DIR)/boot/boot.bin
-KERNEL            = $(BUILD_DIR)/kernel/kernel.bin
+KERNEL            = $(BUILD_DIR)/boot/kernel.bin
 
 MAKE_CMD          = $(MAKE) \
 						PREFIX=$(DEPS_PREFIX) \
@@ -27,10 +27,8 @@ MAKE_CMD          = $(MAKE) \
 phony = all
 all: $(DISK_IMG)
 
-$(DISK_IMG): $(BUILD_DIR) $(BOOTLOADER) $(BOOT) $(KERNEL)
-	dd if=/dev/zero of=$(DISK_IMG) bs=512 count=2880
-	dd if=$(BOOTLOADER) of=$(DISK_IMG) bs=512 count=1 seek=0
-	dd if=$(KERNEL) of=$(DISK_IMG) bs=512 seek=1
+$(DISK_IMG): $(BUILD_DIR) $(BOOT) $(KERNEL)
+	grub-mkrescue -o $(DISK_IMG) build/
 
 phony += $(BUILD_DIR)
 $(BUILD_DIR):

@@ -18,6 +18,10 @@ addons:
       - libisl-dev
       - wget
       - clang
+      - xorriso
+      - mtools
+      - efibootmgr
+      - dosfstools
 
 env:
   global:
@@ -46,3 +50,13 @@ cache:
   apt: true
   directories:
     - .deps
+
+
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file: "build/disk.img"
+  skip_cleanup: true
+  draft: true
+  on:
+    branch: disk_release

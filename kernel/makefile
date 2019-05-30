@@ -24,7 +24,7 @@ endif
 LINT          = clang-tidy
 LINT_FLAGS    = -fix-errors
 
-BUILD_DIR     = ../build/kernel
+BUILD_DIR     = ../build/boot
 BIN           = $(BUILD_DIR)/kernel.bin
 
 ASM_SRC       = $(shell find . -name "*.asm")
