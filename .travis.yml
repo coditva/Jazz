@@ -58,5 +58,6 @@ deploy:
   file: "build/disk.img"
   skip_cleanup: true
   draft: true
+  overwrite: true
   on:
     branch: disk_release
