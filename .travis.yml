@@ -51,11 +51,13 @@ cache:
   directories:
     - .deps
 
+before_deploy:
+  - scripts/deploy.sh
 
 deploy:
   provider: releases
   api_key: "$GITHUB_TOKEN"
-  file: "build/disk.img"
+  file: "$RELEASE_FILE_NAME"
   skip_cleanup: true
   draft: true
   overwrite: true
