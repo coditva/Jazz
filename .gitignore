@@ -35,3 +35,6 @@ build/
 *.dSYM/
 *.su
 *tags
+
+# MacOS files
+.DS_Store
