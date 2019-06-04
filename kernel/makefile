@@ -45,12 +45,12 @@ $(BUILD_DIR):
 				mkdir -p $(BUILD_DIR)
 
 $(BIN):			.COMPILER_INFO $(BUILD_DIR) $(ASM_OBJ) $(OBJ) linker.ld
-				@$(LD) -T linker.ld $(OBJ) $(ASM_OBJ) -o $@
 				@echo building $@
+				@$(LD) -T linker.ld $(OBJ) $(ASM_OBJ) -o $@
 
 $(ASM_OBJ):%_asm.o: %.asm makefile
-				@$(CC_ASM) -f elf32 $< -o $@
 				@echo building $@
+				@$(CC_ASM) -f elf32 $< -o $@
 
 $(OBJ):%.o:   	%.c $(INCLUDE) config.h makefile
 				@echo building $@
