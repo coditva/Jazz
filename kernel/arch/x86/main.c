@@ -1,11 +1,10 @@
 #include <arch/x86/include/gdt.h>
-#include <logger.h>
-#include <multiboot.h>
-#include <types.h>
-
 #include <arch/x86/include/interrupt.h>
 #include <arch/x86/include/serial.h>
 #include <arch/x86/include/video.h>
+#include <logger.h>
+#include <multiboot.h>
+#include <types.h>
 
 extern void kmain(multiboot_info_t *, uint32_t);
 
