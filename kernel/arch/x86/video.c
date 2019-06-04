@@ -1,5 +1,5 @@
-#include "io/portio/portio.h"
-#include "io/video/video.h"
+#include <arch/x86/include/portio.h>
+#include <arch/x86/include/video.h>
 #include <io.h>
 #include <stdarg.h>
 #include <types.h>

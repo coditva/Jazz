@@ -1,9 +1,10 @@
-#include "interrupt/interrupt.h"
-#include "io/portio/portio.h"
+#include <arch/x86/include/interrupt.h>
+#include <arch/x86/include/portio.h>
 #include <logger.h>
 #include <types.h>
 
-extern void idt_load(idt_ptr_t *);
+extern void
+idt_load(idt_ptr_t* /*idt*/);
 extern void keyboard_handler_int(void);
 extern void double_fault_handler_int(void);
 

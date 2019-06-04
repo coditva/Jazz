@@ -1,5 +1,5 @@
-#include "io/portio/portio.h"
-#include "io/serial/serial.h"
+#include <arch/x86/include/portio.h>
+#include <arch/x86/include/serial.h>
 #include <io.h>
 #include <logger.h>
 #include <stdarg.h>

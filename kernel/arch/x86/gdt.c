@@ -1,4 +1,4 @@
-#include "boot/gdt.h"
+#include <arch/x86/include/gdt.h>
 #include <logger.h>
 
 gdt_entry_t gdt[GDT_SIZE];

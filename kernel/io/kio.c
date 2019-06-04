@@ -1,6 +1,6 @@
-#include "io/video/video.h"
-#include "config.h"
-#include "io/serial/serial.h"
+#include <arch/x86/include/serial.h>
+#include <arch/x86/include/video.h>
+#include <config.h>
 #include <io.h>
 #include <kio.h>
 #include <stdarg.h>

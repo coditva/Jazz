@@ -6,18 +6,11 @@
 #include <mm/paging.h>
 #include <multiboot.h>
 
-#include "boot/gdt.h"
-#include "interrupt/interrupt.h"
-#include "io/serial/serial.h"
-#include "io/video/video.h"
-
 extern uintptr_t endkernel;
 extern uintptr_t startkernel;
 
 extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 {
-  video_clear();
-
   klog(LOG_DEBUG, "Kernel starts at: 0x%x\n", &startkernel);
   klog(LOG_DEBUG, "Kernel ends at  : 0x%x\n", &endkernel);
 
@@ -60,13 +53,6 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   }
 #endif
 
-  serial_init();
-  gdt_init();
-  idt_init();
-  isr_set_keyboard();
-  isr_set_double_fault();
-  isr_init_keyboard();
-
   paging_init();
 
 #ifdef DEBUG
@@ -93,5 +79,5 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 
   while(1) {
     ; /* nop */
-}
+  }
 }

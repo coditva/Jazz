@@ -1,7 +1,7 @@
 #ifndef DEBUG_H_IEXU6FAG
 #define DEBUG_H_IEXU6FAG
 
-# include "config.h"
+# include <config.h>
 
 # define LOG_ERROR  0
 # define LOG_WARN   1

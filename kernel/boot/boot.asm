@@ -5,7 +5,6 @@
 ; ---------------------------------------------------------------------
 
 bits 32
-section .text               ; start code section
 align 4
 
 ; ---------------------------------------------------------------------
@@ -18,19 +17,20 @@ section .multiboot
                             ; magic + flags + checksum = zero
 
 
-
-extern kmain                ; it is convention to name main kernel
-                            ; function kmain
+section .text               ; start code section
 
 global start                ; declare start symbol as global so that it
-                            ; is visible to the linker
+start:                      ; is visible to the linker
 
-start:
   cli                       ; prevent interrupts from waking halted CPU
   mov esp, _stack           ; initialize stack
+
   push eax                  ; multiboot magic number
   push ebx                  ; multiboot info
-  call kmain                ; call the kernel function in C
+
+extern lmain
+  call lmain
+
   hlt                       ; halt CPU
 
 

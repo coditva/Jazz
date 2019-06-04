@@ -1,7 +1,6 @@
-#include "interrupt/handler.h"
-#include "io/portio/portio.h"
-#include "io/video/video.h"
-#include "util/keyboard_map.h"
+#include <arch/x86/include/handler.h>
+#include <arch/x86/include/portio.h>
+#include <include/assets/keyboard_map.h>
 #include <kio.h>
 #include <logger.h>
 #include <types.h>

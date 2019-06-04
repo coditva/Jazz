@@ -1,7 +1,7 @@
 #ifndef TYPES_H_6BL3PEFC
 #define TYPES_H_6BL3PEFC
 
-#include "arch/generic/include/types.h"
+#include <arch/generic/include/types.h>
 
 #ifdef CONFIG_64BIT
 # define BITS_PER_LONG 64
