@@ -72,10 +72,6 @@ void paging_init()
   page_directory[0].rw = 1;
   page_directory[0].present = 1;
 
-#ifdef DEBUG
-  paging_dump_map();
-#endif
-
   page_directory_load((void *)page_directory);
   paging_enable();
   klog_status_ok("paging");

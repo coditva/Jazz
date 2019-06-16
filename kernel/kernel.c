@@ -56,6 +56,7 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   paging_init();
 
 #ifdef DEBUG
+  paging_dump_map();
   { /* sanity check for paging */
     struct page *page = page_alloc();
     uintptr_t *addr1 = (void *)0x00400000;
