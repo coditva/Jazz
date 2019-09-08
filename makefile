@@ -66,7 +66,7 @@ clean:
 	rm -f $(DISK_IMG)
 
 distclean:
-	$(MAKE_CMD) --directory .deps distclean
+	$(MAKE_CMD) --silent --directory .deps distclean
 
 phony += test
 test: all
