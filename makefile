@@ -17,11 +17,13 @@ DISK_IMG          = $(BUILD_DIR)/disk.img
 BOOTLOADER        = $(BUILD_DIR)/bootloader/boot.bin
 KERNEL            = $(BUILD_DIR)/kernel/kernel.bin
 
+MAKE_FLAGS        = -j 8
 MAKE_CMD          = $(MAKE) \
 						PREFIX=$(DEPS_PREFIX) \
 						ARCH=$(TARGET) \
 						GCC_VERSION=$(GCC_VERSION) \
-						BINUTILS_VERSION=$(BINUTILS_VERSION)
+						BINUTILS_VERSION=$(BINUTILS_VERSION) \
+						$(MAKE_FLAGS)
 
 phony = all
 all: $(DISK_IMG)
