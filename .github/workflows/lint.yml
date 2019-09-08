@@ -1,0 +1,35 @@
+name: Lint
+
+on: [push]
+
+jobs:
+    lint:
+        name: ClangTidy
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Install dependencies
+              run: sudo apt-get install nasm clang-tidy python3-pip &&
+                pip3 install compiledb
+
+            - name: Cache Dependencies
+              id: cache-deps
+              uses: actions/cache@v2
+              with:
+                  path: .deps
+                  key: ${{ runner.os }}-${{ env.GCC_VERSION }}-${{ env.BINUTILS_VERSION }}-deps
+
+            - name: Install cross compiler dependencies
+              if: steps.cache-deps.outputs.cache-hit != 'true'
+              run: sudo apt-get install -y build-essential flex bison texinfo wget
+
+            - name: Build cross compiler
+              if: steps.cache-deps.outputs.cache-hit != 'true'
+              run: make deps
+
+            - name: Generate compile_commands.json
+              run: cd kernel && compiledb make
+
+            - name: Lint
+              run: make lint
