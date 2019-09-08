@@ -19,7 +19,7 @@ KERNEL            = $(BUILD_DIR)/kernel/kernel.bin
 
 MAKE_CMD          = $(MAKE) \
 						PREFIX=$(DEPS_PREFIX) \
-						TARGET=$(TARGET) \
+						ARCH=$(TARGET) \
 						GCC_VERSION=$(GCC_VERSION) \
 						BINUTILS_VERSION=$(BINUTILS_VERSION)
 
