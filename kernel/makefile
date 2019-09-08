@@ -1,5 +1,5 @@
-ifndef TARGET
-	TARGET    = i686-elf
+ifndef ARCH
+	ARCH    = i686-elf
 endif
 
 # Set debug mode
@@ -8,12 +8,12 @@ ifndef RELEASE
 endif
 
 # Set architecture type
-ifndef ARCH
-	ARCH = ARCH_X86
+ifndef ARCH_TYPE
+	ARCH_TYPE = ARCH_X86
 endif
 
-CC            = ../.deps/cross/bin/$(TARGET)-gcc
-LD            = ../.deps/cross/bin/$(TARGET)-ld
+CC            = ../.deps/cross/bin/$(ARCH)-gcc
+LD            = ../.deps/cross/bin/$(ARCH)-ld
 CC_ASM        = nasm
 CC_FLAGS      = $(CFLAGS) -fno-builtin -std=gnu99 -Wall -Wextra -Werror
 

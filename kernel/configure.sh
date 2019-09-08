@@ -4,7 +4,7 @@ CONFIG_FILE="config.h"
 
 # Set default configs
 DEFAULT_RELEASE=false
-DEFAULT_ARCH="ARCH_X86"
+DEFAULT_ARCH_TYPE="ARCH_X86"
 DEFAULT_LOG_LEVEL=2
 
 
@@ -12,8 +12,8 @@ DEFAULT_LOG_LEVEL=2
 if [[ -z "$RELEASE" ]]; then
     RELEASE=$DEFAULT_RELEASE
 fi
-if [[ -z "$ARCH" ]]; then
-    ARCH=$DEFAULT_ARCH
+if [[ -z "$ARCH_TYPE" ]]; then
+    ARCH_TYPE=$DEFAULT_ARCH_TYPE
 fi
 if [[ -z "$LOG_LEVEL" ]]; then
     LOG_LEVEL=$DEFAULT_LOG_LEVEL
@@ -59,8 +59,8 @@ writeconfig "/* Setting log level to WARN */"
 writeconfig "#define LOG_LEVEL $LOG_LEVEL"
 writeconfig
 
-writeconfig "/* Building for $ARCH architecture */"
-writeconfig "#define $ARCH"
+writeconfig "/* Building for $ARCH_TYPE architecture */"
+writeconfig "#define $ARCH_TYPE"
 writeconfig
 
 # Close include guard
