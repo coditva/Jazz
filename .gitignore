@@ -38,3 +38,6 @@ build/
 
 # MacOS files
 .DS_Store
+
+# Cache
+compile_commands.json
