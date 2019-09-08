@@ -24,6 +24,9 @@ matrix:
       env: RELEASE=true  GCC_VERSION="5.4.0" BINUTILS_VERSION="2.29"
     - name: Debug
       env: RELEASE=false GCC_VERSION="5.4.0" BINUTILS_VERSION="2.29"
+    - name: MacOS
+      os: osx
+      env: RELEASE=false GCC_VERSION="5.4.0" BINUTILS_VERSION="2.29"
     - name: Latest GCC and Binutils
       env: RELEASE=false GCC_VERSION="9.1.0" BINUTILS_VERSION="2.32"
   allow_failures:
