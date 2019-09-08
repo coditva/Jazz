@@ -13,6 +13,11 @@ addons:
       - texinfo
       - wget
       - clang
+  homebrew:
+    packages:
+      - nasm
+      - wget
+
 
 env:
   global:
