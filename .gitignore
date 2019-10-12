@@ -41,3 +41,4 @@ build/
 
 # Cache
 compile_commands.json
+.clangd/
