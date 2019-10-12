@@ -2,6 +2,7 @@
 #define ASSERT_H_TVZEHNNF
 
 #include <config.h>
+#include <logger.h>
 
 # ifdef DEBUG
 
