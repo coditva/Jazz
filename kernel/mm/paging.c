@@ -1,3 +1,9 @@
+
+/*
+ * This is a low level module for handling paging. It has routines to map/unmap
+ * virtual addresses to physical addresses.
+ */
+
 #include <assert.h>
 #include <logger.h>
 #include <mm/page_frame.h>

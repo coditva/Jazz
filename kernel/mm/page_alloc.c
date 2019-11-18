@@ -1,3 +1,10 @@
+
+/*
+ * This is a wrapper over page_frame. It takes care of allocating/de-allocating
+ * chunks of pages from the physical memory. It wraps all allocated memory in
+ * the `struct page` data structure.
+ */
+
 #include <assert.h>
 #include <logger.h>
 #include <mm/mem_info.h>

@@ -1,3 +1,9 @@
+
+/*
+ * This is the lowest level module and is responsible for allocating physical
+ * memory pages. It uses a bitmap to keep track of all free and used pages.
+ */
+
 #include <assert.h>
 #include <logger.h>
 #include <mm/mem_info.h>
