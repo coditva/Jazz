@@ -88,6 +88,10 @@ lint:			configure
 
 phony 			+= clean
 clean:
+				rm -rf $(BIN) $(OBJ) $(ASM_OBJ) .COMPILER_INFO
+
+phony 			+= distclean
+distclean:
 				rm -rf $(BIN) $(OBJ) $(ASM_OBJ) .COMPILER_INFO config.h
 
 phony 			+= tags
