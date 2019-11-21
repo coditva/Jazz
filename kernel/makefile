@@ -23,6 +23,7 @@ endif
 
 LINT          = clang-tidy
 LINT_FLAGS    = -fix-errors
+FIX_LINT      = clang-format
 
 BUILD_DIR     = ../build/kernel
 BIN           = $(BUILD_DIR)/kernel.bin
@@ -85,6 +86,10 @@ phony			+= lint
 lint:			configure
 				$(LINT) `find . -name "*.c" -or -name "*.h"` $(LINT_FLAGS)\
 					-- -I. -Iinclude/
+
+phony			+= fix-lint
+fix-lint:		configure
+				$(FIX_LINT) $(SRC) $(INCLUDE)
 
 phony 			+= clean
 clean:
