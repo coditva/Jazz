@@ -22,7 +22,7 @@ CD_FLAGS      = -g
 endif
 
 LINT          = clang-tidy
-LINT_FLAGS    = -fix-errors
+LINT_FLAGS    = -fix-errors -fix
 FIX_LINT      = clang-format
 
 BUILD_DIR     = ../build/kernel
@@ -84,8 +84,7 @@ gdb:			all
 # config.h file needs to exist before linting.
 phony			+= lint
 lint:			configure
-				$(LINT) `find . -name "*.c" -or -name "*.h"` $(LINT_FLAGS)\
-					-- -I. -Iinclude/
+				$(LINT) $(SRC) $(INCLUDE) $(LINT_FLAGS)
 
 phony			+= fix-lint
 fix-lint:		configure
