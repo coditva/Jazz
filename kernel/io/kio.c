@@ -10,7 +10,7 @@ static char buffer[MAX_BUFFER_SIZE];
 
 int kprintf(const char *format, ...)
 {
-  int retval = 0;
+  int     retval = 0;
   va_list args;
 
   va_start(args, format);
@@ -23,7 +23,7 @@ int kprintf(const char *format, ...)
 int kvprintf(const char *format, va_list args)
 {
   int retval = 0;
-  retval = vsprintf(buffer, format, args);
+  retval     = vsprintf(buffer, format, args);
   video_write(buffer, ATTR_NORMAL);
   return retval;
 }
@@ -42,7 +42,7 @@ int err_attr[] = { 0x0c, 0x06, 0x03, 0x07 };
 
 int keprintf(int error_level, const void *format, ...)
 {
-  int retval = 0;
+  int     retval = 0;
   va_list args;
 
   va_start(args, format);
@@ -54,18 +54,18 @@ int keprintf(int error_level, const void *format, ...)
 
 int kveprintf(int error_level, const void *format, va_list args)
 {
-# ifdef DEBUG_TO_SERIAL
+#ifdef DEBUG_TO_SERIAL
   int retval = vsprintf(buffer, format, args);
   serial_write(DEBUG_SERIAL_PORT, buffer);
-# endif
+#endif
 
   if (error_level > LOG_LEVEL) {
     return 0;
   }
 
-# ifndef DEBUG_TO_SERIAL
+#ifndef DEBUG_TO_SERIAL
   int retval = vsprintf(buffer, format, args);
-# endif
+#endif
 
   video_write(buffer, err_attr[error_level]);
   return retval;

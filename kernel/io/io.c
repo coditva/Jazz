@@ -20,32 +20,33 @@ int sputs(char *buffer, const char *data)
   return i;
 }
 
-static int sputi(char *buffer, const unsigned int data, const int radix,
-    const int min_width)
+static int sputi(char *             buffer,
+                 const unsigned int data,
+                 const int          radix,
+                 const int          min_width)
 {
   unsigned int a = data;
-  char out[K_INTWIDTH];
-  int i;
+  char         out[K_INTWIDTH];
+  int          i;
   out[K_INTWIDTH - 1] = '\0';
 
   for (i = K_INTWIDTH - 1; i >= 0 && a != 0; i--) {
     out[i] = K_INTSTRING[a % radix];
     a /= radix;
   }
-  for (;i > K_INTWIDTH - min_width - 1; i--) {  /* pad with zeros */
+  for (; i > K_INTWIDTH - min_width - 1; i--) { /* pad with zeros */
     out[i] = '0';
   }
   return sputs(buffer, out + i + 1) - 1;
 }
 
-inline __attribute__((always_inline))
-int sputd(char *buffer, const int data)
+inline __attribute__((always_inline)) int sputd(char *buffer, const int data)
 {
   return sputi(buffer, data, 10, 1);
 }
 
-inline __attribute__((always_inline))
-int sputx(char *buffer, const unsigned int data)
+inline __attribute__((always_inline)) int sputx(char *             buffer,
+                                                const unsigned int data)
 {
   return sputi(buffer, data, 16, 8);
 }
@@ -61,8 +62,8 @@ int sprintf(char *buffer, const char *format, ...)
 int vsprintf(char *buffer, const char *format, const va_list args)
 {
   char *format_p = (char *)format;
-  int size = 0;
-  int retsize = 0;
+  int   size     = 0;
+  int   retsize  = 0;
 
   while (*format_p != '\0') {
     if (*format_p == '%') {

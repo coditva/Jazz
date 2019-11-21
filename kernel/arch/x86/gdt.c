@@ -4,11 +4,13 @@
 gdt_entry_t gdt[GDT_SIZE];
 extern void gdt_load(gdt_entry_t *, uint16_t size);
 
-void gdt_set_entry(uint32_t offset, uint32_t base, uint32_t limit,
-    uint8_t access_byte)
+void gdt_set_entry(uint32_t offset,
+                   uint32_t base,
+                   uint32_t limit,
+                   uint8_t  access_byte)
 {
-  if (limit > 65536) {              /* adjust granularity */
-    limit = limit >> 12;
+  if (limit > 65536) { /* adjust granularity */
+    limit                     = limit >> 12;
     gdt[offset].flags_limit_1 = 0xc0;
   } else {
     gdt[offset].flags_limit_1 = 0x40;

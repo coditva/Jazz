@@ -58,9 +58,9 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 #ifdef DEBUG
   paging_dump_map();
   { /* sanity check for paging */
-    struct page *page = page_alloc();
-    uintptr_t *addr1 = (void *)0x00400000;
-    uintptr_t *addr2 = addr1 + 1024;
+    struct page *page  = page_alloc();
+    uintptr_t *  addr1 = (void *)0x00400000;
+    uintptr_t *  addr2 = addr1 + 1024;
 
     paging_map_page(page, addr1, 0x02);
     paging_map_page(page, addr2, 0x02);
@@ -78,7 +78,7 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   klog(LOG_INFO, "\nInitialization complete.\n");
   kprintf("\n$ ");
 
-  while(1) {
+  while (1) {
     ; /* nop */
   }
 }

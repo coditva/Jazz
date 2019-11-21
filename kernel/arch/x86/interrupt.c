@@ -3,8 +3,7 @@
 #include <logger.h>
 #include <types.h>
 
-extern void
-idt_load(idt_ptr_t* /*idt*/);
+extern void idt_load(idt_ptr_t * /*idt*/);
 extern void keyboard_handler_int(void);
 extern void double_fault_handler_int(void);
 
@@ -29,8 +28,10 @@ void isr_init_keyboard(void)
 
 idt_t idt[IDT_SIZE];
 
-void idt_set_gate(int offset, uint32_t base, uint16_t selector,
-    uint8_t type_attr)
+void idt_set_gate(int      offset,
+                  uint32_t base,
+                  uint16_t selector,
+                  uint8_t  type_attr)
 {
   idt[offset].offset_1  = base & 0xffff;
   idt[offset].offset_2  = (base & 0xffff0000) >> 16;
@@ -44,10 +45,8 @@ void idt_init(void)
   klog_status_init("IDT");
 
   uintptr_t idt_address = (uintptr_t)&idt;
-  idt_ptr_t idt_pointer = {
-    .limit = (sizeof(idt_t) * IDT_SIZE) - 1,
-    .base = idt_address
-  };
+  idt_ptr_t idt_pointer = { .limit = (sizeof(idt_t) * IDT_SIZE) - 1,
+                            .base  = idt_address };
 
   /* begin initializing ICW in cascade mode */
   write_port(PIC1_COMMAND, ICW1_INIT + ICW1_ICW4);
@@ -65,7 +64,6 @@ void idt_init(void)
   /* ICW4: addition info about environment */
   write_port(PIC1_DATA, ICW4_8086);
   write_port(PIC2_DATA, ICW4_8086);
-
 
   /* mask interrupts */
   write_port(PIC1_DATA, 0xff);

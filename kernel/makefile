@@ -89,7 +89,7 @@ lint:			configure
 
 phony			+= fix-lint
 fix-lint:		configure
-				$(FIX_LINT) $(SRC) $(INCLUDE)
+				$(FIX_LINT) -i $(SRC) $(INCLUDE)
 
 phony 			+= clean
 clean:

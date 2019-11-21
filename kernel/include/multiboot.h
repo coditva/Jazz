@@ -6,11 +6,11 @@
 
 /* magic numbers for multiboot. these help us verify that multiboot structure is
  * indeed valid. */
-#define MULTIBOOT_MAGIC                 0x1BADB002
-#define MULTIBOOT_EAX_MAGIC             0x2BADB002
+#define MULTIBOOT_MAGIC     0x1BADB002
+#define MULTIBOOT_EAX_MAGIC 0x2BADB002
 
-#define MULTIBOOT_MOD_ALIGN             0x00001000
-#define MULTIBOOT_INFO_ALIGN            0x00000004
+#define MULTIBOOT_MOD_ALIGN  0x00001000
+#define MULTIBOOT_INFO_ALIGN 0x00000004
 
 /* flags for multiboot_info */
 #define MULTIBOOT_FLAG_MEMORY           0x00000001
@@ -28,12 +28,12 @@
 #define MULTIBOOT_FLAG_FRAMEBUFFER_INFO 0x00001000
 
 /* flags for multiboot framebuffer type */
-#define MULTIBOOT_FB_TYPE_INDEXED       0x00000000
-#define MULTIBOOT_FB_TYPE_RGB           0x00000001
-#define MULTIBOOT_FB_TYPE_EGA_TEXT      0x00000002
+#define MULTIBOOT_FB_TYPE_INDEXED  0x00000000
+#define MULTIBOOT_FB_TYPE_RGB      0x00000001
+#define MULTIBOOT_FB_TYPE_EGA_TEXT 0x00000002
 
-
-typedef struct _multiboot_info_t {
+typedef struct _multiboot_info_t
+{
   uint32_t flags;
 
   uint32_t mem_lower;
@@ -46,15 +46,18 @@ typedef struct _multiboot_info_t {
   uint32_t mods_count;
   uint32_t mods_addr;
 
-  union {
-    struct {
+  union
+  {
+    struct
+    {
       uint32_t num;
       uint32_t size;
       uint32_t addr;
       uint32_t shndx;
     } __attribute__((packed)) efl_sec;
 
-    struct {
+    struct
+    {
       uint32_t tabsize;
       uint32_t strsize;
       uint32_t addr;
@@ -74,7 +77,8 @@ typedef struct _multiboot_info_t {
 
   uint32_t apm_table;
 
-  struct {
+  struct
+  {
     uint32_t control_info;
     uint32_t mode_info;
     uint16_t mode;
@@ -83,7 +87,8 @@ typedef struct _multiboot_info_t {
     uint16_t interface_len;
   } __attribute__((packed)) vbe;
 
-  struct {
+  struct
+  {
     uint64_t addr;
     uint32_t pitch;
     uint32_t width;
@@ -91,13 +96,16 @@ typedef struct _multiboot_info_t {
     uint8_t  bpp;
     uint8_t  type;
 
-    union {
-      struct {
+    union
+    {
+      struct
+      {
         uint32_t addr;
         uint16_t num_colors;
       } __attribute__((packed)) palette;
 
-      struct {
+      struct
+      {
         uint8_t red_field_position;
         uint8_t red_mask_size;
         uint8_t green_field_position;
@@ -109,32 +117,30 @@ typedef struct _multiboot_info_t {
   } __attribute__((packed)) framebuffer;
 } __attribute__((packed)) multiboot_info_t;
 
-
-typedef struct _multiboot_memory_map_t {
+typedef struct _multiboot_memory_map_t
+{
   uint32_t size;
   uint32_t base_addr_low;
   uint32_t base_addr_high;
   uint32_t len_low;
   uint32_t len_high;
-#define MULTIBOOT_MEM_TYPE_FREE     0x1     /* free memory */
-#define MULTIBOOT_MEM_TYPE_RSVD     0x2     /* reserved by system */
-#define MULTIBOOT_MEM_TYPE_ACPI     0x3     /* reclaimable ACPI memory */
-#define MULTIBOOT_MEM_TYPE_NVS      0x4     /* non-volatile storage */
-#define MULTIBOOT_MEM_TYPE_BADR     0x5     /* memory used by bad RAM modules */
+#define MULTIBOOT_MEM_TYPE_FREE 0x1 /* free memory */
+#define MULTIBOOT_MEM_TYPE_RSVD 0x2 /* reserved by system */
+#define MULTIBOOT_MEM_TYPE_ACPI 0x3 /* reclaimable ACPI memory */
+#define MULTIBOOT_MEM_TYPE_NVS  0x4 /* non-volatile storage */
+#define MULTIBOOT_MEM_TYPE_BADR 0x5 /* memory used by bad RAM modules */
   uint32_t type;
 } __attribute__((packed)) multiboot_memory_map_t;
 
-
 #ifdef DEBUG
-void multiboot_dump_info    (multiboot_info_t *info, uint32_t multiboot_magic);
+void multiboot_dump_info(multiboot_info_t *info, uint32_t multiboot_magic);
 #endif
 
-#define FOREACH_MEMORY_MAP(MMAP, INFO) \
-  for(multiboot_memory_map_t *(MMAP) = \
-        (multiboot_memory_map_t *)(uintptr_t)((INFO)->mmap_addr); \
-      (uintptr_t)(MMAP) < (INFO)->mmap_addr + (INFO)->mmap_len; \
-      (MMAP) = (multiboot_memory_map_t *) \
-        ((uintptr_t)(MMAP) + (MMAP)->size + sizeof((MMAP)->size)) \
-      )
+#define FOREACH_MEMORY_MAP(MMAP, INFO)                                         \
+  for (multiboot_memory_map_t * (MMAP) =                                       \
+         (multiboot_memory_map_t *)(uintptr_t)((INFO)->mmap_addr);             \
+       (uintptr_t)(MMAP) < (INFO)->mmap_addr + (INFO)->mmap_len;               \
+       (MMAP) = (multiboot_memory_map_t *)((uintptr_t)(MMAP) + (MMAP)->size +  \
+                                           sizeof((MMAP)->size)))
 
 #endif /* end of include guard: MULTIBOOT_H_RKNBOMGQ */

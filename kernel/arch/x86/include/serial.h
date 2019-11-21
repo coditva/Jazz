@@ -9,12 +9,12 @@
 #define SERIAL_PORT4 0x2e8
 
 #ifdef DEBUG_TO_SERIAL
-# include <arch/x86/include/serial.h>
-# define DEBUG_SERIAL_PORT SERIAL_PORT1
+#include <arch/x86/include/serial.h>
+#define DEBUG_SERIAL_PORT SERIAL_PORT1
 #endif
 
-void serial_init    ();
-void serial_write   (int port, char *data);
-int  serial_read    (int port);
+void serial_init();
+void serial_write(int port, char *data);
+int  serial_read(int port);
 
 #endif /* end of include guard: SERIAL_H_FT2N9HWC */

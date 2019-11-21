@@ -3,7 +3,7 @@
 
 #include <config.h>
 
-# ifdef DEBUG
+#ifdef DEBUG
 
 /**
  * Check if the condition is true and print if check passed on LOG_INFO and if
@@ -14,8 +14,8 @@
  */
 void kcheck(int condition, char *label);
 
-# else
-#  define kcheck(...)
-# endif
+#else
+#define kcheck(...)
+#endif
 
 #endif /* end of include guard: KCHECK_H_XRYFQPCA */
