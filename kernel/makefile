@@ -71,7 +71,7 @@ phony 			+= configure
 configure:		config.h
 
 phony 			+= qemu
-qemu: 			all
+qemu:
 				qemu-system-x86_64 -kernel $(BIN) \
 					-serial file:///tmp/jazz_serial1.log
 

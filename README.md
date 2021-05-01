@@ -37,6 +37,11 @@ clean:
 make lint       # run clang-tidy on source files
 ```
 
+### Troubleshooting
+**Building dependencies fails with 
+`make -j 8 g++: internal compiler error: Killed (program cc1plus)` error**
+This might be because you ran out of memory due to `make` running build in parallel. Try to change the option `-j 8` to `-j 2` and build again.
+
 ### Debug
 Aside from `qemu` and `gdb`, there is extensive logging on the serial port which
 can be accessed at `/tmp/jazz_serial1.log` file when `qemu` is started from the
@@ -47,4 +52,4 @@ The todo/plan can be found [here](https://github.com/coditva/Jazz/blob/master/TO
 
 ## License
 [MIT](https://github.com/coditva/Jazz/blob/master/LICENSE)
-&copy; 2018-present [Utkarsh Maheshwari](https://github.com/coditva)  
+&copy; 2018-present [Utkarsh Maheshwari](https://github.com/coditva)
