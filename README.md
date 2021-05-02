@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/coditva/Jazz.svg?branch=master)](https://travis-ci.org/coditva/Jazz)
+[![Build](https://github.com/coditva/Jazz/actions/workflows/build.yml/badge.svg)](https://github.com/coditva/Jazz/actions/workflows/build.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/coditva/jazz/badge)](https://www.codefactor.io/repository/github/coditva/jazz)
 
 # Jazz
