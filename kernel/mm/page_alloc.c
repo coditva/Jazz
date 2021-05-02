@@ -57,6 +57,9 @@ inline struct page *page_alloc()
 
 void page_n_free(struct page *page, size_t count)
 {
+  /* store the page address to clear frames later */
+  void *page_address = page->address;
+
   for (size_t i = 0; i < count; i++) {
     /* ensure that there are no references to the page before freeing */
     assert(page[i].ref_count == 0);
@@ -68,7 +71,7 @@ void page_n_free(struct page *page, size_t count)
   }
 
   /* finally free the frames */
-  page_frame_n_free(page->address, count);
+  page_frame_n_free(page_address, count);
 }
 
 inline void page_free(struct page *page)
