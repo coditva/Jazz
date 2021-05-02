@@ -32,7 +32,7 @@ static uint32_t num_frames = 0;
 static uint32_t frames_bitmap_size;
 
 /* number of pages allocated to bitmap */
-static uint32_t frames_bitmap_pages;
+static uint32_t frames_bitmap_num_pages;
 
 /* size of each frame that is allocated in bytes */
 #define FRAME_SIZE       4096 /* 4KB */
@@ -90,10 +90,10 @@ void page_frame_init(void *base_address, multiboot_info_t *multiboot_info)
 
   /* start memory allocation after frames_bitmap. doing this ensures that there
    * is memory allocated for the bitmap. */
-  frames_bitmap_pages =
+  frames_bitmap_num_pages =
     (frames_bitmap_size + FRAME_SIZE_BYTES - 1) / FRAME_SIZE_BYTES;
   memory_base_address =
-    ((uintptr_t)base_address + (FRAME_SIZE * frames_bitmap_pages));
+    ((uintptr_t)base_address + (FRAME_SIZE * frames_bitmap_num_pages));
 
   /* mark all free pages */
   FOREACH_MEMORY_MAP(mmap, multiboot_info)
@@ -213,6 +213,7 @@ void *page_frame_n_alloc(int number_of_pages)
 
   uintptr_t address = frame_get_address(start_line, start_index);
   assert(((uintptr_t)address & 0xfff) == 0);
+
   return (void *)address;
 }
 
@@ -252,7 +253,7 @@ void page_frame_dump_map(void)
   klog(LOG_DEBUG, LOG_HRULE);
   klog(LOG_DEBUG, "Number of frames           : %d\n", num_frames);
   klog(LOG_DEBUG, "Number of bitmap lines     : %d\n", frames_bitmap_size);
-  klog(LOG_DEBUG, "Number of bitmap pages     : %d\n", frames_bitmap_pages);
+  klog(LOG_DEBUG, "Number of bitmap pages     : %d\n", frames_bitmap_num_pages);
   klog(LOG_DEBUG, "Frames bitmap at address   : 0x%x\n", frames_bitmap);
   klog(LOG_DEBUG, "Base address for allocation: 0x%x\n", memory_base_address);
 
