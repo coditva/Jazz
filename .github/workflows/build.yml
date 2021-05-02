@@ -3,11 +3,47 @@ name: Build
 on: [push]
 
 jobs:
-    build_linux:
-        name: Build on Linux
+    build_release:
+        name: Release
         runs-on: ubuntu-latest
+        env:
+            RELEASE: "true"
+            GCC_VERSION: "5.4.0"
+            BINUTILS_VERSION: "2.29"
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v2
+            - name: Install dependencies
+              run: sudo apt-get install build-essential nasm flex bison texinfo wget
+            - name: Build cross compiler
+              run: make deps
+            - name: Compile
+              run: make
+
+    build_debug:
+        name: Debug
+        runs-on: ubuntu-latest
+        env:
+            RELEASE: "false"
+            GCC_VERSION: "5.4.0"
+            BINUTILS_VERSION: "2.29"
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install dependencies
+              run: sudo apt-get install build-essential nasm flex bison texinfo wget
+            - name: Build cross compiler
+              run: make deps
+            - name: Compile
+              run: make
+
+    build_latest_binutil:
+        name: Latest GCC and BinUtils
+        runs-on: ubuntu-latest
+        env:
+            RELEASE: "false"
+            GCC_VERSION: "9.1.0"
+            BINUTILS_VERSION: "2.32"
+        steps:
+            - uses: actions/checkout@v2
             - name: Install dependencies
               run: sudo apt-get install build-essential nasm flex bison texinfo wget
             - name: Build cross compiler
