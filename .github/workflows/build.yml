@@ -12,10 +12,21 @@ jobs:
             BINUTILS_VERSION: "2.29"
         steps:
             - uses: actions/checkout@v2
+
             - name: Install dependencies
               run: sudo apt-get install build-essential nasm flex bison texinfo wget
+
+            - name: Cache Dependencies
+              id: cache-deps
+              uses: actions/cache@v2
+              with:
+                  path: .deps
+                  key: ${{ runner.os }}-${{ env.GCC_VERSION }}-${{ env.BINUTILS_VERSION }}-deps
+
             - name: Build cross compiler
+              if: steps.cache-deps.outputs.cache-hit != 'true'
               run: make deps
+
             - name: Compile
               run: make
 
@@ -28,10 +39,21 @@ jobs:
             BINUTILS_VERSION: "2.29"
         steps:
             - uses: actions/checkout@v2
+
             - name: Install dependencies
               run: sudo apt-get install build-essential nasm flex bison texinfo wget
+
+            - name: Cache Dependencies
+              id: cache-deps
+              uses: actions/cache@v2
+              with:
+                  path: .deps
+                  key: ${{ runner.os }}-${{ env.GCC_VERSION }}-${{ env.BINUTILS_VERSION }}-deps
+
             - name: Build cross compiler
+              if: steps.cache-deps.outputs.cache-hit != 'true'
               run: make deps
+
             - name: Compile
               run: make
 
@@ -44,9 +66,20 @@ jobs:
             BINUTILS_VERSION: "2.32"
         steps:
             - uses: actions/checkout@v2
+
             - name: Install dependencies
               run: sudo apt-get install build-essential nasm flex bison texinfo wget
+
+            - name: Cache Dependencies
+              id: cache-deps
+              uses: actions/cache@v2
+              with:
+                  path: .deps
+                  key: ${{ runner.os }}-${{ env.GCC_VERSION }}-${{ env.BINUTILS_VERSION }}-deps
+
             - name: Build cross compiler
+              if: steps.cache-deps.outputs.cache-hit != 'true'
               run: make deps
+
             - name: Compile
               run: make
