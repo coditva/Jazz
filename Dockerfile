@@ -14,6 +14,7 @@ RUN apt-get update -y \
         texinfo \
         wget \
         curl \
+        ca-certificates \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
