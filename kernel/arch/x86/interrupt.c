@@ -28,10 +28,8 @@ void isr_init_keyboard(void)
 
 idt_t idt[IDT_SIZE];
 
-void idt_set_gate(int      offset,
-                  uint32_t base,
-                  uint16_t selector,
-                  uint8_t  type_attr)
+void idt_set_gate(int offset, uint32_t base, uint16_t selector,
+                  uint8_t type_attr)
 {
   idt[offset].offset_1  = base & 0xffff;
   idt[offset].offset_2  = (base & 0xffff0000) >> 16;
