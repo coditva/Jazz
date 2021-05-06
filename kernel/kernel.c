@@ -1,6 +1,7 @@
 #include <kcheck.h>
 #include <kio.h>
 #include <logger.h>
+#include <mm/memory_alloc.h>
 #include <mm/page_alloc.h>
 #include <mm/page_frame.h>
 #include <mm/paging.h>
@@ -78,6 +79,18 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
     paging_unmap_page(page, addr1);
     paging_unmap_page(page, addr2);
     page_free(page);
+  }
+#endif
+
+#ifdef DEBUG
+  { /* sanity check for malloc */
+    void *mem1 = malloc(10);
+    void *mem2 = malloc(10);
+
+    kcheck(mem1 != mem2, "check malloc");
+
+    free(mem1);
+    free(mem2);
   }
 #endif
 
