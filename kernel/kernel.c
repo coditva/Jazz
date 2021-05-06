@@ -62,13 +62,19 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
     uintptr_t *  addr1 = (void *)0x00400000;
     uintptr_t *  addr2 = addr1 + 1024;
 
+    /* map both addresses to same physical memory page */
     paging_map_page(page, addr1, 0x02);
     paging_map_page(page, addr2, 0x02);
 
+    /* update the values at both addresses */
     *addr1 = 0xcafebabe;
     *addr2 = 0xdeadbeef;
+
+    /* the second update should overwrite the first since the physical address
+     * is same */
     kcheck(*addr1 == *addr2, "paging enabled");
 
+    /* cleanup */
     paging_unmap_page(page, addr1);
     paging_unmap_page(page, addr2);
     page_free(page);

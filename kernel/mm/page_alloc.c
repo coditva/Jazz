@@ -31,6 +31,8 @@ void page_alloc_init()
   size_t pages_array_page_count =
     page_address_to_index(pages_array_mem_size) + 1;
 
+  /* we have some unused memory at this point but we'll ignore it for now */
+
   /* allocate the pages for the array */
   pages = page_frame_n_alloc(pages_array_page_count);
 
@@ -44,7 +46,7 @@ struct page *page_n_alloc(size_t count)
 
   for (size_t i = 0; i < count; i++) {
     pages[page_index + i].address = page_address;
-    page_address += 0x1000;
+    page_address += 0x1000; /* add 4kb to the page address (0x1000 = 4096) */
   }
 
   return &pages[page_index];

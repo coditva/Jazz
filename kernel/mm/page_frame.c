@@ -35,7 +35,7 @@ static uint32_t frames_bitmap_size;
 static uint32_t frames_bitmap_num_pages;
 
 /* size of each frame that is allocated in bytes */
-#define FRAME_SIZE       4096 /* 4KB */
+#define FRAME_SIZE       4096 /* 4Kb */
 #define FRAME_SIZE_BYTES 512  /* 4096/8 */
 #define BLOCK_SIZE       1024
 #define BLOCKS_PER_FRAME 4 /* each block is 1KB */
