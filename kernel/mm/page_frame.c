@@ -96,8 +96,7 @@ void page_frame_init(void *base_address, multiboot_info_t *multiboot_info)
     ((uintptr_t)base_address + (FRAME_SIZE * frames_bitmap_num_pages));
 
   /* mark all free pages */
-  FOREACH_MEMORY_MAP(mmap, multiboot_info)
-  {
+  FOREACH_MEMORY_MAP (mmap, multiboot_info) {
     uintptr_t memory_lower_range = memory_base_address;
     uintptr_t memory_upper_range = multiboot_info->mem_upper * BLOCK_SIZE;
     uintptr_t mmap_limit         = mmap->base_addr_low + mmap->len_low;
@@ -109,7 +108,6 @@ void page_frame_init(void *base_address, multiboot_info_t *multiboot_info)
           memory_upper_range < mmap_limit) &&
         !(memory_lower_range > mmap->base_addr_low &&
           memory_upper_range > mmap_limit)) {
-
       /* change lower and upper ranges a/c to mmap */
       if (memory_lower_range < mmap->base_addr_low) {
         memory_lower_range = mmap->base_addr_low;

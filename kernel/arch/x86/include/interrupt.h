@@ -62,10 +62,8 @@ typedef struct _idt_ptr_t
 #define IDT_SIZE 256
 
 void idt_init(void);
-void idt_set_gate(int      offset,
-                  uint32_t base,
-                  uint16_t selector,
-                  uint8_t  type_attr);
+void idt_set_gate(int offset, uint32_t base, uint16_t selector,
+                  uint8_t type_attr);
 
 void isr_init_keyboard(void);
 void isr_set_keyboard(void);

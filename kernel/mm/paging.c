@@ -35,8 +35,8 @@ static inline void *table_to_address(uintptr_t value)
  * @param   struct page_directory_entry *       The page directory
  * @param   struct page_table_entry *           The page table
  */
-static inline struct page_table_entry *page_directory_get_value(
-  struct page_directory_entry *page_dir_entry)
+static inline struct page_table_entry *
+page_directory_get_value(struct page_directory_entry *page_dir_entry)
 {
   return (struct page_table_entry *)page_dir_entry->value;
 }
@@ -47,9 +47,9 @@ static inline struct page_table_entry *page_directory_get_value(
  * @param   struct page_directory_entry *       The page directory
  * @param   struct page_table_entry *           The page table
  */
-static inline void page_directory_set_value(
-  struct page_directory_entry *page_dir_entry,
-  struct page_table_entry *    value)
+static inline void
+page_directory_set_value(struct page_directory_entry *page_dir_entry,
+                         struct page_table_entry *    value)
 {
   page_dir_entry->value = (uintptr_t)value;
 }
@@ -59,8 +59,8 @@ static inline void page_directory_set_value(
  *
  * @param   struct page_table_entry *           The page table
  */
-static inline uint32_t page_table_get_value(
-  struct page_table_entry *page_tab_entry)
+static inline uint32_t
+page_table_get_value(struct page_table_entry *page_tab_entry)
 {
   return page_tab_entry->value;
 }
@@ -83,8 +83,8 @@ static inline void page_table_set_value(struct page_table_entry *page_tab_entry,
  * @param   struct page_directory_entry *       The directory entry
  * @return  void *                              The address of page
  */
-static inline void *page_table_to_address(
-  struct page_table_entry *page_table_entry)
+static inline void *
+page_table_to_address(struct page_table_entry *page_table_entry)
 {
   return table_to_address((uintptr_t)page_table_entry->value);
 }
@@ -95,8 +95,8 @@ static inline void *page_table_to_address(
  * @param   struct page_directory_entry *       The directory entry
  * @return  void *                              The address of page
  */
-static inline void *page_directory_to_address(
-  struct page_directory_entry *page_dir_entry)
+static inline void *
+page_directory_to_address(struct page_directory_entry *page_dir_entry)
 {
   return table_to_address((uintptr_t)page_dir_entry->value);
 }
@@ -117,8 +117,7 @@ static inline void create_new_directory(int directory_index)
   page_directory[directory_index].rw      = 1;
   page_directory[directory_index].present = 1;
 
-  klog(LOG_DEBUG,
-       "paging_create_new_directory: new directory entry: 0x%x\n",
+  klog(LOG_DEBUG, "paging_create_new_directory: new directory entry: 0x%x\n",
        page_directory_get_value(&page_directory[directory_index]));
 }
 
@@ -156,9 +155,7 @@ int paging_map_page(struct page *page, void *virtual_address, uint32_t flags)
   uint32_t                 page_tab_index;
   struct page_table_entry *page_table;
 
-  klog(LOG_DEBUG,
-       "paging_map_page: mapping 0x%x to 0x%x\n",
-       virtual_address,
+  klog(LOG_DEBUG, "paging_map_page: mapping 0x%x to 0x%x\n", virtual_address,
        page->address);
 
   /* ensure addresses are 4kb aligned */
@@ -187,8 +184,7 @@ int paging_map_page(struct page *page, void *virtual_address, uint32_t flags)
                        (uintptr_t)page->address | (flags & 0xfff));
   page_table[page_tab_index].present = 1;
 
-  klog(LOG_DEBUG,
-       "paging_map_page: new table entry: 0x%x\n",
+  klog(LOG_DEBUG, "paging_map_page: new table entry: 0x%x\n",
        page_table_get_value(&page_table[page_tab_index]));
 
   /* increment the number of references for the page */

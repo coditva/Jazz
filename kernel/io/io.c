@@ -20,10 +20,8 @@ int sputs(char *buffer, const char *data)
   return i;
 }
 
-static int sputi(char *             buffer,
-                 const unsigned int data,
-                 const int          radix,
-                 const int          min_width)
+static int sputi(char *buffer, const unsigned int data, const int radix,
+                 const int min_width)
 {
   unsigned int a = data;
   char         out[K_INTWIDTH];
