@@ -1,6 +1,8 @@
 
 #include <assert.h>
 #include <mm/page_alloc.h>
+#include <mm/memory_alloc.h>
+#include <string.h>
 
 #define PAGE_SIZE 512 /* 4kb = 512 bytes */
 
@@ -162,6 +164,26 @@ void *malloc(size_t size)
 
   /* return the block after the info */
   return (void *)alloc + sizeof(block_info_t);
+}
+
+void *realloc(void *block, size_t size)
+{
+  free(block);
+
+  return malloc(size);
+}
+
+void *calloc(size_t num_elements, size_t element_size)
+{
+  size_t size = num_elements * element_size;
+
+  /* allocate memory for all the array elements */
+  void *mem = malloc(size);
+
+  /* set the memory to 0 */
+  memset(mem, 0, size);
+
+  return mem;
 }
 
 void free(void *block)
