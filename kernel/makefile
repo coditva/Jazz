@@ -22,8 +22,8 @@ CD_FLAGS      = -g
 endif
 
 LINT          = clang-tidy
-LINT_FLAGS    = -fix-errors -fix
 FIX_LINT      = clang-format
+LINT_FLAGS    =
 
 BUILD_DIR     = ../build/kernel
 BIN           = $(BUILD_DIR)/kernel.bin
