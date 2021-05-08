@@ -23,7 +23,7 @@ endif
 
 LINT          = clang-tidy
 FIX_LINT      = clang-format
-LINT_FLAGS    =
+LINT_FLAGS    = -header-filter=.*
 
 BUILD_DIR     = ../build/kernel
 BIN           = $(BUILD_DIR)/kernel.bin

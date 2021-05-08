@@ -1,1 +1,2 @@
-Checks: '*,-cppcoreguidelines-avoid-non-const-global-variables,-hicpp-signed-bitwise'
+Checks:           '*,-llvm-header-guard,-llvm-include-order,-cppcoreguidelines-avoid-non-const-global-variables,-hicpp-signed-bitwise'
+WarningsAsErrors: '*,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-cppcoreguidelines-init-variables,-bugprone-narrowing-conversions,-readability-named-parameter,-clang-analyzer-core.UndefinedBinaryOperatorResult,-clang-analyzer-valist.Uninitialized,-cppcoreguidelines-narrowing-conversions'
