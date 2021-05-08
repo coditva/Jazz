@@ -81,18 +81,6 @@ static inline void page_table_set_value(struct page_table_entry *page_tab_entry,
 }
 
 /**
- * Returns the address of the page table for the table entry
- *
- * @param   struct page_directory_entry *       The directory entry
- * @return  void *                              The address of page
- */
-static inline void *
-page_table_to_address(struct page_table_entry *page_table_entry)
-{
-  return table_to_address((uintptr_t)page_table_entry->value);
-}
-
-/**
  * Returns the address of the page table for the directory entry
  *
  * @param   struct page_directory_entry *       The directory entry
