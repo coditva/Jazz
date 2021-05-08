@@ -1,1 +1,1 @@
-Checks: '*'
+Checks: '*,-cppcoreguidelines-avoid-non-const-global-variables,-hicpp-signed-bitwise'

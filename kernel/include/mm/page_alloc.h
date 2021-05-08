@@ -3,6 +3,11 @@
 
 #include <mm/types.h>
 #include <types.h>
+#include <mm/page_frame.h>
+
+#define PAGE_SIZE       FRAME_SIZE
+#define PAGE_SIZE_BYTES (PAGE_SIZE / 8)
+#define PAGE_SIZE_BITS  12
 
 /**
  * Initialize page_alloc.

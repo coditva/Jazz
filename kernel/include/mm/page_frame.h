@@ -4,6 +4,9 @@
 #include <multiboot.h>
 #include <types.h>
 
+/* size of each frame that is allocated in bytes */
+#define FRAME_SIZE 4096 /* 4Kb */
+
 /**
  * Initializes the memory frames bitmap, which will be used later by alloc/free
  * functions. It also allocates some pages to store the said bitmap.

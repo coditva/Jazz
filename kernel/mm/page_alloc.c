@@ -15,7 +15,7 @@
 
 static inline size_t page_address_to_index(uintptr_t page_address)
 {
-  return page_address >> 12;
+  return page_address >> PAGE_SIZE_BITS;
 }
 
 static struct page *pages = NULL;
@@ -46,7 +46,7 @@ struct page *page_n_alloc(size_t count)
 
   for (size_t i = 0; i < count; i++) {
     pages[page_index + i].address = page_address;
-    page_address += 0x1000; /* add 4kb to the page address (0x1000 = 4096) */
+    page_address += PAGE_SIZE;
   }
 
   return &pages[page_index];

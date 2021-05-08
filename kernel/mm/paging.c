@@ -7,10 +7,13 @@
 #include <assert.h>
 #include <logger.h>
 #include <mm/page_frame.h>
+#include <mm/page_alloc.h>
 #include <mm/paging.h>
 #include <mm/types.h>
 #include <string.h>
 #include <types.h>
+
+#define TABLE_TO_ADDRESS_MASK 0xfffff000
 
 /**
  * The global page directory entry
@@ -26,7 +29,7 @@ extern uintptr_t endkernel;
 
 static inline void *table_to_address(uintptr_t value)
 {
-  return (void *)(value & 0xfffff000);
+  return (void *)(value & TABLE_TO_ADDRESS_MASK);
 }
 
 /**
@@ -137,7 +140,7 @@ void paging_init()
   /* map the first few pages (this includes the kernel pages too) */
   struct page_table_entry *page_table = page_frame_alloc();
   for (int i = 0; i < PAGE_TAB_SIZE; i++) {
-    page_table_set_value(&page_table[i], (i * 0x1000) | 3);
+    page_table_set_value(&page_table[i], (i * PAGE_SIZE) | 3);
   }
 
   /* add the table to the directory */
@@ -151,9 +154,9 @@ void paging_init()
 
 int paging_map_page(struct page *page, void *virtual_address, uint32_t flags)
 {
-  uint32_t                 page_dir_index;
-  uint32_t                 page_tab_index;
-  struct page_table_entry *page_table;
+  uint32_t                 page_dir_index = 0;
+  uint32_t                 page_tab_index = 0;
+  struct page_table_entry *page_table     = NULL;
 
   klog(LOG_DEBUG, "paging_map_page: mapping 0x%x to 0x%x\n", virtual_address,
        page->address);
@@ -200,7 +203,7 @@ void paging_unmap_page(struct page *page, void *virtual_address)
   /* there should be at-least 1 reference for the page */
   assert(page->ref_count > 0);
 
-  struct page_table_entry *page_table;
+  struct page_table_entry *page_table = NULL;
 
   // TODO(coditva): magic num
   uintptr_t page_dir_index = (uintptr_t)virtual_address >> 22;

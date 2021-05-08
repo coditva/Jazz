@@ -4,16 +4,14 @@
 #include <mm/memory_alloc.h>
 #include <string.h>
 
-#define PAGE_SIZE 512 /* 4kb = 512 bytes */
-
-typedef struct _block_t
+typedef struct block_t
 {
-  struct _block_t *prev;
-  struct _block_t *next;
+  struct block_t *prev;
+  struct block_t *next;
   size_t           size;
 } __attribute__((packed)) block_t;
 
-typedef struct _block_info_t
+typedef struct block_info_t
 {
   size_t size;
 } __attribute__((packed)) block_info_t;
@@ -35,7 +33,7 @@ static inline block_t *allocate_new_block()
 
   block->prev = NULL;
   block->next = NULL;
-  block->size = PAGE_SIZE;
+  block->size = PAGE_SIZE_BYTES;
 
   return block;
 }
@@ -50,7 +48,7 @@ static inline block_t *allocate_new_block()
 static inline block_t *find_block(size_t size)
 {
   /* requested size should always be less than block size (for now) */
-  assert(size <= PAGE_SIZE);
+  assert(size <= PAGE_SIZE_BYTES);
 
   /* if we don't have any blocks left, get a new block and return it */
   if (free_mem_list == NULL) {

@@ -35,8 +35,9 @@ static uint32_t frames_bitmap_size;
 static uint32_t frames_bitmap_num_pages;
 
 /* size of each frame that is allocated in bytes */
-#define FRAME_SIZE       4096 /* 4Kb */
-#define FRAME_SIZE_BYTES 512  /* 4096/8 */
+#define FRAME_SIZE_BYTES (FRAME_SIZE / 8)
+
+/* size of each of the blocks */
 #define BLOCK_SIZE       1024
 #define BLOCKS_PER_FRAME 4 /* each block is 1KB */
 
@@ -58,7 +59,7 @@ static inline void frame_mark_free(uint64_t frame_line, int frame_index)
   frames_bitmap[frame_line] &= ~(1 << frame_index);
 }
 
-static inline int frame_is_used(uint64_t frame_line, int frame_index)
+static inline uint32_t frame_is_used(uint64_t frame_line, int frame_index)
 {
   return frames_bitmap[frame_line] & 1 << frame_index;
 }
@@ -126,7 +127,7 @@ void page_frame_init(void *base_address, multiboot_info_t *multiboot_info)
        * TODO: mark the whole memory at one go with memset */
       while (memory_lower_range < memory_upper_range) {
         frame_mark_free(memory_lower_range / FRAMES_PER_BITMAP,
-                        memory_lower_range % FRAMES_PER_BITMAP);
+                        (int)memory_lower_range % FRAMES_PER_BITMAP);
         memory_lower_range += 1;
       }
     }

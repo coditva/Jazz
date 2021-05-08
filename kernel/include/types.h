@@ -12,7 +12,7 @@ typedef __kernel_size_t size_t;
 #endif /* ifndef _SIZE_T */
 
 #ifndef _INT_TYPES
-#define _INT_TYPES
+#define _INT_TYPES // NOLINT
 
 typedef __kernel_int8_t  int8_t;
 typedef __kernel_uint8_t uint8_t;
