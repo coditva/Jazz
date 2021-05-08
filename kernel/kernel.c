@@ -7,8 +7,8 @@
 #include <mm/paging.h>
 #include <multiboot.h>
 
-extern uintptr_t endkernel;
-extern uintptr_t startkernel;
+extern const uintptr_t endkernel;
+extern const uintptr_t startkernel;
 
 extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 {
@@ -24,7 +24,7 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   multiboot_dump_info(multiboot_info, multiboot_magic);
 #endif
 
-  page_frame_init(&endkernel, multiboot_info);
+  page_frame_init((void *)&endkernel, multiboot_info);
 #ifdef DEBUG
   page_frame_dump_map();
   { /* sanity check for page_alloc */
@@ -43,8 +43,8 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   page_alloc_init();
 #ifdef DEBUG
   {
-    struct page *page1;
-    struct page *page2;
+    struct page *page1 = NULL;
+    struct page *page2 = NULL;
 
     page1 = page_alloc();
     page_free(page1);
@@ -60,16 +60,16 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
   paging_dump_map();
   { /* sanity check for paging */
     struct page *page  = page_alloc();
-    uintptr_t *  addr1 = (void *)0x00400000;
-    uintptr_t *  addr2 = addr1 + 1024;
+    uintptr_t *  addr1 = (void *)0x00400000; // NOLINT
+    uintptr_t *  addr2 = addr1 + 1024;       // NOLINT
 
     /* map both addresses to same physical memory page */
     paging_map_page(page, addr1, 0x02);
     paging_map_page(page, addr2, 0x02);
 
     /* update the values at both addresses */
-    *addr1 = 0xcafebabe;
-    *addr2 = 0xdeadbeef;
+    *addr1 = 0xcafebabe; // NOLINT
+    *addr2 = 0xdeadbeef; // NOLINT
 
     /* the second update should overwrite the first since the physical address
      * is same */
@@ -84,8 +84,8 @@ extern void kmain(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
 
 #ifdef DEBUG
   { /* sanity check for malloc */
-    void *mem1 = malloc(10);
-    void *mem2 = malloc(10);
+    void *mem1 = malloc(4);
+    void *mem2 = malloc(4);
 
     kcheck(mem1 != mem2, "check malloc");
 
