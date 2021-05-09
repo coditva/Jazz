@@ -32,7 +32,7 @@
 #define MULTIBOOT_FB_TYPE_RGB      0x00000001
 #define MULTIBOOT_FB_TYPE_EGA_TEXT 0x00000002
 
-typedef struct _multiboot_info_t
+typedef struct multiboot_info_t
 {
   uint32_t flags;
 
@@ -117,7 +117,7 @@ typedef struct _multiboot_info_t
   } __attribute__((packed)) framebuffer;
 } __attribute__((packed)) multiboot_info_t;
 
-typedef struct _multiboot_memory_map_t
+typedef struct multiboot_memory_map_t
 {
   uint32_t size;
   uint32_t base_addr_low;
@@ -131,6 +131,9 @@ typedef struct _multiboot_memory_map_t
 #define MULTIBOOT_MEM_TYPE_BADR 0x5 /* memory used by bad RAM modules */
   uint32_t type;
 } __attribute__((packed)) multiboot_memory_map_t;
+
+int multiboot_verify(multiboot_info_t *multiboot_info,
+                     uint32_t          multiboot_magic);
 
 #ifdef DEBUG
 void multiboot_dump_info(multiboot_info_t *info, uint32_t multiboot_magic);

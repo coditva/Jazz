@@ -1,6 +1,22 @@
 #include <assert.h>
+#include <helper.h>
 #include <logger.h>
 #include <multiboot.h>
+
+int multiboot_verify(multiboot_info_t *multiboot_info, uint32_t multiboot_magic)
+{
+  if (multiboot_magic != MULTIBOOT_EAX_MAGIC) {
+    return 1;
+  }
+
+#ifdef DEBUG
+  multiboot_dump_info(multiboot_info, multiboot_magic);
+#endif
+
+  MARK_PARAM_USED(multiboot_info);
+
+  return 0;
+}
 
 #ifdef DEBUG
 static inline void multiboot_dump_mmap(multiboot_info_t *info)

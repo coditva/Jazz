@@ -1,4 +1,5 @@
 
+#include <kcheck.h>
 #include <assert.h>
 #include <mm/page_alloc.h>
 #include <mm/memory_alloc.h>
@@ -8,7 +9,7 @@ typedef struct block_t
 {
   struct block_t *prev;
   struct block_t *next;
-  size_t           size;
+  size_t          size;
 } __attribute__((packed)) block_t;
 
 typedef struct block_info_t
@@ -154,6 +155,24 @@ static void *malloc_raw(size_t size)
 
 void *malloc(size_t size)
 {
+#ifdef DEBUG
+  { /* sanity check for malloc */
+    static int malloc_verified = 0;
+
+    if (!malloc_verified) {
+      malloc_verified = 1;
+
+      void *mem1 = malloc(4);
+      void *mem2 = malloc(4);
+
+      kcheck(mem1 != mem2, "check malloc");
+
+      free(mem1);
+      free(mem2);
+    }
+  }
+#endif
+
   /* allocate memory for the requested sized block + info about the block */
   block_info_t *alloc = malloc_raw(size + sizeof(block_info_t));
 

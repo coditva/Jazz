@@ -4,6 +4,7 @@
  * memory pages. It uses a bitmap to keep track of all free and used pages.
  */
 
+#include <kcheck.h>
 #include <assert.h>
 #include <logger.h>
 #include <mm/mem_info.h>
@@ -135,6 +136,21 @@ void page_frame_init(void *base_address, multiboot_info_t *multiboot_info)
 
   memory_info->base_address = (uintptr_t)base_address;
   memory_info->num_pages    = num_frames;
+
+#ifdef DEBUG
+  page_frame_dump_map();
+  { /* sanity check for page_alloc */
+    void *page1 = NULL;
+    void *page2 = NULL;
+
+    /* sanity check for page_frame */
+    page1 = page_frame_alloc();
+    page_frame_free(page1);
+    page2 = page_frame_alloc();
+    page_frame_free(page2);
+    kcheck(page1 == page2, "page_frame_alloc()");
+  }
+#endif
 
   klog_status_ok("page_frame");
 }

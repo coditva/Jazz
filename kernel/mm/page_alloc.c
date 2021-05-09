@@ -5,6 +5,7 @@
  * the `struct page` data structure.
  */
 
+#include <kcheck.h>
 #include <assert.h>
 #include <logger.h>
 #include <mm/mem_info.h>
@@ -35,6 +36,19 @@ void page_alloc_init()
 
   /* allocate the pages for the array */
   pages = page_frame_n_alloc(pages_array_page_count);
+
+#ifdef DEBUG
+  { /* sanity check */
+    struct page *page1 = NULL;
+    struct page *page2 = NULL;
+
+    page1 = page_alloc();
+    page_free(page1);
+    page2 = page_alloc();
+    page_free(page1);
+    kcheck(page1->address == page2->address, "page_alloc()");
+  }
+#endif
 
   klog_status_ok("page_alloc");
 }
