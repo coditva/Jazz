@@ -27,6 +27,7 @@ LINT_FLAGS    = -header-filter=.*
 
 BUILD_DIR     = ../build/kernel
 BIN           = $(BUILD_DIR)/kernel.bin
+QEMU_HDD_IMG  = $(BUILD_DIR)/hdd.img
 
 ASM_SRC       = $(shell find . -name "*.asm")
 ASM_OBJ       = $(patsubst %.asm,%_asm.o,$(ASM_SRC))
@@ -70,9 +71,15 @@ config.h:		makefile configure.sh
 phony 			+= configure
 configure:		config.h
 
+phony 			+= qemu_hdd_image
+$(QEMU_HDD_IMG):
+				qemu-img create -f qcow2 $@ 10G
+
 phony 			+= qemu
-qemu:
-				qemu-system-x86_64 -kernel $(BIN) \
+qemu:			$(QEMU_HDD_IMG)
+				qemu-system-x86_64 \
+					-kernel $(BIN) \
+					-hda $(BUILD_DIR)/hdd.img \
 					-serial file:///tmp/jazz_serial1.log
 
 gdb:			all
